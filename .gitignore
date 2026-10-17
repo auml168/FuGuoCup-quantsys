@@ -7,8 +7,10 @@ __pycache__/
 *.egg-info/
 data/
 reports/
+config/account.json
 config/account.local.json
-config/account.json.backup
+config/account*.backup*
+config/account.json.tmp
 *.zip
 .DS_Store
 

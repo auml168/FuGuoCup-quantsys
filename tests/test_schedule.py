@@ -28,6 +28,18 @@ class ScheduleTests(unittest.TestCase):
         self.assertEqual(competition_schedule(self.c,date(2027,1,15))['days_to_midpoint'],0)
         self.assertEqual(competition_schedule(self.c,date(2027,4,30))['days_to_end'],0)
 
+    def test_invalid_model_windows_rejected(self):
+        for section, key, value in [('model', 'validation_sessions', 0),
+                                    ('model', 'test_sessions', -1),
+                                    ('research', 'min_folds', 1)]:
+            cfg = copy.deepcopy(self.cfg)
+            cfg[section][key] = value
+            with self.subTest(section=section, key=key), tempfile.TemporaryDirectory() as d:
+                path = Path(d)/'settings.json'
+                write_json(path, cfg)
+                with self.assertRaises(GuardError):
+                    load_config(path)
+
     def test_invalid_sequence_or_date_rejected(self):
         for change in [{'midpoint_date':'2027-05-01'}, {'end_date':'2026-10-18'},
                        {'midpoint_date':'2027-02-30'}]:

@@ -58,6 +58,20 @@ def load_config(path="config/settings.json"):
         raise GuardError("回测至少滞后两个净值交易日，避免提前使用未公布净值")
     if rules["rebalance_sessions"] < 1 or cfg["model"]["top_k"] < 1:
         raise GuardError("调仓间隔和持有数量须大于0")
+    mode = rules.get("rebalance_mode", "weekly")
+    if mode not in ("weekly", "sessions"):
+        raise GuardError("rules.rebalance_mode 须为 weekly 或 sessions")
+    if mode == "weekly" and rules["rebalance_sessions"] != 5:
+        raise GuardError("weekly 再平衡要求 rebalance_sessions=5，避免记录与执行不一致")
+    for key in ("validation_sessions", "test_sessions", "min_train_sessions"):
+        if not isinstance(cfg["model"].get(key), int) or cfg["model"][key] <= 0:
+            raise GuardError(f"model.{key} 须为正整数")
+    research = cfg.get("research", {})
+    for key in ("fold_sessions", "holdout_sessions", "min_train_sessions"):
+        if not isinstance(research.get(key), int) or research[key] <= 0:
+            raise GuardError(f"research.{key} 须为正整数")
+    if not isinstance(research.get("min_folds"), int) or research["min_folds"] < 2:
+        raise GuardError("research.min_folds 须为至少2的整数，单窗口无法估计超额分布")
     for rule in [rules] + list(cfg.get("fund_rules", {}).values()):
         for key in ("confirmation_sessions", "redemption_sessions", "min_hold_days"):
             if key in rule and (not isinstance(rule[key], int) or rule[key] < 0):

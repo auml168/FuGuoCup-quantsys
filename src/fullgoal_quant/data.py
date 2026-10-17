@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import html
+import http.client
 import json
 import re
 import time
@@ -32,7 +33,10 @@ def get_text(url, attempts=3):
             })
             with urllib.request.urlopen(req, timeout=30) as response:
                 return response.read().decode("utf-8-sig")
-        except (urllib.error.URLError, TimeoutError, UnicodeError):
+        except (urllib.error.URLError, TimeoutError, UnicodeError, OSError, http.client.HTTPException):
+            # ConnectionResetError/RemoteDisconnected inherit from OSError or
+            # HTTPException, not URLError. Without these, one flaky fund would
+            # abort the whole collection instead of being recorded as an error.
             if attempt == attempts - 1:
                 raise GuardError("公共基金数据接口请求失败；请检查网络或稍后重试") from None
             time.sleep(1 + attempt)
@@ -190,7 +194,7 @@ class Collector:
                     meta['data_notes'].append('逐时点隔离无法解释收益断点；持仓跨断点回测无效，不回溯删除历史')
                 time.sleep(0.25)
                 return code, meta, None
-            except (GuardError, KeyError, ValueError, IndexError) as exc:
+            except (GuardError, KeyError, ValueError, IndexError, OSError) as exc:
                 return code, None, str(exc)
         with ThreadPoolExecutor(max_workers=cfg.get('universe', {}).get('workers', 4)) as pool:
             futures = [pool.submit(fetch_one, c) for c in codes]

@@ -4,9 +4,9 @@
 
 ## 状态与边界
 
-本次量化重构保存在独立分支 `review/quant-research-upgrade`；迁移准备分支为 `migration/auml168`，目标仓库为 `auml168/FuGuoCup-quantsys`。迁移分支不直接覆盖已有主分支。完整审查、实测和限制见 [审查报告](docs/REVIEW.md)。
+当前 `main` 即最终工程。历史迁移过程（旧账号、旧分支、PR补丁）仅存档于[迁移说明](docs/MIGRATION.md)和[交付说明](docs/DELIVERY.md)，不要按其中的旧命令操作。完整审查、实测和限制见[审查报告](docs/REVIEW.md)。
 
-旧账号不可用，当前按用户要求迁至 `auml168`；新账号与仓库写入权限已核验，完整工程通过迁移分支和PR交付。定时任务、Secrets及Telegram仍须在新仓库单独验收。迁移步骤见[迁移说明](docs/MIGRATION.md)，旧账号阶段补丁见[交付说明](docs/DELIVERY.md)。本地通过不等于GitHub定时推送已经验收。
+当前是**研究预览与通知系统**：比赛规则、白名单、逐基金费率或模型部署证据未齐备时，报告不会产生可执行金额。GitHub 定时任务、Secrets 和 Telegram 须在本仓库单独验收；本地测试通过不等于云端定时推送已经验收。
 
 - 自动发现公司页关联目录，逐产品核验详情中的管理人；生产候选池不再由固定8只名单控制。
 - 保留不支持、净值不足、采集异常的记录。销售目录、销售平台风险描述和申购状态**不等于比赛白名单、官方适当性等级或比赛专用规则**。
@@ -28,6 +28,7 @@ python -m unittest discover -s tests -v
 fq doctor --limit 12
 fq collect
 fq research
+cp config/account.example.json config/account.local.json   # 首次本地预览
 fq report --research
 ```
 
@@ -60,13 +61,15 @@ fq calendar-check --year 2027
 
 读取CSV会检查快照哈希。无法解释的收益区间标为`quality_break`，不回溯删除断点前的历史；历史选基只能使用当时已经出现的断点，重新积累足够连续观测后才恢复资格。持仓跨过断点、净值长期缺失时，该段回测标记无法验证，指标保留为空，不能用零收益或拼接收益代替。
 
+本次工程修复改动了 `signals/backtest/data`，因此 `sample_results/review` 的 `model_hash` 只代表修复前代码。正式模式前须重新运行 `fq research`，使 `comparison.json` 与当前代码一致；不要手动改 `deployment_approved`。
+
 旧版研究快照可用`python scripts/rebuild_snapshot.py --data data/expanded`从已归档且哈希匹配的原始响应离线重建。此命令不刷新采集时间、不延长旧快照的数据末日，也不能替代正式决策前的在线采集。
 
 现有目录仍有幸存者偏差，历史修订净值也缺少完整逐时发布时间。T-2信号只缓解发布延迟，不能消除这些数据局限。历史交易日用国内权益参考净值日历代理，当前/未来操作则必须通过官方日历。详见 [方法说明](docs/METHODOLOGY.md)。
 
 ## Telegram与GitHub Actions
 
-新仓库创建并授权后，在 [目标仓库Secrets](https://github.com/auml168/FuGuoCup-quantsys/settings/secrets/actions) 重新保存：
+在 [本仓库Secrets](https://github.com/auml168/FuGuoCup-quantsys/settings/secrets/actions) 配置：
 
 - `TELEGRAM_BOT_TOKEN`：BotFather生成的有效Token；**不要发到聊天、代码或日志**。
 - `TELEGRAM_CHAT_ID`：先给机器人发送 `/start`，再配置自己的聊天/群组ID。
@@ -74,11 +77,17 @@ fq calendar-check --year 2027
 
 如Token曾公开，应先在BotFather撤销重建。程序只从环境变量读取Token，不记录带Token的请求URL。可用 `Telegram connection test` 手动发送连接测试；此项仅确认通信，不证明比赛规则或实际持仓已核验。
 
-新建仓库不会自动取得旧仓库的Secrets、Actions历史或通知预约状态。不要用旧账号的连接结果冒充新账号授权，也不要从旧日志提取凭证。
+新建或迁移仓库不会自动取得旧仓库的 Secrets、Actions 历史或通知预约状态。不要用旧账号的连接结果冒充新账号授权，也不要从旧日志提取凭证。
 
 GitHub Actions请求在北京时间 **08:30 / 14:20 / 20:30** 启动，非交易日跳过。本地电脑无需开机。Actions排队可能延迟，不保证精确到秒；过时交易报告会抑制。完整步骤和故障处理见 [部署说明](docs/DEPLOYMENT.md)。
 
 云端先恢复可信分支的持久化发送状态，生成预约，**上传预约artifact成功后才调用Telegram**，最后保存发送结果。超时或崩溃后的预约不盲目重发；恢复失败时停止发送。工作流日志和公开artifact不包含账户报告、outbox或凭证。通知状态只保存哈希和ID，保留上一份可执行计划的核对状态。
+
+### 每日 Telegram 信号
+
+14:20 的 Telegram 消息是简版信号：`目标组合（合计仓位/现金）` + 每只基金的目标权重和 `买入/建仓、加仓、减仓、清仓、持有` 方向。它只发目标权重，不发金额；完整评分、数据覆盖和阻断原因仍写入 `reports/latest.txt`/JSON。08:30 和 20:30 只作观察。
+
+信号策略由 `config/settings.json` 的 `signal.strategy` 指定，默认 `timing`：按滚动验证收益选择，带大盘广度风险开关（弱市降仓/空仓）。它**不是**已批准实盘模型，样例最终历史测试为负；历史不代表未来，不保证收益。更换策略后应重新运行 `fq research`，让 `comparison.json` 的 `model_hash` 和信号历史与当前代码一致。
 
 ## 实际账户与操作资格
 
@@ -100,12 +109,13 @@ GitHub Actions请求在北京时间 **08:30 / 14:20 / 20:30** 启动，非交易
 正式决策要求当日 `as_of`、4小时内的带时区 `reconciled_at`。已发出的可执行计划必须核对；实际成交后更新账户，未执行则在核对后用 `acknowledged_plan_id`明确确认上一份计划，不能只改时间戳来重复生成下单建议。
 
 ```bash
+cp config/account.example.json config/account.local.json   # 首次使用模板
 fq account validate --file config/account.local.json
-fq account import --source config/account.local.json
+fq account import --source ~/account-export.json --file config/account.local.json   # 平台导出文件放在仓库外
 fq report --research --account config/account.local.json
 ```
 
-默认账户是用户提供的开赛前虚拟空仓，不代表已连接平台验证。不要将真实账户文件或备份提交公开仓库。
+`config/account.example.json` 只是空仓模板；`config/account.local.json` 已被 Git 忽略，真实账户只放在这里或 GitHub Secret `ACCOUNT_JSON` 中。**不要**把真实账户导入 `config/account.json`（该路径现在也被忽略），更不要提交账户文件或其备份。
 
 ## 正式模式不能靠开关放行
 

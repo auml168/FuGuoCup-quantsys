@@ -97,6 +97,25 @@ class ModelTests(unittest.TestCase):
             result = compare(frames, self.cfg, self.meta, out)
         self.assertEqual(result["selected"], "cash")
 
+    def test_one_unusable_strategy_does_not_discard_others(self):
+        frames = {c: pd.DataFrame({"tri": self.p[c]}) for c in self.p}
+        def fake(prices, cfg, meta, strategy, start, end, *rest):
+            if strategy == "momentum":
+                raise GuardError("fixture: held NAV quality break")
+            return dict(total_return=0, max_drawdown=0, sharpe=0, final_assets=200000, fees=0), pd.DataFrame(), []
+        with tempfile.TemporaryDirectory() as out, patch("fullgoal_quant.backtest.simulate", side_effect=fake):
+            result = compare(frames, self.cfg, self.meta, out)
+        self.assertIn("development", result["results"]["momentum"]["errors"])
+        self.assertIsNone(result["results"]["momentum"]["validation"])
+        self.assertEqual(result["selected"], "cash")
+        self.assertIsNotNone(result["results"]["equal_weight"]["validation"])
+
+    def test_empty_features_are_not_silent_cash(self):
+        p = self.p.iloc[:200].copy()
+        p.iloc[-128:, :] = np.nan
+        with self.assertRaises(GuardError):
+            simulate(p, self.cfg, self.meta, "equal_weight", p.index[130], p.index[131])
+
     def test_calendar_holiday_and_out_of_range(self):
         cal = Calendar()
         self.assertFalse(cal.is_session(date(2026, 10, 1)))

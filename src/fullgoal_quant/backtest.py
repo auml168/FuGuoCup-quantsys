@@ -108,6 +108,10 @@ def simulate(prices, cfg, metadata, strategy, start, end, status_history=None):
         if due and i - lag >= LOOKBACK - 1:
             signal_day = dates[i - lag]
             weights, f = target_weights(prices.iloc[:i - lag + 1], strategy, cfg, metadata)
+            if strategy != 'cash' and f.empty and not weights:
+                # An empty feature set is a data failure, not a deliberate
+                # all-cash decision. Do not silently liquidate a portfolio.
+                raise GuardError(f'{signal_day.date()} 特征数据不足；不能把数据缺失当作现金信号')
             regime, _ = market_regime(f, metadata)
             known = marks.iloc[i - lag]
             if any(pd.isna(known[x.code]) for x in lots):
@@ -221,21 +225,39 @@ def compare(frames, cfg, metadata, out="reports/backtest", start=None, end=None,
     periods = {"train": train, "validation": validation, "test": test}
     output = Path(out)
     output.mkdir(parents=True, exist_ok=True)
+    # A failed run must not leave an earlier run's curves looking current.
+    for strategy in BASE_STRATEGIES:
+        for suffix in ("-test-equity.csv", "-test-trades.json"):
+            (output / (strategy + suffix)).unlink(missing_ok=True)
     results = {}
-    # Selection is frozen before test metrics are consulted.
+    # Selection is frozen before test metrics are consulted. One unusable
+    # strategy must not discard every other strategy's evidence.
     for strategy in BASE_STRATEGIES:
-        results[strategy] = {}
-        for label in ("train", "validation"):
-            days = periods[label]
-            stat, _, _ = simulate(prices, cfg, metadata, strategy, days[0], days[-1], status_history)
-            results[strategy][label] = stat
-    candidates = [s for s in BASE_STRATEGIES if results[s]["validation"]["max_drawdown"] <= cfg["rules"]["validation_max_drawdown"]]
-    selected = max(candidates, key=lambda s: results[s]["validation"]["total_return"])
+        results[strategy] = {"train": None, "validation": None, "test": None, "errors": {}}
+        try:
+            for label in ("train", "validation"):
+                days = periods[label]
+                stat, _, _ = simulate(prices, cfg, metadata, strategy, days[0], days[-1], status_history)
+                results[strategy][label] = stat
+        except GuardError as exc:
+            results[strategy]["errors"]["development"] = str(exc)
+    candidates = [s for s in BASE_STRATEGIES
+                  if results[s]["validation"] is not None
+                  and results[s]["validation"]["max_drawdown"] <= cfg["rules"]["validation_max_drawdown"]]
+    if candidates:
+        selected = max(candidates, key=lambda s: results[s]["validation"]["total_return"])
+    elif results.get("cash", {}).get("validation") is not None:
+        selected = "cash"
+    else:
+        raise GuardError("所有策略的开发/验证段均无法可靠计价，不填造零收益；见 comparison.json 错误字段")
     for strategy in BASE_STRATEGIES:
-        stat, curve, trades = simulate(prices, cfg, metadata, strategy, test[0], test[-1], status_history)
-        results[strategy]["test"] = stat
-        curve.to_csv(output / (strategy + "-test-equity.csv"), index=False)
-        write_json(output / (strategy + "-test-trades.json"), trades)
+        try:
+            stat, curve, trades = simulate(prices, cfg, metadata, strategy, test[0], test[-1], status_history)
+            results[strategy]["test"] = stat
+            curve.to_csv(output / (strategy + "-test-equity.csv"), index=False)
+            write_json(output / (strategy + "-test-trades.json"), trades)
+        except GuardError as exc:
+            results[strategy]["errors"]["test"] = str(exc)
     result = {"created_at": now_cn().isoformat(), "config_hash": fingerprint(cfg),
               "selected": selected, "selection_rule": "验证集最大回撤达标后，按验证集净收益选择；独立测试集不参与选择",
               "data_end": str(prices.index[-1].date()), "codes": sorted(frames),
@@ -245,12 +267,21 @@ def compare(frames, cfg, metadata, out="reports/backtest", start=None, end=None,
                               "当前基金池存在存续偏差，结果不代表比赛全池最优", "费率与申赎时滞需按比赛规则逐基金核验"],
               "results": results}
     write_json(output / "comparison.json", result)
+    def pct(stat):
+        return f"{stat['total_return']:.2%}" if stat is not None else "无法验证"
+
+    def num(stat, key, fmt):
+        return format(stat[key], fmt) if stat is not None else "—"
+
     lines = ["# 真实净值策略比较", "", f"冻结选择：**{selected}**（按验证集选择，测试集仅用于检查泛化）", "",
              "以下为研究假设结果，不能视作已确认的比赛表现。", "",
              "|策略|验证收益|测试收益|测试最大回撤|测试夏普|测试期末资产|测试费用|", "|---|---:|---:|---:|---:|---:|---:|"]
     for strategy, parts in results.items():
         v, t = parts["validation"], parts["test"]
-        lines.append(f"|{strategy}|{v['total_return']:.2%}|{t['total_return']:.2%}|{t['max_drawdown']:.2%}|{t['sharpe']:.2f}|{t['final_assets']:.2f}|{t['fees']:.2f}|")
+        lines.append(f"|{strategy}|{pct(v)}|{pct(t)}|{num(t, 'max_drawdown', '.2%')}|{num(t, 'sharpe', '.2f')}|{num(t, 'final_assets', '.2f')}|{num(t, 'fees', '.2f')}|")
     lines += ["", "区间：" + str(result["periods"]), "", *result["limitations"], "", "历史申赎状态：" + result["historical_status"]]
+    errors = {s: p["errors"] for s, p in results.items() if p["errors"]}
+    if errors:
+        lines += ["", "无法可靠计价的区段（未填造指标）："] + [f"- {s}: {e}" for s, e in errors.items()]
     (output / "comparison.md").write_text("\n".join(lines), encoding="utf-8")
     return result

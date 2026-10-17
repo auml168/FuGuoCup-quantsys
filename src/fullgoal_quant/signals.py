@@ -118,11 +118,13 @@ def target_weights(prices, strategy, cfg, metadata):
     if strategy != 'equal_weight':
         selected = selected[:cfg['model']['top_k']]
     if strategy == 'risk_budget' and selected:
-        # Greedy correlation screen uses only the trailing window.
+        # Greedy correlation screen uses only the trailing window. The cap is
+        # a frozen research parameter; read it instead of silently hardcoding.
+        correlation_cap = float(cfg.get('research', {}).get('correlation_cap', .85))
         corr = p[selected].pct_change(fill_method=None).tail(60).corr()
         diversified = []
         for c in selected:
-            if all(pd.notna(corr.loc[c, d]) and corr.loc[c, d] < .85 for d in diversified):
+            if all(pd.notna(corr.loc[c, d]) and corr.loc[c, d] < correlation_cap for d in diversified):
                 diversified.append(c)
         selected = diversified
         inv = 1 / f.loc[selected].vol60.clip(lower=.04)

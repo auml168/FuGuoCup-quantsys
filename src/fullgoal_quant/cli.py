@@ -37,9 +37,9 @@ def historical_status(path):
     if not path:
         return None
     f = pd.read_csv(path, dtype={"code": str})
-    required = {"code", "date", "buy_open", "sell_open"}
+    required = {"code", "date", "buy_open", "sell_open", "purchase_limit"}
     if not required <= set(f):
-        raise GuardError("历史状态 CSV 缺少 code,date,buy_open,sell_open")
+        raise GuardError("历史状态 CSV 缺少 code,date,buy_open,sell_open,purchase_limit；缺失不能当作不限额")
     f["date"] = pd.to_datetime(f["date"])
     for name in ("buy_open", "sell_open"):
         if not f[name].isin([0, 1, True, False]).all():
@@ -72,14 +72,15 @@ def make_parser():
     for name in ("report", "run"):
         report = sub.add_parser(name, help="生成报告" if name == "report" else "交易日检查→采集→回测→报告→可选推送")
         report.add_argument("--research", action="store_true")
-        report.add_argument("--account", default="config/account.json")
+        report.add_argument("--account", default="config/account.local.json")
         report.add_argument("--selection", default="reports/research/comparison.json")
         report.add_argument("--slot", choices=["auto", "manual", *SLOTS], default="manual")
         report.add_argument("--send", action="store_true")
         report.add_argument("--prepare-send", action="store_true", help="仅生成持久化发送预约，不发送")
+        report.add_argument("--force", action="store_true", help="非交易日也生成研究信号，仅用于手动测试")
     account = sub.add_parser("account", help="导入平台实际账户，保留原文件备份")
     account.add_argument("action", choices=["show", "validate", "import"])
-    account.add_argument("--file", default="config/account.json")
+    account.add_argument("--file")
     account.add_argument("--source")
     bot = sub.add_parser("telegram")
     bot.add_argument("action", choices=["check", "chat-id", "test"])
@@ -108,20 +109,27 @@ def main(argv=None):
             if args.action == "import":
                 if not args.source:
                     raise GuardError("导入账户需要 --source 文件路径")
-                account = import_account(args.source, args.file)
+                account = import_account(args.source, args.file or "config/account.local.json")
             else:
-                account = validate_account(read_json(args.file))
-            print(f"账户校验通过：核对日 {account['as_of']}，可用现金 {account['cash']:.2f}，{len(account['lots'])}笔持仓，{len(account.get('pending', []))}笔在途")
+                # CI and first-time users must not need a real account file.
+                account = validate_account(read_json(args.file or "config/account.example.json"))
+            if os.environ.get("GITHUB_ACTIONS") == "true":
+                # Actions logs are public for public repositories. Print no
+                # cash or position counts even if a real account was imported.
+                print(f"账户校验通过：核对日 {account['as_of']}（金额与持仓不在公开日志显示）")
+            else:
+                print(f"账户校验通过：核对日 {account['as_of']}，可用现金 {account['cash']:.2f}，{len(account['lots'])}笔持仓，{len(account.get('pending', []))}笔在途")
             return 0
         cfg = load_config(args.config)
         if args.command=='calendar-check':
+            base=Calendar()
             try:
-                calendar=extend_official(Calendar(),args.year,Path(args.data)/'calendar.json')
+                calendar=extend_official(base,args.year,Path(args.data)/'calendar.json')
                 print(f'官方日历核验通过，覆盖至 {calendar.end}')
             except GuardError:
                 if args.year <= now_cn().year:
                     raise
-                print(f'{args.year}年官方完整日历尚未核验，保留未来日期拦截；当前覆盖至2026-12-31')
+                print(f'{args.year}年官方完整日历尚未核验，保留未来日期拦截；当前覆盖至{base.end}')
             return 0
         if args.command == "validate":
             errors = competition_errors(cfg)
@@ -179,7 +187,7 @@ def main(argv=None):
         if now_cn().date().year>cal.end.year:
             cal=extend_official(cal,now_cn().date().year,Path(args.data)/'calendar.json')
         if args.command == "run":
-            if not cal.is_session(now_cn().date()):
+            if not cal.is_session(now_cn().date()) and not args.force:
                 print("非A股交易日，跳过采集与推送")
                 return 0
             if not slot_guard(slot):
@@ -224,7 +232,7 @@ def main(argv=None):
             if not slot_guard(slot):
                 raise GuardError("处理期间已超出发送窗口，报告已保存但未推送")
             if reserve(report,account):
-                send_report(report["text"])
+                send_report(report.get("telegram_text") or report["text"])
                 complete(report["report_id"])
                 print("Telegram 推送完成")
             else:
