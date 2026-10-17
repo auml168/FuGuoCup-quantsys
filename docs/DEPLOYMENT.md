@@ -1,15 +1,13 @@
 # 部署、维护与验收
 
-修改通过PR合入main后，生产工作流才会采用新版本。本次不合并、不覆盖主分支。工作流使用GitHub托管Ubuntu和Python3.12，不需要本地电脑开机。
-
-当前目标已改为`auml168/FuGuoCup-quantsys`。需先按[迁移说明](MIGRATION.md)连接新账号并上传完整最终源代码，再进行云端验收；旧账号PR仅保留为历史记录。
+当前 `main` 即最终工程，生产工作流直接使用 main。工作流使用 GitHub 托管 Ubuntu（固定为 `ubuntu-24.04`）和 Python 3.12，不需要本地电脑开机。历史迁移记录仅见[迁移说明](MIGRATION.md)；不要按旧分支或旧账号命令操作。
 
 ## 配置步骤
 
-1. 查看PR的Python3.11/3.12/3.13检查、真实公开接口抽样和研究报告验收。抽样不是完整池回测；完整池本地验收证据见`sample_results/review/`。
-2. 在新仓库的[Actions Secrets](https://github.com/auml168/FuGuoCup-quantsys/settings/secrets/actions)重新保存`TELEGRAM_BOT_TOKEN`、`TELEGRAM_CHAT_ID`。实际模拟账户用`ACCOUNT_JSON`，不提交公开仓库。不要再把Token发到聊天；曾公开的Token应撤销重建。
+1. 查看 main 的 Python3.11/3.12/3.13 检查、真实公开接口抽样和研究报告验收。抽样不是完整池回测；完整池本地验收证据见`sample_results/review/`。
+2. 在本仓库的[Actions Secrets](https://github.com/auml168/FuGuoCup-quantsys/settings/secrets/actions)确认`TELEGRAM_BOT_TOKEN`、`TELEGRAM_CHAT_ID`。实际模拟账户用`ACCOUNT_JSON`，不提交公开仓库。不要再把Token发到聊天；曾公开的Token应撤销重建。
 3. 手动运行`Telegram connection test`确认通信。连接成功只代表Telegram接受消息，不证明本人已阅读、账户与平台一致或投资模型有效。
-4. 合并后在`Trading day reports`先关闭发送、启用研究模式做一次检查。非交易日会跳过；可用`Public data smoke test`在周末验收公开数据和研究流程。
+4. 在 `Trading day reports` 先关闭发送、启用研究模式做一次检查。非交易日会跳过；可用`Public data smoke test`在周末验收公开数据和研究流程。
 5. 配齐比赛白名单和逐基金真实交易规则并更新实际账户。当前模型尚未得到部署批准，研究报告会明确不给交易金额；不能靠改`verified`或`deployment_approved`让系统看起来能交易。
 
 ## 时间与职责

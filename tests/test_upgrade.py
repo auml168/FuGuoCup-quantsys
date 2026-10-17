@@ -31,6 +31,9 @@ class UniverseQualityTests(unittest.TestCase):
         self.assertFalse(classify('华夏成长混合','混合型')['otc_candidate'])
         self.assertEqual(classify('富国纯债A','债券型-长债')['asset_type'],'bond')
         self.assertEqual(classify('富国转债A','债券型-可转债')['asset_type'],'hybrid_bond')
+        # Eastmoney's "指数型-固收" is fixed income, not equity.
+        self.assertEqual(classify('富国中债1-3年国开债A','指数型-固收')['asset_type'],'bond')
+        self.assertFalse(classify('富国上海金ETF联接A','指数型-其他')['otc_candidate'])
 
     def test_detail_manager_and_risk_not_guessed(self):
         info=parse_profile('<div class="infoOfFund">中高风险</table><span>管 理 人</span>：<a href="https://fund.eastmoney.com/company/80000221.html">富国</a>')

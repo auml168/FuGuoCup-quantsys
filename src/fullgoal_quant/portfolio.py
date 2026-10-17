@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import date, datetime
 
-from .common import GuardError, amount, fund_rules, read_json, redemption_fee, write_json
+from .common import GuardError, amount, fund_rules, now_cn, read_json, redemption_fee, write_json
 
 
 def validate_account(account):
@@ -26,11 +26,16 @@ def validate_account(account):
     return account
 
 
-def import_account(source, destination="config/account.json"):
+def import_account(source, destination="config/account.local.json"):
     account = validate_account(read_json(source))
     from pathlib import Path
     if Path(destination).exists():
-        write_json(str(destination) + ".backup", read_json(destination))
+        # Keep the first backup intact: repeated imports must not destroy the
+        # only copy of the previously reconciled account.
+        backup = Path(str(destination) + ".backup")
+        if backup.exists():
+            backup = Path(str(destination) + ".backup-" + now_cn().strftime("%Y%m%dT%H%M%S%f"))
+        write_json(backup, read_json(destination))
     write_json(destination, account)
     return account
 

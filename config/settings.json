@@ -93,6 +93,10 @@
     "min_train_sessions": 252,
     "max_selection_age_days": 45
   },
+  "signal": {
+    "strategy": "timing",
+    "note": "每日 Telegram 信号使用的固定策略，必须是 STRATEGIES 中的名称；timing 按滚动验证收益选择，历史样本外为负，不保证未来收益。"
+  },
   "data": {
     "max_nav_lag_sessions": 2,
     "max_snapshot_age_hours": 8
@@ -102,7 +106,7 @@
     "mode": "auto",
     "min_history": 252,
     "workers": 4,
-    "note": "research_funds仅保留原8只回归基准/人工分类覆盖，不再控制生产候选池"
+    "note": "research_funds仅保留原8只回归基准信息；人工分类修订请使用 product_overrides，不控制生产候选池"
   },
   "research": {
     "version": "2026-10-17-v1",

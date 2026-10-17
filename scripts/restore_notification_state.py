@@ -20,7 +20,8 @@ def restore():
         if not artifacts:
             print('No previous delivery state; research bootstrap only.')
             return
-        chosen=max(artifacts,key=lambda a:a['created_at'])
+        # Prefer the final artifact when reserved/final share a timestamp.
+        chosen=max(artifacts,key=lambda a:(a['created_at'],a['name'].startswith('notification-state-final')))
         opener=urllib.request.build_opener(NoRedirect)
         try:
             opener.open(urllib.request.Request(chosen['archive_download_url'],headers=headers),timeout=25)

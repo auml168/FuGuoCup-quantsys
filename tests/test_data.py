@@ -4,7 +4,7 @@ import json
 import urllib.error
 
 from fullgoal_quant.common import GuardError
-from fullgoal_quant.data import parse_nav, parse_status_page, is_otc_candidate, js_json
+from fullgoal_quant.data import parse_nav, parse_status_page, is_otc_candidate, js_json, get_text
 from fullgoal_quant.telegram import api, chunks
 
 
@@ -32,6 +32,12 @@ class DataTests(unittest.TestCase):
     def test_no_eval(self):
         with self.assertRaises(GuardError):
             js_json('var r=alert("x");', "r")
+
+    def test_connection_reset_is_bounded_guard_error(self):
+        with patch("urllib.request.urlopen", side_effect=ConnectionResetError("reset")), \
+             patch("fullgoal_quant.data.time.sleep"):
+            with self.assertRaises(GuardError):
+                get_text("https://example.invalid/", attempts=2)
 
     def test_candidate(self):
         self.assertFalse(is_otc_candidate("富国某ETF", "股票型"))

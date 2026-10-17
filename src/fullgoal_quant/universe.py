@@ -14,7 +14,8 @@ def classify(name, category):
                          ("货币", "货币基金需万份收益模型"), ("后端", "后端收费暂不支持"),
                          ("持有", "锁定持有期暂不支持"), ("定开", "定开产品暂不支持"),
                          ("定期开放", "定期开放暂不支持"), ("封闭", "封闭产品暂不支持"),
-                         ("商品", "商品产品需专门模型"), ("REIT", "REIT暂不支持")]:
+                         ("商品", "商品产品需专门模型"), ("黄金", "黄金/商品产品需专门模型"),
+                         ("上海金", "黄金/商品产品需专门模型"), ("REIT", "REIT暂不支持")]:
         if word in text:
             reasons.append(reason)
     if "ETF" in name and "联接" not in name:
@@ -23,14 +24,17 @@ def classify(name, category):
         reasons.append("场内类别")
     if re.search(r'(一年期|二年期|两年期|三年期|[0-9]+个月|[0-9]+天|滚动|分级)', name):
         reasons.append('期限/滚动/分级产品须另行核验开放与结算机制')
-    asset = "bond" if "债券" in category and not any(x in text for x in ("转债", "混合一级", "混合二级")) else "equity"
-    if "转债" in text or "混合一级" in text or "混合二级" in text:
+    # Eastmoney uses "指数型-固收" for bond index funds; treating only the
+    # literal "债券" as fixed income misclassified them as equity.
+    fixed_income = "债券" in category or "固收" in category
+    asset = "bond" if fixed_income and not any(x in text for x in ("转债", "混合一级", "混合二级", "偏债")) else "equity"
+    if "转债" in text or "混合一级" in text or "混合二级" in text or "偏债" in category:
         asset = "hybrid_bond"
-    if not any(x in category for x in ("股票", "混合", "债券", "指数")):
+    if not any(x in category for x in ("股票", "混合", "债券", "固收", "指数")):
         reasons.append("类别未知或尚无对应收益模型")
     share = re.search(r"([A-Z](?:/[A-Z])*)$", name)
     group = re.sub(r"([A-Z](?:/[A-Z])*)$", "", name).strip()
-    sector = "债券" if asset == "bond" else "主动权益"
+    sector = {"bond": "债券", "hybrid_bond": "混合债"}.get(asset, "主动权益")
     for words, label in [(("新能源", "光伏", "电池"), "新能源"), (("军工", "国防"), "军工"),
                          (("医药", "医疗", "生物"), "医药"), (("银行",), "银行"),
                          (("证券",), "证券"), (("地产",), "地产"), (("消费", "食品", "白酒"), "消费"),

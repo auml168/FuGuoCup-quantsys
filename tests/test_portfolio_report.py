@@ -1,8 +1,10 @@
 import copy
 import importlib.util
+import io
 import os
 import tempfile
 import unittest
+from contextlib import redirect_stdout
 from datetime import date, datetime
 from pathlib import Path
 from unittest.mock import patch
@@ -63,13 +65,29 @@ class PortfolioTests(unittest.TestCase):
         self.assertGreaterEqual(len(r['errors']), 2)
         self.assertFalse(r['orders'])
 
-    def test_import_keeps_backup(self):
+    def test_import_keeps_first_backup(self):
         with tempfile.TemporaryDirectory() as d:
             src, dest = Path(d)/'new.json', Path(d)/'account.json'
             write_json(src, self.account)
             write_json(dest, {'old': True})
             import_account(src, dest)
             self.assertEqual(read_json(str(dest)+'.backup'), {'old': True})
+            second = {**self.account, 'cash': 123456}
+            write_json(src, second)
+            import_account(src, dest)
+            self.assertEqual(read_json(str(dest)+'.backup'), {'old': True})
+            self.assertEqual(read_json(dest)['cash'], 123456)
+            self.assertTrue(any(Path(d).glob('account.json.backup-*')))
+
+    def test_account_validate_hides_amounts_in_actions(self):
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d)/'account.json'
+            write_json(path, self.account)
+            buffer = io.StringIO()
+            with patch.dict(os.environ, {'GITHUB_ACTIONS': 'true'}), redirect_stdout(buffer):
+                self.assertEqual(main(['account', 'validate', '--file', str(path)]), 0)
+            self.assertNotIn('200000', buffer.getvalue())
+            self.assertIn('公开日志', buffer.getvalue())
 
     def test_slot_boundaries(self):
         self.assertTrue(slot_guard('afternoon', datetime(2026,10,19,14,20,tzinfo=TZ)))
@@ -112,6 +130,17 @@ class ReportTests(unittest.TestCase):
         self.assertFalse(r['actionable'])
         self.assertFalse(r['orders'])
         self.assertTrue(any('部署风险门槛' in e for e in r['errors']))
+
+    def test_signal_strategy_and_telegram_text(self):
+        r = build_report(self.cfg, self.snapshot, self.frames, self.selection,
+                         self.account, research=True, at=self.at)
+        self.assertEqual(r['signal_strategy'], 'timing')
+        self.assertIn('研究信号', r['status'])
+        self.assertIn('今日信号', r['text'])
+        self.assertTrue(r['signal'])
+        self.assertIn('目标组合', r['telegram_text'])
+        self.assertIn('timing', r['telegram_text'])
+        self.assertIn('研究信号', r['telegram_text'])
 
     def test_stale_data_stops_amounts(self):
         self.snapshot['funds'][self.codes[0]]['fetched_at']='2026-10-16T10:00:00+08:00'
