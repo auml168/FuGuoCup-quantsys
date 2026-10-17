@@ -233,7 +233,7 @@ def main(argv=None):
                 raise GuardError("处理期间已超出发送窗口，报告已保存但未推送")
             if reserve(report,account):
                 send_report(report.get("telegram_text") or report["text"])
-                complete(report["report_id"])
+                complete(report["report_id"], report=report)
                 print("Telegram 推送完成")
             else:
                 print("本时段已处理，跳过重复发送")

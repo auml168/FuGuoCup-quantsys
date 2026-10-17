@@ -97,7 +97,8 @@
     "strategy": "sector_rotation",
     "daily": true,
     "buy_deadline": "15:00",
-    "note": "每日 14:20 Telegram 信号；sector_rotation 是最近一次滚动验证(+0.21%)和最终测试(+1.20%)都为正的策略。历史不代表未来，不保证收益。"
+    "assume_execution": true,
+    "note": "每日 14:20 Telegram 信号；默认把上一份已发送的目标权重视为已执行，用于下一份信号的加仓/减仓/清仓方向；设置 ACCOUNT_JSON 后以实际账户为准。sector_rotation 是最近一次滚动验证(+0.21%)和最终测试(+1.20%)都为正的策略。历史不代表未来，不保证收益。"
   },
   "data": {
     "max_nav_lag_sessions": 2,

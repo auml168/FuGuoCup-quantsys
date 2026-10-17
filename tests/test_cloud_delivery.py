@@ -67,7 +67,9 @@ class CloudDeliveryTests(unittest.TestCase):
                     with self.assertRaises(SystemExit):send.send()
                     telegram.assert_not_called()
                 with patch.dict(os.environ,{'GITHUB_RUN_ID':'1'}),patch.object(send,'now_cn',return_value=now),patch.object(send,'slot_guard',return_value=True),patch.object(send,'state_at',return_value={'deliveries':{'current':{'status':'reserved','owner':'1'}}}),patch.object(send,'send_report') as telegram,patch.object(send,'complete') as complete:
-                    send.send();telegram.assert_called_once_with('test');complete.assert_called_once_with('current')
+                    send.send();telegram.assert_called_once_with('test');complete.assert_called_once()
+                    self.assertEqual(complete.call_args.args[0], 'current')
+                    self.assertEqual(complete.call_args.kwargs['report']['report_id'], 'current')
             finally:os.chdir(original)
 
 

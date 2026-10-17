@@ -113,6 +113,8 @@
 
 参考金额按账户估值和目标权重估算，不替代平台确认、费用和每日限购。正式下单路径会读取申购/赎回状态与限购金额并封顶；Telegram 参考金额用于判断量级，下单前以平台页面为准。
 
+**下一步方向。** 系统默认把上一份已发送信号的目标权重视为已执行：下一份信号会按这个“假定持仓”给出加仓/减仓/清仓方向，你不需要手动更新账户。若设置了 `ACCOUNT_JSON`，则以实际账户覆盖；如果实际成交份额/净值与建议不同，方向可能偏离，请以实际持仓为准。
+
 ## 工程实现
 
 - `src/fullgoal_quant/` 分离数据、候选池、信号、账务、组合、报告和通知；研究结果写入 manifest，包含配置、源码哈希和时间窗。
@@ -168,6 +170,7 @@ fq collect --competition
 | `rules` / `fund_rules` | 真实费率、确认/赎回到账、最短持有、最小金额；正式模式逐只核验 |
 | `signal.strategy` | 每日信号策略，当前 `sector_rotation` |
 | `signal.daily` / `signal.buy_deadline` | 每日信号与 15:00 执行截止提示 |
+| `signal.assume_execution` | 默认 true：把上一份已发送信号视为已执行；设置 `ACCOUNT_JSON` 后以实际账户为准 |
 | `universe.workers` | 采集并发，当前 8 |
 | `data.max_nav_lag_sessions` | 允许净值滞后；超过后报告阻断 |
 

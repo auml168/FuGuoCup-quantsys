@@ -114,6 +114,8 @@ Rebalance to target before 15:00; reference amounts are estimates, not executabl
 
 Reference amounts are estimates from target weight × account value. They do not replace platform confirmation, fees, or daily purchase limits. The formal order path caps purchases at the current limit and respects subscription/redemption status; the Telegram reference amount is only for sizing.
 
+**Next-step directions.** By default the system treats the last sent signal as executed, so the next signal produces add/reduce/clear directions from that assumed portfolio without manual account updates. If `ACCOUNT_JSON` is supplied, the reconciled account overrides the assumption; actual fills and NAVs can still differ.
+
 ## Implementation
 
 - `src/fullgoal_quant/` separates data, universe construction, signals, accounting, portfolio construction, reporting, and notification. Research outputs are written to a manifest with config, source hashes, and time windows.
@@ -169,6 +171,7 @@ fq collect --competition
 | `rules` / `fund_rules` | Fees, confirmation/settlement, minimum holding, minimum order; verified per fund in formal mode |
 | `signal.strategy` | Daily signal strategy, currently `sector_rotation` |
 | `signal.daily` / `signal.buy_deadline` | Daily signal and 15:00 execution deadline |
+| `signal.assume_execution` | Default true: treat the last sent signal as executed; `ACCOUNT_JSON` overrides with the reconciled account |
 | `universe.workers` | Collection concurrency, currently 8 |
 | `data.max_nav_lag_sessions` | Allowed NAV lag; the report blocks beyond it |
 

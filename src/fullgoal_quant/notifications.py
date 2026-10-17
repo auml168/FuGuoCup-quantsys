@@ -9,7 +9,7 @@ def account_hash(account):
 
 
 def state_at(path='runtime/notification-state.json'):
-    return read_json(path) if Path(path).exists() else {'version':1,'deliveries':{},'last_actionable':None}
+    return read_json(path) if Path(path).exists() else {'version':1,'deliveries':{},'last_actionable':None,'last_signal':None}
 
 
 def reserve(report, account, path='runtime/notification-state.json', owner='local'):
@@ -29,7 +29,14 @@ def reserve(report, account, path='runtime/notification-state.json', owner='loca
     return True
 
 
-def complete(report_id,path='runtime/notification-state.json'):
+def complete(report_id,path='runtime/notification-state.json',report=None):
     state=state_at(path)
     state['deliveries'][report_id]['status']='sent'
+    # Remember the last *sent* target portfolio so the next signal can assume
+    # the recommendation was executed when no reconciled account is supplied.
+    if report and isinstance(report.get('weights'),dict):
+        state['last_signal']={'report_id':report_id,
+                              'weights':report['weights'],
+                              'assets':report.get('assets'),
+                              'at':now_cn().isoformat()}
     write_json(path,state)

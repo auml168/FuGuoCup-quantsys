@@ -144,6 +144,17 @@ class ReportTests(unittest.TestCase):
         self.assertIn('参考', r['telegram_text'])
         self.assertIn('研究信号', r['telegram_text'])
 
+    def test_next_signal_assumes_previous_execution(self):
+        previous = {'last_signal': {'report_id': 'prev', 'weights': {self.codes[0]: 0.35},
+                                    'assets': 200000}}
+        r = build_report(self.cfg, self.snapshot, self.frames, self.selection,
+                         self.account, research=True, at=self.at, delivery_state=previous)
+        self.assertTrue(r['assumed_execution'])
+        self.assertEqual(r['previous_signal_id'], 'prev')
+        self.assertIn('视为已执行', r['telegram_text'])
+        row = next(x for x in r['signal'] if x['code'] == self.codes[0])
+        self.assertAlmostEqual(row['current_weight'], 0.35)
+
     def test_stale_data_stops_amounts(self):
         self.snapshot['funds'][self.codes[0]]['fetched_at']='2026-10-16T10:00:00+08:00'
         r = build_report(self.cfg,self.snapshot,self.frames,self.selection,self.account,research=True,at=self.at)

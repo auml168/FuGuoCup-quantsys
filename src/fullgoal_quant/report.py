@@ -129,20 +129,35 @@ def build_report(cfg, snapshot, frames, selection, account, *, research=False, a
     actionable = (not research and not errors and rebalance_due and in_window
                   and is_session and target_day == today)
     orders = proposal["orders"] if actionable else []
+    # By default, a sent research signal is treated as executed for the next
+    # run, unless a reconciled real account is supplied. This lets the next
+    # signal produce add/reduce/clear directions without manual account edits.
+    previous_signal = (delivery_state or {}).get('last_signal')
+    actual_positions = bool(account.get('lots')) or bool(account.get('pending')) or bool(account.get('reconciled_at'))
+    previous_weights = {}
+    if (research and cfg.get('signal', {}).get('assume_execution')
+            and previous_signal and not actual_positions):
+        previous_weights = {str(c): float(v)
+                            for c, v in (previous_signal.get('weights') or {}).items()
+                            if isinstance(v, (int, float)) and v > 0}
     # Signal rows are target weights/directions, never amounts. They are built
     # from the account's lots when available; an empty account shows建仓.
-    def signal_row_list(account, weights, navs, assets, snapshot_funds):
+    def signal_row_list(account, weights, navs, assets, snapshot_funds, previous_weights=None):
         current = {}
-        for lot in account.get('lots', []):
-            code = lot.get('code')
-            if code in navs:
-                current[code] = current.get(code, 0.0) + float(lot.get('units', 0)) * navs[code]
+        if previous_weights is None:
+            for lot in account.get('lots', []):
+                code = lot.get('code')
+                if code in navs:
+                    current[code] = current.get(code, 0.0) + float(lot.get('units', 0)) * navs[code]
+            current_weights = {c: (v / assets if assets > 0 else 0.0) for c, v in current.items()}
+        else:
+            current_weights = previous_weights
         rows = []
-        codes = sorted(set(weights) | {c for c, v in current.items() if v > 0},
+        codes = sorted(set(weights) | {c for c, v in current_weights.items() if v > 0},
                        key=lambda c: (-weights.get(c, 0.0), c))
         for code in codes:
             target = float(weights.get(code, 0.0))
-            current_weight = current.get(code, 0.0) / assets if assets > 0 else 0.0
+            current_weight = current_weights.get(code, 0.0)
             if target <= 0 and current_weight <= 0:
                 continue
             if target <= 1e-9:
@@ -164,7 +179,8 @@ def build_report(cfg, snapshot, frames, selection, account, *, research=False, a
         return rows[:12]
 
     signal_rows = [] if scores.empty else signal_row_list(
-        account, weights, navs, proposal['assets'], snapshot['funds'])
+        account, weights, navs, proposal['assets'], snapshot['funds'],
+        previous_weights=previous_weights or None)
     total_weight = float(sum(weights.values()))
     cash_weight = max(0.0, 1.0 - total_weight)
     signal_lines = [f"{r['code']} {r['name']}｜目标 {r['target_weight']:.1%}｜{r['action']}｜参考 ¥{r['reference_amount']:,.0f}"
@@ -190,6 +206,8 @@ def build_report(cfg, snapshot, frames, selection, account, *, research=False, a
         telegram_lines.append(
             f"信号策略历史：滚动验证 {fmt_stat(signal_stats.get('validation'))}；"
             f"最终测试 {fmt_stat(signal_stats.get('test'))}（已查看，不冒充前瞻）。")
+    if previous_weights:
+        telegram_lines.append("按上一份已发送信号视为已执行；若未执行或成交份额/净值不同，请以实际持仓为准。")
     if cfg.get('signal', {}).get('daily'):
         deadline = cfg.get('signal', {}).get('buy_deadline', '15:00')
         telegram_lines.append(f"每日 {deadline} 前按目标权重买入/调整；参考金额按账户估值估算，非成交指令；不保证收益。")
@@ -221,6 +239,8 @@ def build_report(cfg, snapshot, frames, selection, account, *, research=False, a
     lines.append("今日信号（目标权重，非金额）：")
     lines += ["  " + x for x in signal_lines]
     lines.append(f"  现金 {cash_weight:.1%}")
+    if previous_weights:
+        lines.append("上一份信号按已执行处理；若实际成交不同，请设置 ACCOUNT_JSON 以实际持仓覆盖。")
     lines.append(f"数据覆盖：本次成功{len(snapshot['funds'])}只；采集异常{len(snapshot.get('errors',{}))}只；完整目录见universe.json。")
     if not is_session or at.hour >= 15:
         lines.append("当前不可按当日净值提交；以下仅供下一交易日前复核。")
@@ -278,7 +298,9 @@ def build_report(cfg, snapshot, frames, selection, account, *, research=False, a
     result = {"created_at": at.isoformat(), "mode": "research" if research else "competition", "status": status,
               "strategy": signal_strategy, "signal_strategy": signal_strategy,
               "selected_model": selection["selected"], "signal": signal_rows,
-              "telegram_text": telegram_text,
+              "assumed_execution": bool(previous_weights),
+              "previous_signal_id": previous_signal.get('report_id') if previous_signal else None,
+              "assets": proposal['assets'], "telegram_text": telegram_text,
               "target_day": str(target_day) if target_day else None, "signal_cutoff": str(cutoff),
               "schedule": schedule,
               "rebalance_due": rebalance_due, "weights": weights, "orders": orders, "errors": errors,
