@@ -103,13 +103,29 @@ Full run on 2026-10-17; holdout from 2026-04-10 to 2026-10-16:
 Only the 14:20 scheduled run collects data and sends. The Telegram message contains target weights, action direction, and a reference amount based on the account value, with a 15:00 execution deadline.
 
 ```text
-FuGuoCup signal | 2026-10-19 14:20 | strategy sector_rotation | regime risk_on
-Target portfolio (70.0% invested, 30.0% cash):
-161024 ... | target 35.0% | buy/build | reference CNY 70,000
-...
-Signal cutoff 2026-10-15; target trading day 2026-10-19.
-Research signal, not an execution instruction. No executable amount.
-Rebalance to target before 15:00; reference amounts are estimates, not executable, no return guarantee.
+🟢 FuGuoCup trading signal
+2026-10-19 14:20 | strategy sector_rotation | regime risk_on
+━━━━━━━━━━━━━━
+① What to buy / adjust
+1. 161024 ... (defense)
+   🟢 buy/build | target 35.0% | reference CNY 70,000
+2. ...
+   🟠 reduce | target 10.0% | sell about CNY 20,000
+
+② Why this portfolio
+• Market: risk_on, positive-trend breadth 100%
+• Selection: top 2 sectors by 20-day momentum; within sector, positive 60-day momentum and top 3 composite score
+• Constraints: single fund ≤35% / single sector ≤50% / total exposure ≤95%
+
+③ How to execute
+• Target trading day: 2026-10-19
+• Deadline: rebalance to target before 15:00
+• Target portfolio: 70.0% invested, 30.0% cash
+• Reference amounts are estimates; purchase limits and suspension rules are set by the platform
+• Research signal, not an execution instruction
+
+④ Risk
+• Historical results are not forward-looking; no return guarantee
 ```
 
 Reference amounts are estimates from target weight × account value. They do not replace platform confirmation, fees, or daily purchase limits. The formal order path caps purchases at the current limit and respects subscription/redemption status; the Telegram reference amount is only for sizing.

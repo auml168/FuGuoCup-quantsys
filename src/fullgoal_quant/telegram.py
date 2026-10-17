@@ -52,12 +52,15 @@ def api(method, payload, token=None):
     raise GuardError("Telegram 限流，请稍后重试")
 
 
-def send_report(text):
+def send_report(text, parse_mode=None):
     chat_id = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
     if not chat_id:
         raise GuardError("缺少 TELEGRAM_CHAT_ID")
     for part in chunks(text):
-        api("sendMessage", {"chat_id": chat_id, "text": part, "link_preview_options": {"is_disabled": True}})
+        payload = {"chat_id": chat_id, "text": part, "link_preview_options": {"is_disabled": True}}
+        if parse_mode:
+            payload["parse_mode"] = parse_mode
+        api("sendMessage", payload)
 
 
 def chat_ids():

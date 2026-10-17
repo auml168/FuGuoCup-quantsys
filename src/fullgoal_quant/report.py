@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import html
 from datetime import date, datetime, time
 from pathlib import Path
 
@@ -170,11 +171,16 @@ def build_report(cfg, snapshot, frames, selection, account, *, research=False, a
                 action = '减仓'
             else:
                 action = '持有'
+            if action in ('减仓', '清仓/卖出'):
+                reference = max(0.0, current_weight - target) * max(assets, 0.0)
+            else:
+                reference = target * max(assets, 0.0)
             rows.append({'code': code,
                          'name': snapshot_funds.get(code, {}).get('name', code),
+                         'sector': snapshot_funds.get(code, {}).get('sector', ''),
                          'target_weight': round(target, 6),
                          'current_weight': round(current_weight, 6),
-                         'reference_amount': round(target * max(assets, 0.0), 2),
+                         'reference_amount': round(reference, 2),
                          'action': action})
         return rows[:12]
 
@@ -183,7 +189,8 @@ def build_report(cfg, snapshot, frames, selection, account, *, research=False, a
         previous_weights=previous_weights or None)
     total_weight = float(sum(weights.values()))
     cash_weight = max(0.0, 1.0 - total_weight)
-    signal_lines = [f"{r['code']} {r['name']}｜目标 {r['target_weight']:.1%}｜{r['action']}｜参考 ¥{r['reference_amount']:,.0f}"
+    signal_lines = [f"{r['code']} {r['name']}｜目标 {r['target_weight']:.1%}｜{r['action']}"
+                    f"｜{'卖出约' if r['action'] in ('减仓', '清仓/卖出') else '参考'} ¥{r['reference_amount']:,.0f}"
                     for r in signal_rows] or ["当前无有效信号，维持现金/现有持仓并核对数据。"]
 
     def fmt_stat(stat):
@@ -194,28 +201,70 @@ def build_report(cfg, snapshot, frames, selection, account, *, research=False, a
             result += f"（回撤 {stat['max_drawdown']:.2%}）"
         return result
 
-    telegram_lines = [
-        f"{cfg['competition']['name']}信号｜{at:%Y-%m-%d %H:%M}｜策略 {signal_strategy}｜市场 {regime}",
-        f"目标组合（合计 {total_weight:.1%}，现金 {cash_weight:.1%}）：",
-        *signal_lines,
-        f"信号截止 {cutoff}；计划交易日 {target_day or '无（已截止）'}。",
-        "执行条件已具备；仍须本人核对规则与持仓后操作。" if actionable
-        else "研究信号，非成交指令；不提供可执行金额。",
-    ]
-    if signal_stats:
-        telegram_lines.append(
-            f"信号策略历史：滚动验证 {fmt_stat(signal_stats.get('validation'))}；"
-            f"最终测试 {fmt_stat(signal_stats.get('test'))}（已查看，不冒充前瞻）。")
-    if previous_weights:
-        telegram_lines.append("按上一份已发送信号视为已执行；若未执行或成交份额/净值不同，请以实际持仓为准。")
+    def esc(value):
+        return html.escape(str(value), quote=False)
+
+    action_icon = {'买入/建仓': '🟢', '加仓': '🟢', '持有': '⚪',
+                   '减仓': '🟠', '清仓/卖出': '🔴'}
+    action_priority = {'买入/建仓': 0, '加仓': 1, '持有': 2,
+                       '减仓': 3, '清仓/卖出': 4}
+    ordered = sorted(signal_rows,
+                     key=lambda r: (action_priority.get(r['action'], 9),
+                                    -r['target_weight'], r['code']))
+    operation_lines = []
+    for index, row in enumerate(ordered, 1):
+        sector = row.get('sector') or '未分类'
+        amount_label = '卖出约' if row['action'] in ('减仓', '清仓/卖出') else '参考'
+        operation_lines.append(
+            f"{index}. <b>{esc(row['code'])} {esc(row['name'])}</b>（{esc(sector)}）\n"
+            f"   {action_icon.get(row['action'], '⚪')} {esc(row['action'])}"
+            f"｜目标 <b>{row['target_weight']:.1%}</b>"
+            f"｜{amount_label} <b>¥{row['reference_amount']:,.0f}</b>")
+    if not operation_lines:
+        operation_lines = ["⚪ 无有效买入/调仓信号，维持现金或现有持仓。"]
+
+    deadline = cfg.get('signal', {}).get('buy_deadline', '15:00')
     if cfg.get('signal', {}).get('daily'):
-        deadline = cfg.get('signal', {}).get('buy_deadline', '15:00')
-        telegram_lines.append(f"每日 {deadline} 前按目标权重买入/调整；参考金额按账户估值估算，非成交指令；不保证收益。")
+        deadline_line = f"• 截止：{deadline} 前按目标权重买入/调整"
     else:
-        telegram_lines.append("周度首个交易日调仓；不保证收益。")
+        deadline_line = "• 周度首个交易日按目标权重调仓"
+    execution_lines = [
+        f"• 计划交易日：{target_day or '无（已截止）'}",
+        deadline_line,
+        f"• 目标组合：合计 {total_weight:.1%}，现金 {cash_weight:.1%}",
+        "• 参考金额按账户估值估算；限购/暂停申购以平台页面为准",
+    ]
+    if previous_weights:
+        execution_lines.append("• 按上一份已发送信号视为已执行；实际成交不同请以持仓为准")
+    execution_lines.append("• 执行条件已具备，仍须本人核对规则与持仓"
+                           if actionable else
+                           "• 研究信号，非成交指令；不提供可执行金额")
+    risk_lines = []
+    if signal_stats:
+        risk_lines.append(f"• 策略历史：滚动验证 {fmt_stat(signal_stats.get('validation'))}"
+                          f"；最终测试 {fmt_stat(signal_stats.get('test'))}")
+    risk_lines.append("• 历史区间已查看，不冒充前瞻；不保证收益")
     if errors:
-        telegram_lines.append(f"注意：{len(errors)}项数据/规则/账户阻断，详情见报告。")
-    telegram_text = "\n".join(telegram_lines)
+        risk_lines.append(f"• 注意：{len(errors)}项数据/规则/账户阻断，详情见报告")
+    has_buy = any(row['action'] in ('买入/建仓', '加仓') for row in signal_rows)
+    telegram_text = "\n".join([
+        f"{'🟢' if has_buy else '⚪'} <b>{esc(cfg['competition']['name'])}操作信号</b>",
+        f"{at:%Y-%m-%d %H:%M}｜策略 <b>{esc(signal_strategy)}</b>｜市场 {esc(regime)}",
+        "━━━━━━━━━━━━━━",
+        "<b>① 买什么 / 调仓</b>",
+        *operation_lines,
+        "",
+        "<b>② 为什么这么配</b>",
+        f"• 市场：{esc(regime)}，正趋势广度 {breadth:.0%}",
+        "• 选基：行业 20 日动量前 2；行业内 60 日动量为正、综合评分前 3",
+        "• 约束：单基金≤35% / 单行业≤50% / 总仓位≤95%",
+        "",
+        "<b>③ 怎么执行</b>",
+        *execution_lines,
+        "",
+        "<b>④ 风险</b>",
+        *risk_lines,
+    ])
     if research:
         status = "研究信号（非比赛交易指令）"
     elif errors:
