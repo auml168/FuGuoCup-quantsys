@@ -134,12 +134,14 @@ class ReportTests(unittest.TestCase):
     def test_signal_strategy_and_telegram_text(self):
         r = build_report(self.cfg, self.snapshot, self.frames, self.selection,
                          self.account, research=True, at=self.at)
-        self.assertEqual(r['signal_strategy'], 'timing')
+        self.assertEqual(r['signal_strategy'], 'sector_rotation')
         self.assertIn('研究信号', r['status'])
         self.assertIn('今日信号', r['text'])
         self.assertTrue(r['signal'])
         self.assertIn('目标组合', r['telegram_text'])
-        self.assertIn('timing', r['telegram_text'])
+        self.assertIn('sector_rotation', r['telegram_text'])
+        self.assertIn('15:00', r['telegram_text'])
+        self.assertIn('参考', r['telegram_text'])
         self.assertIn('研究信号', r['telegram_text'])
 
     def test_stale_data_stops_amounts(self):
