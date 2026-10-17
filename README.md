@@ -29,7 +29,7 @@ fq doctor --limit 12
 fq collect
 fq research
 cp config/account.example.json config/account.local.json   # 首次本地预览
-fq report --research
+fq report --research --account config/account.local.json
 ```
 
 `doctor`在 `data/smoke/` 中做有界真实接口验收，不覆盖完整池。`collect`默认尝试全部受支持的目录产品，最多4个并发请求；`--limit`仅供抽样，结果明确标为不完整，不能开启正式模式。生产没有固定8只上限。

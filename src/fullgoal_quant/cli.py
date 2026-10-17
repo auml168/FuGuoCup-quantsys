@@ -72,7 +72,7 @@ def make_parser():
     for name in ("report", "run"):
         report = sub.add_parser(name, help="生成报告" if name == "report" else "交易日检查→采集→回测→报告→可选推送")
         report.add_argument("--research", action="store_true")
-        report.add_argument("--account", default="config/account.local.json")
+        report.add_argument("--account", default="config/account.example.json")
         report.add_argument("--selection", default="reports/research/comparison.json")
         report.add_argument("--slot", choices=["auto", "manual", *SLOTS], default="manual")
         report.add_argument("--send", action="store_true")
