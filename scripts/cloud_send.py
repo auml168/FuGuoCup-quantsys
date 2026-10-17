@@ -17,7 +17,10 @@ def send():
     item=state_at()['deliveries'].get(report['report_id'],{})
     if item.get('status')!='reserved' or item.get('owner')!=os.environ.get('GITHUB_RUN_ID','local'):
         raise SystemExit('Delivery reservation does not belong to this run.')
-    send_report(report.get('telegram_text') or report['text'])
+    if report.get('telegram_text'):
+        send_report(report['telegram_text'], parse_mode='HTML')
+    else:
+        send_report(report['text'])
     complete(report['report_id'],report=report)
     print('Telegram delivery completed.')
 
