@@ -8,7 +8,15 @@ from fullgoal_quant.common import write_json
 from fullgoal_quant.portfolio import validate_account
 
 
+AFTERNOON_CRON = "20 6 * * 1-5"
+
+
 def run():
+    # Only the 14:20 Beijing run is the pre-settlement buy signal. The other
+    # scheduled triggers exit early instead of re-collecting the universe.
+    if os.environ.get("FQ_EVENT") == "schedule" and os.environ.get("FQ_SCHEDULE") != AFTERNOON_CRON:
+        print("非14:20发送时段；跳过采集与推送", file=sys.stderr)
+        return 0
     account = os.environ.get("ACCOUNT_JSON", "")
     if account:
         try:

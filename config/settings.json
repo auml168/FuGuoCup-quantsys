@@ -94,8 +94,10 @@
     "max_selection_age_days": 45
   },
   "signal": {
-    "strategy": "timing",
-    "note": "每日 Telegram 信号使用的固定策略，必须是 STRATEGIES 中的名称；timing 按滚动验证收益选择，历史样本外为负，不保证未来收益。"
+    "strategy": "sector_rotation",
+    "daily": true,
+    "buy_deadline": "15:00",
+    "note": "每日 14:20 Telegram 信号；sector_rotation 是最近一次滚动验证(+0.21%)和最终测试(+1.20%)都为正的策略。历史不代表未来，不保证收益。"
   },
   "data": {
     "max_nav_lag_sessions": 2,
@@ -105,7 +107,7 @@
   "universe": {
     "mode": "auto",
     "min_history": 252,
-    "workers": 4,
+    "workers": 8,
     "note": "research_funds仅保留原8只回归基准信息；人工分类修订请使用 product_overrides，不控制生产候选池"
   },
   "research": {

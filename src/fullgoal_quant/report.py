@@ -159,6 +159,7 @@ def build_report(cfg, snapshot, frames, selection, account, *, research=False, a
                          'name': snapshot_funds.get(code, {}).get('name', code),
                          'target_weight': round(target, 6),
                          'current_weight': round(current_weight, 6),
+                         'reference_amount': round(target * max(assets, 0.0), 2),
                          'action': action})
         return rows[:12]
 
@@ -166,7 +167,7 @@ def build_report(cfg, snapshot, frames, selection, account, *, research=False, a
         account, weights, navs, proposal['assets'], snapshot['funds'])
     total_weight = float(sum(weights.values()))
     cash_weight = max(0.0, 1.0 - total_weight)
-    signal_lines = [f"{r['code']} {r['name']}｜目标 {r['target_weight']:.1%}｜{r['action']}"
+    signal_lines = [f"{r['code']} {r['name']}｜目标 {r['target_weight']:.1%}｜{r['action']}｜参考 ¥{r['reference_amount']:,.0f}"
                     for r in signal_rows] or ["当前无有效信号，维持现金/现有持仓并核对数据。"]
 
     def fmt_stat(stat):
@@ -189,7 +190,11 @@ def build_report(cfg, snapshot, frames, selection, account, *, research=False, a
         telegram_lines.append(
             f"信号策略历史：滚动验证 {fmt_stat(signal_stats.get('validation'))}；"
             f"最终测试 {fmt_stat(signal_stats.get('test'))}（已查看，不冒充前瞻）。")
-    telegram_lines.append("周度首个交易日调仓；不保证收益。")
+    if cfg.get('signal', {}).get('daily'):
+        deadline = cfg.get('signal', {}).get('buy_deadline', '15:00')
+        telegram_lines.append(f"每日 {deadline} 前按目标权重买入/调整；参考金额按账户估值估算，非成交指令；不保证收益。")
+    else:
+        telegram_lines.append("周度首个交易日调仓；不保证收益。")
     if errors:
         telegram_lines.append(f"注意：{len(errors)}项数据/规则/账户阻断，详情见报告。")
     telegram_text = "\n".join(telegram_lines)
@@ -220,7 +225,10 @@ def build_report(cfg, snapshot, frames, selection, account, *, research=False, a
     if not is_session or at.hour >= 15:
         lines.append("当前不可按当日净值提交；以下仅供下一交易日前复核。")
     if not rebalance_due:
-        lines.append("当前不是模型约定的调仓时点；实盘与回测采用相同周度首个交易日规则。")
+        if cfg.get('signal', {}).get('daily'):
+            lines.append("信号每日生成；建议在当日结算前按目标权重买入/调整；历史回测仍采用周度首个交易日规则。")
+        else:
+            lines.append("当前不是模型约定的调仓时点；实盘与回测采用相同周度首个交易日规则。")
     if research:
         lines.append("研究池不是比赛白名单，费用/到账天数为配置假设；研究报告不生成可执行金额。")
         if chosen.get('test') is None or chosen['test']["total_return"] <= 0:
