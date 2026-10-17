@@ -1,99 +1,134 @@
-# 富国杯基金量化研究与决策支持
+# FuGuoCup Quant
 
-面向第六届富国杯：**2026-10-19开始，2027-01-15半程截止，2027-04-30结束，初始虚拟资金200000元**。交易由本人在比赛平台手动执行；系统没有比赛账户登录或下单接口。
+**富国杯场外基金量化研究与每日信号系统**
 
-## 状态与边界
+只研究富国基金旗下场外产品。每个交易日 14:20 生成目标组合，15:00 结算前由本人手动执行。系统不登录比赛平台、不自动下单，也不把研究信号伪装成成交记录。
 
-当前 `main` 即最终工程。历史迁移过程（旧账号、旧分支、PR补丁）仅存档于[迁移说明](docs/MIGRATION.md)和[交付说明](docs/DELIVERY.md)，不要按其中的旧命令操作。完整审查、实测和限制见[审查报告](docs/REVIEW.md)。
+| 项目 | 当前设置 |
+|---|---|
+| 比赛 | 第六届富国杯 · 2026-10-19 → 2027-04-30 |
+| 初始资金 | ¥200,000（虚拟） |
+| 候选池 | 富国基金 · 场外 · 管理人逐只核验 |
+| 信号 | 每日 14:20 · `sector_rotation` |
+| 执行 | 人工 · 15:00 前 |
+| 当前模式 | 研究信号（不产生可执行金额） |
 
-当前是**研究预览与通知系统**：比赛规则、白名单、逐基金费率或模型部署证据未齐备时，报告不会产生可执行金额。GitHub 定时任务、Secrets 和 Telegram 须在本仓库单独验收；本地测试通过不等于云端定时推送已经验收。
+## 设计原则
 
-- 自动发现公司页关联目录，逐产品核验详情中的管理人；生产候选池不再由固定8只名单控制。
-- 保留不支持、净值不足、采集异常的记录。销售目录、销售平台风险描述和申购状态**不等于比赛白名单、官方适当性等级或比赛专用规则**。
-- 保留六个基准，新增多周期双动量、波动风险预算与相关性过滤、固定权重多策略组合。研究方案、源代码哈希、配置及时间窗写入manifest，不搜索参数。
-- 执行连续持仓的滚动历史验证，比较收益、年化、回撤、夏普、双边换手、申赎费用和市场状态表现。已查看的2026年历史测试不再宣称“未见样本”。
-- **新增候选尚未取得足够晋级证据，未替换原等权基准，也未批准该基准用于实盘。** 没有数据/账户/规则/模型证据时不给买卖金额。
-- 只有14:20决策时段才可能产生可执行建议；08:30盘前和20:30盘后只作观察。全部建议仍须人工核对。
-- 已核验2026年官方日历。系统可在官方发布完整2027年安排后自动解析扩展；目前未取得完整2027年官方公告，保留未知日期拦截，不填入猜测日期。
+- **Universe first.** 先确定“能买什么”，再讨论“买什么”。销售目录、风险标签和申购状态都不等于比赛白名单或官方适当性等级。
+- **Evidence over optimization.** 固定参数、滚动验证、独立测试；不根据已经看过的测试曲线搜索参数或切换赢家。
+- **Signal, not execution.** 系统给目标权重、方向和参考金额；成交、费用、确认日与限购以比赛平台为准。
+- **Reproducibility.** 配置、源码哈希、时间窗和数据来源均落盘；任何结果都能追溯到当时的输入。
+- **Fail closed.** 数据不完整、净值断点、日历未核验或账户未核对时，宁可停止，不填造收益。
 
-## 本地运行
+## 分析框架
 
-需要Python3.11—3.13，依赖仅numpy和pandas。根目录执行：
+```mermaid
+flowchart LR
+    A[富国基金目录] --> B[候选池 / 管理人核验]
+    B --> C[NAV / 申赎状态 / 限购]
+    C --> D[质量检查 / 复权收益指数]
+    D --> E[因子与行业动量]
+    E --> F[组合约束]
+    F --> G[14:20 Telegram 信号]
+    G --> H[15:00 前人工执行]
+```
+
+**候选池。** 从富国基金公司页关联目录抓取产品，逐只打开详情页核验管理人 ID；排除 QDII、FOF、货币、黄金/商品、非联接 ETF、场内、持有期/定开/封闭、后端收费、期限/滚动/分级及无法映射类别的产品。债券指数（Eastmoney “指数型-固收”）按债券处理，转债/混合一级/二级/偏债单独标记。A/C 等份额按名称分组，同一底层只保留一个份额。
+
+**数据。** 每只基金保存单位净值、供应商日收益率、分红/拆分事件、申购/赎回状态和限购金额；原始响应与 CSV 均记录 SHA256。复权收益指数由供应商日收益连乘，不对累计净值直接做百分比变化。单位净值变化与供应商收益不一致且无事件解释时标记 `quality_break`，该段不拼接收益，持仓跨断点则回测判为无法验证。
+
+**因子。** 使用过去 128 个观测计算 20/60/126 日动量、20/60 日波动、120 日均线偏离、60 日回撤和风险调整动量。信号只使用 T-2 及之前已完成的净值，避免把尚未公布的当日净值带入决策。
+
+**组合。** 默认 `sector_rotation`：先按行业聚合 20 日动量，取动量为正的前 2 个行业；再在行业内选 60 日动量为正、综合评分最高的至多 3 只基金；最后施加单基金 ≤35%、单行业 ≤50%、总仓位 ≤95%、同一份额组仅一只的约束，剩余为现金。
+
+## 策略与验证
+
+研究采用 252 个观测初始训练、126 个观测一折的滚动窗口，最后 126 个观测单列为历史测试。2026-10-17 的全量运行结果：
+
+| 策略 | 滚动验证 | 最终历史测试 | 最大回撤 | 夏普 |
+|---|---:|---:|---:|---:|
+| `sector_rotation` | +0.21% | **+1.20%** | 21.44% | 0.22 |
+| `timing` | +21.18% | -6.13% | 18.70% | -0.60 |
+| `risk_budget` | -6.96% | +0.37% | 10.23% | 0.12 |
+| `equal_weight` | 无法验证 | -7.87% | 14.04% | -0.89 |
+| `cash` | 0.00% | 0.00% | 0.00% | 0.00 |
+
+`timing` 的滚动验证最高，但最终测试为负；`sector_rotation` 是唯一在滚动验证和最终测试中都为正的策略，因此作为当前信号策略。**最终测试区间已经查看，不再算未见样本；历史结果不代表未来。**
+
+等权基准仍保留为研究基准，`deployment_approved` 保持为 `false`。没有新的前瞻证据前，系统不会自动晋级候选模型，也不会产生可执行金额。
+
+## 每日信号
+
+只有 **14:20（北京时间）** 的定时任务会采集并发送信号；08:30 和 20:30 仍会触发工作流，但云步骤直接退出，避免重复采集和重复消息。
+
+Telegram 消息包含：
+
+- 目标组合的总仓位与现金比例；
+- 每只基金的目标权重和 `买入/建仓、加仓、减仓、清仓、持有` 方向；
+- 按报告账户估值计算的参考金额；
+- 信号截止日、计划交易日和 **15:00 前完成买入/调整**的提示。
+
+```text
+第六届富国杯信号｜2026-10-19 14:20｜策略 sector_rotation｜市场 risk_on
+目标组合（合计 70.0%，现金 30.0%）：
+161024 富国中证军工A｜目标 35.0%｜买入/建仓｜参考 ¥70,000
+...
+信号截止 2026-10-15；计划交易日 2026-10-19。
+研究信号，非成交指令；不提供可执行金额。
+每日 15:00 前按目标权重买入/调整；参考金额按账户估值估算，非成交指令；不保证收益。
+```
+
+参考金额只是按账户估值和目标权重计算的估算值，**不替代平台确认、费用和每日限购**。正式下单路径会读取申购/赎回状态与限购金额并封顶；Telegram 参考金额用于快速判断量级，下单前请以平台页面为准。
+
+## 快速开始
+
+需要 Python 3.11–3.13，运行依赖只有 `numpy` 和 `pandas`。
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install .
 python -m unittest discover -s tests -v
-fq doctor --limit 12
-fq collect
-fq research
-cp config/account.example.json config/account.local.json   # 首次本地预览
+
+fq doctor --limit 12          # 有界真实接口验收，不覆盖完整池
+fq collect                    # 采集全部受支持的富国场外候选
+fq research                   # 固定方案滚动验证
+
+cp config/account.example.json config/account.local.json
 fq report --research --account config/account.local.json
 ```
 
-`doctor`在 `data/smoke/` 中做有界真实接口验收，不覆盖完整池。`collect`默认尝试全部受支持的目录产品，最多4个并发请求；`--limit`仅供抽样，结果明确标为不完整，不能开启正式模式。生产没有固定8只上限。
-
-`research_funds`现在仅保留原8只的基准回归信息；人工修订产品分组和行业可使用 `product_overrides`。底层产品分组默认由名称末尾A/C等份额类别推导，并明确标为启发式识别，不能证明持仓穿透后无重合。
+常用命令：
 
 ```bash
-fq discover
-fq --data data/smoke research
-fq --data data/smoke report --research
-fq --data data/expanded backtest --baseline-eight --out reports/eight-benchmark
-fq calendar-check --year 2027
+fq discover                                   # 刷新目录与支持/不支持原因
+fq --data data/smoke research                 # 用抽样数据跑研究
+fq --data data/expanded backtest --baseline-eight
+fq calendar-check --year 2027                 # 官方完整公告未发布时保留拦截
+fq account validate --file config/account.local.json
+fq validate                                   # 正式模式静态配置检查
+fq collect --competition                      # 只采集已核验的比赛白名单
 ```
 
-最后一个命令若尚无完整官方公告，显示待核验，保留当前覆盖期限。禁止把“待核验”解释成2027年已验收。
+## 配置
 
-## 数据与研究产物
+`config/settings.json` 中最重要的字段：
 
-|文件|内容|
+| 字段 | 含义 |
 |---|---|
-|`data/catalog.json`|目录关联记录及支持/不支持原因|
-|`data/universe.json`|类别、份额组、风险描述来源、净值长度、采集结果|
-|`data/nav/代码.csv`|真实单位净值、供应商日收益率、复权总收益指数和事件|
-|`data/snapshot.json` / `data/raw/`|本次数据范围、时间、原始来源、SHA256及错误|
-|`reports/research/manifest.json`|冻结研究参数、代码哈希和时间窗|
-|`reports/research/comparison.json` / `.md`|滚动窗口、最终历史测试、费用、换手、候选晋级结论|
-|`reports/research/*-test-equity.csv`|逐日资产、现金、应收款、当时可观测市场状态|
-|`reports/latest.json` / `.txt`|当前账户报告；公开工作流不上传此账户报告|
+| `competition.allowed_codes` | 比赛官方可交易代码；为空时研究模式使用自动发现的富国场外池 |
+| `rules` / `fund_rules` | 真实费率、确认/赎回到账、最短持有、最小金额等；正式模式逐只核验 |
+| `signal.strategy` | 每日信号策略，当前 `sector_rotation` |
+| `signal.daily` / `signal.buy_deadline` | 每日信号与 15:00 执行截止提示 |
+| `universe.workers` | 采集并发，当前 8 |
+| `data.max_nav_lag_sessions` | 允许的净值滞后；超过后报告阻断 |
 
-读取CSV会检查快照哈希。无法解释的收益区间标为`quality_break`，不回溯删除断点前的历史；历史选基只能使用当时已经出现的断点，重新积累足够连续观测后才恢复资格。持仓跨过断点、净值长期缺失时，该段回测标记无法验证，指标保留为空，不能用零收益或拼接收益代替。
+账户文件：
 
-本次工程修复改动了 `signals/backtest/data`，因此 `sample_results/review` 的 `model_hash` 只代表修复前代码。正式模式前须重新运行 `fq research`，使 `comparison.json` 与当前代码一致；不要手动改 `deployment_approved`。
-
-旧版研究快照可用`python scripts/rebuild_snapshot.py --data data/expanded`从已归档且哈希匹配的原始响应离线重建。此命令不刷新采集时间、不延长旧快照的数据末日，也不能替代正式决策前的在线采集。
-
-现有目录仍有幸存者偏差，历史修订净值也缺少完整逐时发布时间。T-2信号只缓解发布延迟，不能消除这些数据局限。历史交易日用国内权益参考净值日历代理，当前/未来操作则必须通过官方日历。详见 [方法说明](docs/METHODOLOGY.md)。
-
-## Telegram与GitHub Actions
-
-在 [本仓库Secrets](https://github.com/auml168/FuGuoCup-quantsys/settings/secrets/actions) 配置：
-
-- `TELEGRAM_BOT_TOKEN`：BotFather生成的有效Token；**不要发到聊天、代码或日志**。
-- `TELEGRAM_CHAT_ID`：先给机器人发送 `/start`，再配置自己的聊天/群组ID。
-- `ACCOUNT_JSON`：完整实际模拟账户，避免公开提交持仓。
-
-如Token曾公开，应先在BotFather撤销重建。程序只从环境变量读取Token，不记录带Token的请求URL。可用 `Telegram connection test` 手动发送连接测试；此项仅确认通信，不证明比赛规则或实际持仓已核验。
-
-新建或迁移仓库不会自动取得旧仓库的 Secrets、Actions 历史或通知预约状态。不要用旧账号的连接结果冒充新账号授权，也不要从旧日志提取凭证。
-
-GitHub Actions仍在北京时间 **08:30 / 14:20 / 20:30** 触发，但当前只有 **14:20** 会采集并发送买入信号；08:30/20:30 的云步骤直接退出，避免重复采集和重复消息。非交易日跳过。本地电脑无需开机。Actions排队可能延迟，不保证精确到秒；过时交易报告会抑制。完整步骤和故障处理见 [部署说明](docs/DEPLOYMENT.md)。
-
-云端先恢复可信分支的持久化发送状态，生成预约，**上传预约artifact成功后才调用Telegram**，最后保存发送结果。超时或崩溃后的预约不盲目重发；恢复失败时停止发送。工作流日志和公开artifact不包含账户报告、outbox或凭证。通知状态只保存哈希和ID，保留上一份可执行计划的核对状态。
-
-### 每日 Telegram 信号
-
-14:20 的 Telegram 消息是简版买入信号：`目标组合（合计仓位/现金）` + 每只基金的目标权重、`买入/建仓、加仓、减仓、清仓、持有` 方向和按账户估值计算的参考金额。**参考金额不是成交指令**，实际以平台确认、费用和申赎规则为准。完整评分、数据覆盖和阻断原因仍写入 `reports/latest.txt`/JSON。08:30 和 20:30 当前不发送。
-
-目标是在每个交易日 **15:00 结算前**按目标权重完成买入/调整。研究回测仍按周度首个交易日计算，实盘每日执行会带来更多换手和费用；是否每天调整由本人决定。
-
-信号策略由 `config/settings.json` 的 `signal.strategy` 指定，默认 `sector_rotation`：在 2026-10-17 的最新滚动检验中，它是唯一滚动验证（+0.21%）和最终历史测试（+1.20%）都为正的策略；`timing` 滚动验证更高（+21.18%）但最终测试为负（-6.13%）。历史不代表未来，不保证收益。更换策略后应重新运行 `fq research`，让 `comparison.json` 的 `model_hash` 和信号历史与当前代码一致。
-
-## 实际账户与操作资格
-
-以比赛平台为账本。建议不是成交，系统不自动扣现金或写回份额。格式示例只是字段说明：
+- `config/account.example.json`：空仓模板，可提交；
+- `config/account.local.json`：真实账户，已被 Git 忽略；
+- GitHub Secret `ACCOUNT_JSON`：云端使用的完整实际账户。
 
 ```json
 {
@@ -106,36 +141,52 @@ GitHub Actions仍在北京时间 **08:30 / 14:20 / 20:30** 触发，但当前只
 }
 ```
 
-`lots`逐批填 `code`、真实已确认 `units`、`confirmed_on`。`cash`仅是平台可用现金；在途资金已从cash/lots移出，用 `pending` 的 `type: buy/sell`、`amount`、`settle_on`单独记录，避免重复计入。存在在途项目时暂停金额，待平台确认后重新核对。
+`lots` 逐批填写真实确认份额与确认日；`pending` 单独记录在途申购/赎回，避免重复计入现金和持仓。正式决策要求当日 `as_of`、4 小时内带时区的 `reconciled_at`，且没有在途资产。
 
-正式决策要求当日 `as_of`、4小时内的带时区 `reconciled_at`。已发出的可执行计划必须核对；实际成交后更新账户，未执行则在核对后用 `acknowledged_plan_id`明确确认上一份计划，不能只改时间戳来重复生成下单建议。
+## 自动化
 
-```bash
-cp config/account.example.json config/account.local.json   # 首次使用模板
-fq account validate --file config/account.local.json
-fq account import --source ~/account-export.json --file config/account.local.json   # 平台导出文件放在仓库外
-fq report --research --account config/account.local.json
+GitHub Actions 使用北京时间 **08:30 / 14:20 / 20:30** 三个触发点，但只有 14:20 会执行采集与发送。云端先恢复可信分支的持久化发送状态，生成预约，**上传预约 artifact 成功后才调用 Telegram**，最后保存发送结果；超时或崩溃后的预约不会盲目重发。日志和公开 artifact 不包含账户报告、outbox 或凭证。
+
+需要的 Secrets：
+
+- `TELEGRAM_BOT_TOKEN`
+- `TELEGRAM_CHAT_ID`
+- `ACCOUNT_JSON`
+
+Token 只从环境变量读取，不记录带 Token 的请求 URL。手动验证可在 Actions 中运行 `Trading day reports`，将 `send` 设为 true；周末会走测试路径，正常交易日则按 14:20 窗口执行。
+
+## 数据边界
+
+- 当前目录仍有幸存者偏差；没有完整历史退市基金目录。
+- 供应商净值是事后修订版；T-2 只缓解发布延迟，不能证明每个历史时点完全可得。
+- 历史交易日用国内权益参考净值日期代理；当前与未来操作必须通过官方年度日历。2027 年完整安排未发布前，系统保留未知日期拦截。
+- 费用、确认日、到账日和申赎状态在正式模式下必须逐只核验；研究模式的默认值只是假设。
+- 系统不保证收益或比赛排名。任何信号都应由本人核对规则、限购和实际持仓后执行。
+
+## 项目结构
+
+```text
+src/fullgoal_quant/
+  data.py         采集、解析、归档与 SHA256
+  universe.py     富国场外分类、份额组与管理人核验
+  signals.py      因子、策略与组合约束
+  backtest.py     账务、费用、确认与回测
+  research.py     滚动验证与 manifest
+  portfolio.py    实际账户与调仓提案
+  report.py       报告、每日信号与 Telegram 文本
+  calendar.py     官方交易日历与 2027 解析
+  telegram.py     推送与错误脱敏
+tests/            70 项回归测试
+scripts/          云端运行、发送、状态恢复与安全检查
+config/           settings / calendar / account.example
+docs/             方法、部署、迁移与审查记录
+sample_results/   可复现研究证据（历史）
 ```
 
-`config/account.example.json` 只是空仓模板；`config/account.local.json` 已被 Git 忽略，真实账户只放在这里或 GitHub Secret `ACCOUNT_JSON` 中。**不要**把真实账户导入 `config/account.json`（该路径现在也被忽略），更不要提交账户文件或其备份。
+## 文档
 
-## 正式模式不能靠开关放行
+[研究方法](docs/METHODOLOGY.md) · [部署与验收](docs/DEPLOYMENT.md) · [审查报告](docs/REVIEW.md) · [AI 评估](docs/AI_ASSESSMENT.md)
 
-需要准确的比赛 `allowed_codes` 和来源、风险限制、截止口径、逐只实际费率、申购确认、到账天数、最短持有期、申购限额等。`fund_rules`缺少实际交易字段时，不能继承研究默认费率后仅设置 `verified=true`。
+## 免责声明
 
-```bash
-fq validate
-fq collect --competition
-```
-
-这两条通过也不等于可实盘：还须数据时效、持仓同步、持久化状态、模型部署证据和14:20执行窗口全部通过。研究模式和基准模型只显示目标仓位，不提供可直接执行的金额。系统不保证收益或比赛排名。
-
-## AI评估
-
-本次不强制接入LLM。解释报告可以用确定性数据完成，尚无带历史发布时间的新闻/政策样本证明LLM能带来净收益改善。未来若接入，只处理带来源的辅助材料，不参与最终仓位和金额计算，见 [AI评估](docs/AI_ASSESSMENT.md)。
-
-## 项目结构与验收
-
-`src/fullgoal_quant/`保存数据、模型、账务、报告和通知逻辑；`tests/`覆盖时序、费用、缺失数据、重复份额、账户和发送状态；`.github/workflows/`负责回归测试、真实接口抽样和生产报告。`sample_results/`保留原系统历史记录，`sample_results/review/`是本次审查的可复现证据，不能把旧报告当成当前指令。
-
-[完整审查与验收](docs/REVIEW.md) · [研究方法](docs/METHODOLOGY.md) · [部署说明](docs/DEPLOYMENT.md)
+本项目仅用于个人研究与比赛辅助，不构成投资建议。历史回测、供应商净值和现有候选池都存在偏差；系统不保证收益，也不对任何实际交易结果负责。交易由本人在比赛平台完成，执行前请自行核对规则、限购和账户状态。
