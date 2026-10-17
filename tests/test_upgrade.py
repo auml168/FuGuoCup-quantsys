@@ -227,6 +227,19 @@ class DeliveryCalendarTests(unittest.TestCase):
             complete(later['report_id'],path)
             self.assertEqual(state_at(path)['deliveries'][later['report_id']]['status'],'sent')
 
+    def test_complete_remembers_last_sent_signal(self):
+        report={'report_id':'2026-10-19-afternoon','actionable':True,
+                'weights':{'100001':0.5},'assets':200000}
+        account={'cash':200000,'lots':[],'pending':[]}
+        with tempfile.TemporaryDirectory() as d:
+            path=Path(d)/'state.json'
+            self.assertTrue(reserve(report,account,path,owner='1'))
+            complete(report['report_id'],path,report=report)
+            last=state_at(path)['last_signal']
+            self.assertEqual(last['report_id'],report['report_id'])
+            self.assertEqual(last['weights'],{'100001':0.5})
+            self.assertEqual(last['assets'],200000)
+
     def test_unknown_year_never_filled_from_weekdays(self):
         with self.assertRaises(GuardError):parse_official_year('2026年休市安排',2027)
         with tempfile.TemporaryDirectory() as d,patch('fullgoal_quant.data.get_text',return_value='2026年休市安排'):
