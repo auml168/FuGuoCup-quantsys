@@ -232,7 +232,10 @@ def main(argv=None):
             if not slot_guard(slot):
                 raise GuardError("处理期间已超出发送窗口，报告已保存但未推送")
             if reserve(report,account):
-                send_report(report.get("telegram_text") or report["text"])
+                if report.get("telegram_text"):
+                    send_report(report["telegram_text"], parse_mode="HTML")
+                else:
+                    send_report(report["text"])
                 complete(report["report_id"], report=report)
                 print("Telegram 推送完成")
             else:
