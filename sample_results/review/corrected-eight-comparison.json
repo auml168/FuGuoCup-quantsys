@@ -1,0 +1,568 @@
+{
+  "created_at": "2026-10-17T10:55:22.583923+08:00",
+  "config_hash": "cc91d498d53d044e13f4dc4cad3b5c293f9bbaa7a8e6cf720808a8180e1a885c",
+  "selected": "equal_weight",
+  "selection_rule": "验证集最大回撤达标后，按验证集净收益选择；独立测试集不参与选择",
+  "data_end": "2026-10-16",
+  "codes": [
+    "000220",
+    "100022",
+    "100032",
+    "100038",
+    "161017",
+    "161024",
+    "161028",
+    "161029"
+  ],
+  "periods": {
+    "train": [
+      "2021-01-04",
+      "2025-09-24"
+    ],
+    "validation": [
+      "2025-09-25",
+      "2026-04-09"
+    ],
+    "test": [
+      "2026-04-10",
+      "2026-10-16"
+    ]
+  },
+  "historical_status": "assumed_open_not_competition_validated",
+  "limitations": [
+    "历史净值为当前供应商修订版，非逐日发布快照",
+    "分红按红利再投的复权单位模拟，实际账户使用真实份额净值",
+    "当前基金池存在存续偏差，结果不代表比赛全池最优",
+    "费率与申赎时滞需按比赛规则逐基金核验"
+  ],
+  "results": {
+    "cash": {
+      "train": {
+        "total_return": 0.0,
+        "annual_return": 0.0,
+        "max_drawdown": -0.0,
+        "sharpe": 0.0,
+        "final_assets": 200000.0,
+        "sessions": 1148,
+        "fees": 0.0,
+        "trades": 0,
+        "turnover": 0.0,
+        "fee_drag_initial": 0.0,
+        "regimes": {
+          "mixed": {
+            "sessions": 227,
+            "compound_return": 0.0
+          },
+          "risk_off": {
+            "sessions": 497,
+            "compound_return": 0.0
+          },
+          "risk_on": {
+            "sessions": 424,
+            "compound_return": 0.0
+          }
+        }
+      },
+      "validation": {
+        "total_return": 0.0,
+        "annual_return": 0.0,
+        "max_drawdown": -0.0,
+        "sharpe": 0.0,
+        "final_assets": 200000.0,
+        "sessions": 126,
+        "fees": 0.0,
+        "trades": 0,
+        "turnover": 0.0,
+        "fee_drag_initial": 0.0,
+        "regimes": {
+          "mixed": {
+            "sessions": 10,
+            "compound_return": 0.0
+          },
+          "risk_off": {
+            "sessions": 8,
+            "compound_return": 0.0
+          },
+          "risk_on": {
+            "sessions": 106,
+            "compound_return": 0.0
+          },
+          "unknown": {
+            "sessions": 2,
+            "compound_return": 0.0
+          }
+        }
+      },
+      "test": {
+        "total_return": 0.0,
+        "annual_return": 0.0,
+        "max_drawdown": -0.0,
+        "sharpe": 0.0,
+        "final_assets": 200000.0,
+        "sessions": 126,
+        "fees": 0.0,
+        "trades": 0,
+        "turnover": 0.0,
+        "fee_drag_initial": 0.0,
+        "regimes": {
+          "mixed": {
+            "sessions": 77,
+            "compound_return": 0.0
+          },
+          "risk_off": {
+            "sessions": 34,
+            "compound_return": 0.0
+          },
+          "risk_on": {
+            "sessions": 14,
+            "compound_return": 0.0
+          },
+          "unknown": {
+            "sessions": 1,
+            "compound_return": 0.0
+          }
+        }
+      }
+    },
+    "equal_weight": {
+      "train": {
+        "total_return": 0.15308212478664984,
+        "annual_return": 0.031760926957607793,
+        "max_drawdown": 0.34577698418687697,
+        "sharpe": 0.2707053362789571,
+        "final_assets": 230616.42495732996,
+        "sessions": 1148,
+        "fees": 1197.8261885622037,
+        "trades": 1805,
+        "turnover": 4.369032458843806,
+        "fee_drag_initial": 0.005989130942811018,
+        "regimes": {
+          "mixed": {
+            "sessions": 227,
+            "compound_return": 0.06516407222562082
+          },
+          "risk_off": {
+            "sessions": 497,
+            "compound_return": 0.11328520109003004
+          },
+          "risk_on": {
+            "sessions": 424,
+            "compound_return": -0.027617141526801725
+          }
+        }
+      },
+      "validation": {
+        "total_return": 0.024867640098965138,
+        "annual_return": 0.05035367972202187,
+        "max_drawdown": 0.09181364838767425,
+        "sharpe": 0.39622241355836696,
+        "final_assets": 204973.528019793,
+        "sessions": 126,
+        "fees": 566.906313331732,
+        "trades": 178,
+        "turnover": 1.3662453826786747,
+        "fee_drag_initial": 0.00283453156665866,
+        "regimes": {
+          "mixed": {
+            "sessions": 10,
+            "compound_return": 0.032960283619369424
+          },
+          "risk_off": {
+            "sessions": 8,
+            "compound_return": 0.01838656003886463
+          },
+          "risk_on": {
+            "sessions": 106,
+            "compound_return": -0.02574756965653513
+          },
+          "unknown": {
+            "sessions": 2,
+            "compound_return": 0.0
+          }
+        }
+      },
+      "test": {
+        "total_return": -0.09437583332857047,
+        "annual_return": -0.17984486874067884,
+        "max_drawdown": 0.15180413282548133,
+        "sharpe": -1.0121020196561927,
+        "final_assets": 181124.8333342859,
+        "sessions": 126,
+        "fees": 655.4947435780657,
+        "trades": 180,
+        "turnover": 1.5195110476222216,
+        "fee_drag_initial": 0.0032774737178903287,
+        "regimes": {
+          "mixed": {
+            "sessions": 77,
+            "compound_return": -0.09846964673435943
+          },
+          "risk_off": {
+            "sessions": 34,
+            "compound_return": 0.008031225773105
+          },
+          "risk_on": {
+            "sessions": 14,
+            "compound_return": -0.0034624578450885846
+          },
+          "unknown": {
+            "sessions": 1,
+            "compound_return": 0.0
+          }
+        }
+      }
+    },
+    "momentum": {
+      "train": {
+        "total_return": -0.44861619601388636,
+        "annual_return": -0.12250227102851652,
+        "max_drawdown": 0.6033324109098752,
+        "sharpe": -0.6921159508451405,
+        "final_assets": 110276.76079722273,
+        "sessions": 1148,
+        "fees": 26967.459957690593,
+        "trades": 790,
+        "turnover": 65.19283524727015,
+        "fee_drag_initial": 0.13483729978845296,
+        "regimes": {
+          "mixed": {
+            "sessions": 227,
+            "compound_return": -0.014850981710770483
+          },
+          "risk_off": {
+            "sessions": 497,
+            "compound_return": -0.2126083129311508
+          },
+          "risk_on": {
+            "sessions": 424,
+            "compound_return": -0.28917736139319816
+          }
+        }
+      },
+      "validation": {
+        "total_return": -0.032081454176614344,
+        "annual_return": -0.06313368865114244,
+        "max_drawdown": 0.12060106940211945,
+        "sharpe": -0.17208414858339827,
+        "final_assets": 193583.70916467713,
+        "sessions": 126,
+        "fees": 4042.6855445603937,
+        "trades": 97,
+        "turnover": 6.720651958551297,
+        "fee_drag_initial": 0.02021342772280197,
+        "regimes": {
+          "mixed": {
+            "sessions": 10,
+            "compound_return": 0.03497570110092885
+          },
+          "risk_off": {
+            "sessions": 8,
+            "compound_return": 0.0073595130847450285
+          },
+          "risk_on": {
+            "sessions": 106,
+            "compound_return": -0.07162344254156772
+          },
+          "unknown": {
+            "sessions": 2,
+            "compound_return": 0.0
+          }
+        }
+      },
+      "test": {
+        "total_return": -0.12899531379945128,
+        "annual_return": -0.24135083661668366,
+        "max_drawdown": 0.2143747097068993,
+        "sharpe": -1.1492504522449547,
+        "final_assets": 174200.93724010975,
+        "sessions": 126,
+        "fees": 3295.03087481889,
+        "trades": 94,
+        "turnover": 5.681482742870454,
+        "fee_drag_initial": 0.01647515437409445,
+        "regimes": {
+          "mixed": {
+            "sessions": 77,
+            "compound_return": -0.11424646375324043
+          },
+          "risk_off": {
+            "sessions": 34,
+            "compound_return": -0.017545701959720716
+          },
+          "risk_on": {
+            "sessions": 14,
+            "compound_return": 0.0009104875304599691
+          },
+          "unknown": {
+            "sessions": 1,
+            "compound_return": 0.0
+          }
+        }
+      }
+    },
+    "relative_strength": {
+      "train": {
+        "total_return": -0.22410016130273658,
+        "annual_return": -0.05417454308347991,
+        "max_drawdown": 0.4597379898734669,
+        "sharpe": -0.27192914051397477,
+        "final_assets": 155179.9677394527,
+        "sessions": 1148,
+        "fees": 46482.91162569607,
+        "trades": 744,
+        "turnover": 88.76852107047165,
+        "fee_drag_initial": 0.23241455812848036,
+        "regimes": {
+          "mixed": {
+            "sessions": 227,
+            "compound_return": -0.06259555364354741
+          },
+          "risk_off": {
+            "sessions": 497,
+            "compound_return": -0.09824109493718725
+          },
+          "risk_on": {
+            "sessions": 424,
+            "compound_return": -0.08211512692488909
+          }
+        }
+      },
+      "validation": {
+        "total_return": -0.024695462933393975,
+        "annual_return": -0.04878105997729332,
+        "max_drawdown": 0.0969499231231361,
+        "sharpe": -0.20886775604932203,
+        "final_assets": 195060.9074133212,
+        "sessions": 126,
+        "fees": 8102.553541087926,
+        "trades": 86,
+        "turnover": 13.136500030088587,
+        "fee_drag_initial": 0.04051276770543963,
+        "regimes": {
+          "mixed": {
+            "sessions": 10,
+            "compound_return": 0.04119529887640416
+          },
+          "risk_off": {
+            "sessions": 8,
+            "compound_return": 0.00524932409224399
+          },
+          "risk_on": {
+            "sessions": 106,
+            "compound_return": -0.0681752183462101
+          },
+          "unknown": {
+            "sessions": 2,
+            "compound_return": 0.0
+          }
+        }
+      },
+      "test": {
+        "total_return": -0.1717517395291589,
+        "annual_return": -0.3140048190270257,
+        "max_drawdown": 0.22494155476175937,
+        "sharpe": -1.8316911711921415,
+        "final_assets": 165649.6520941682,
+        "sessions": 126,
+        "fees": 6220.776451455064,
+        "trades": 93,
+        "turnover": 10.324791724307618,
+        "fee_drag_initial": 0.03110388225727532,
+        "regimes": {
+          "mixed": {
+            "sessions": 77,
+            "compound_return": -0.11760876626846206
+          },
+          "risk_off": {
+            "sessions": 34,
+            "compound_return": -0.06340287793712651
+          },
+          "risk_on": {
+            "sessions": 14,
+            "compound_return": 0.002181839357618509
+          },
+          "unknown": {
+            "sessions": 1,
+            "compound_return": 0.0
+          }
+        }
+      }
+    },
+    "sector_rotation": {
+      "train": {
+        "total_return": -0.18325436617314506,
+        "annual_return": -0.0434625342008792,
+        "max_drawdown": 0.46467409312291774,
+        "sharpe": -0.26196564107660336,
+        "final_assets": 163349.12676537098,
+        "sessions": 1148,
+        "fees": 40194.5261282848,
+        "trades": 451,
+        "turnover": 72.7239241802397,
+        "fee_drag_initial": 0.200972630641424,
+        "regimes": {
+          "mixed": {
+            "sessions": 227,
+            "compound_return": -0.05251188653072847
+          },
+          "risk_off": {
+            "sessions": 497,
+            "compound_return": -0.16002076214261485
+          },
+          "risk_on": {
+            "sessions": 424,
+            "compound_return": 0.026229511588552468
+          }
+        }
+      },
+      "validation": {
+        "total_return": -0.057156412291899605,
+        "annual_return": -0.11104596911771758,
+        "max_drawdown": 0.12207544274794602,
+        "sharpe": -0.6882872883980863,
+        "final_assets": 188568.71754162008,
+        "sessions": 126,
+        "fees": 6014.3238949485285,
+        "trades": 60,
+        "turnover": 9.712706638029179,
+        "fee_drag_initial": 0.030071619474742642,
+        "regimes": {
+          "mixed": {
+            "sessions": 10,
+            "compound_return": 0.04589376083176844
+          },
+          "risk_off": {
+            "sessions": 8,
+            "compound_return": 0.002205882866188613
+          },
+          "risk_on": {
+            "sessions": 106,
+            "compound_return": -0.10051250124374767
+          },
+          "unknown": {
+            "sessions": 2,
+            "compound_return": 0.0
+          }
+        }
+      },
+      "test": {
+        "total_return": -0.12635291152763095,
+        "annual_return": -0.2367407648037526,
+        "max_drawdown": 0.2061579775836615,
+        "sharpe": -1.330747977380347,
+        "final_assets": 174729.4176944738,
+        "sessions": 126,
+        "fees": 5121.703959965755,
+        "trades": 60,
+        "turnover": 8.29320316462076,
+        "fee_drag_initial": 0.025608519799828772,
+        "regimes": {
+          "mixed": {
+            "sessions": 77,
+            "compound_return": -0.10732922245489351
+          },
+          "risk_off": {
+            "sessions": 34,
+            "compound_return": -0.04193937649203672
+          },
+          "risk_on": {
+            "sessions": 14,
+            "compound_return": 0.021531410436546494
+          },
+          "unknown": {
+            "sessions": 1,
+            "compound_return": 0.0
+          }
+        }
+      }
+    },
+    "timing": {
+      "train": {
+        "total_return": -0.1497704401679235,
+        "annual_return": -0.03498883833960065,
+        "max_drawdown": 0.3436093756940267,
+        "sharpe": -0.21573839820492238,
+        "final_assets": 170045.9119664153,
+        "sessions": 1148,
+        "fees": 28610.76712325866,
+        "trades": 553,
+        "turnover": 50.774773651869985,
+        "fee_drag_initial": 0.1430538356162933,
+        "regimes": {
+          "mixed": {
+            "sessions": 227,
+            "compound_return": 0.009036729530793819
+          },
+          "risk_off": {
+            "sessions": 497,
+            "compound_return": -0.027478106087397425
+          },
+          "risk_on": {
+            "sessions": 424,
+            "compound_return": -0.13357726898253053
+          }
+        }
+      },
+      "validation": {
+        "total_return": -0.05876311275515278,
+        "annual_return": -0.11407312208963072,
+        "max_drawdown": 0.1103412703862916,
+        "sharpe": -0.6048243837925537,
+        "final_assets": 188247.37744896943,
+        "sessions": 126,
+        "fees": 6824.795090298897,
+        "trades": 99,
+        "turnover": 10.777178370897424,
+        "fee_drag_initial": 0.03412397545149448,
+        "regimes": {
+          "mixed": {
+            "sessions": 10,
+            "compound_return": 0.04168313563541459
+          },
+          "risk_off": {
+            "sessions": 8,
+            "compound_return": 0.0007215867845342672
+          },
+          "risk_on": {
+            "sessions": 106,
+            "compound_return": -0.0970784102124792
+          },
+          "unknown": {
+            "sessions": 2,
+            "compound_return": 0.0
+          }
+        }
+      },
+      "test": {
+        "total_return": -0.019757238911626063,
+        "annual_return": -0.03912412933384102,
+        "max_drawdown": 0.09534694514243203,
+        "sharpe": -0.3169608214693207,
+        "final_assets": 196048.5522176748,
+        "sessions": 126,
+        "fees": 3793.263283300992,
+        "trades": 87,
+        "turnover": 5.993789644470324,
+        "fee_drag_initial": 0.01896631641650496,
+        "regimes": {
+          "mixed": {
+            "sessions": 77,
+            "compound_return": -0.04350215855236106
+          },
+          "risk_off": {
+            "sessions": 34,
+            "compound_return": 0.028111957556304024
+          },
+          "risk_on": {
+            "sessions": 14,
+            "compound_return": -0.003197222967386004
+          },
+          "unknown": {
+            "sessions": 1,
+            "compound_return": 0.0
+          }
+        }
+      }
+    }
+  }
+}

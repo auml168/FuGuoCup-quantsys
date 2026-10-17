@@ -1,0 +1,33 @@
+name: Telegram connection test
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, review/quant-research-upgrade]
+    paths: ['.github/workflows/telegram-test.yml']
+permissions:
+  contents: read
+jobs:
+  telegram:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install .
+      - name: Check and send test message
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python - <<'PY'
+          import os
+          names = ('TELEGRAM_BOT_TOKEN', 'TELEGRAM_CHAT_ID')
+          missing = [name for name in names if not os.environ.get(name, '').strip()]
+          if missing:
+              raise SystemExit('Missing GitHub Secrets: ' + ', '.join(missing))
+          print('Required secrets present; values hidden.')
+          PY
+          fq telegram check
+          fq telegram test

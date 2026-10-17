@@ -1,0 +1,232 @@
+{
+  "created_at": "2026-10-17T10:04:00.575526+08:00",
+  "config_hash": "f1d3b79a24d796e7dc163ae9a91060f707424df915247a13b3b95dc1d828ecf0",
+  "selected": "equal_weight",
+  "selection_rule": "验证集最大回撤达标后，按验证集净收益选择；独立测试集不参与选择",
+  "data_end": "2026-10-16",
+  "codes": [
+    "000220",
+    "100022",
+    "100032",
+    "100038",
+    "161017",
+    "161024",
+    "161028",
+    "161029"
+  ],
+  "periods": {
+    "train": [
+      "2021-01-04",
+      "2025-09-24"
+    ],
+    "validation": [
+      "2025-09-25",
+      "2026-04-09"
+    ],
+    "test": [
+      "2026-04-10",
+      "2026-10-16"
+    ]
+  },
+  "historical_status": "assumed_open_not_competition_validated",
+  "limitations": [
+    "历史净值为当前供应商修订版，非逐日发布快照",
+    "分红按红利再投的复权单位模拟，实际账户使用真实份额净值",
+    "当前基金池存在存续偏差，结果不代表比赛全池最优",
+    "费率与申赎时滞需按比赛规则逐基金核验"
+  ],
+  "results": {
+    "cash": {
+      "train": {
+        "total_return": 0.0,
+        "annual_return": 0.0,
+        "max_drawdown": -0.0,
+        "sharpe": 0.0,
+        "final_assets": 200000.0,
+        "sessions": 1151,
+        "fees": 0.0,
+        "trades": 0
+      },
+      "validation": {
+        "total_return": 0.0,
+        "annual_return": 0.0,
+        "max_drawdown": -0.0,
+        "sharpe": 0.0,
+        "final_assets": 200000.0,
+        "sessions": 126,
+        "fees": 0.0,
+        "trades": 0
+      },
+      "test": {
+        "total_return": 0.0,
+        "annual_return": 0.0,
+        "max_drawdown": -0.0,
+        "sharpe": 0.0,
+        "final_assets": 200000.0,
+        "sessions": 126,
+        "fees": 0.0,
+        "trades": 0
+      }
+    },
+    "equal_weight": {
+      "train": {
+        "total_return": 0.14707262712462477,
+        "annual_return": 0.030497252727241575,
+        "max_drawdown": 0.3468638289149705,
+        "sharpe": 0.26349022912726416,
+        "final_assets": 229414.52542492494,
+        "sessions": 1151,
+        "fees": 1196.2535171389304,
+        "trades": 1717
+      },
+      "validation": {
+        "total_return": 0.023926888041508665,
+        "annual_return": 0.048426272054368225,
+        "max_drawdown": 0.09235537399719995,
+        "sharpe": 0.3812813066818551,
+        "final_assets": 204785.37760830173,
+        "sessions": 126,
+        "fees": 577.6616683697274,
+        "trades": 172
+      },
+      "test": {
+        "total_return": -0.09502747699249481,
+        "annual_return": -0.18102473260143048,
+        "max_drawdown": 0.1535111909540534,
+        "sharpe": -1.0193441792827727,
+        "final_assets": 180994.50460150104,
+        "sessions": 126,
+        "fees": 635.176669677114,
+        "trades": 173
+      }
+    },
+    "momentum": {
+      "train": {
+        "total_return": -0.431692709026367,
+        "annual_return": -0.11637409576369007,
+        "max_drawdown": 0.5880143423226967,
+        "sharpe": -0.6511876198458231,
+        "final_assets": 113661.4581947266,
+        "sessions": 1151,
+        "fees": 26478.111186636117,
+        "trades": 758
+      },
+      "validation": {
+        "total_return": 0.016548499876997136,
+        "annual_return": 0.03337085260217321,
+        "max_drawdown": 0.12362380349672242,
+        "sharpe": 0.25910815411096483,
+        "final_assets": 203309.69997539945,
+        "sessions": 126,
+        "fees": 3245.995419093231,
+        "trades": 105
+      },
+      "test": {
+        "total_return": -0.1353429732463005,
+        "annual_return": -0.2523682260854522,
+        "max_drawdown": 0.18867402083803309,
+        "sharpe": -1.2671875724938502,
+        "final_assets": 172931.4053507399,
+        "sessions": 126,
+        "fees": 3796.153128859566,
+        "trades": 82
+      }
+    },
+    "relative_strength": {
+      "train": {
+        "total_return": -0.3233800613537009,
+        "annual_return": -0.08197252351445317,
+        "max_drawdown": 0.5319434589487374,
+        "sharpe": -0.4622588666302317,
+        "final_assets": 135323.98772925982,
+        "sessions": 1151,
+        "fees": 43680.905981256,
+        "trades": 734
+      },
+      "validation": {
+        "total_return": -0.080887526909876,
+        "annual_return": -0.15523226181015604,
+        "max_drawdown": 0.13405215129375903,
+        "sharpe": -0.8462839710429271,
+        "final_assets": 183822.4946180248,
+        "sessions": 126,
+        "fees": 7995.596996853935,
+        "trades": 97
+      },
+      "test": {
+        "total_return": -0.17109142887791895,
+        "annual_return": -0.31291058072034994,
+        "max_drawdown": 0.22386127471223394,
+        "sharpe": -2.1013906728067613,
+        "final_assets": 165781.7142244162,
+        "sessions": 126,
+        "fees": 5970.44931616366,
+        "trades": 88
+      }
+    },
+    "sector_rotation": {
+      "train": {
+        "total_return": -0.23785809283635506,
+        "annual_return": -0.05773530062546672,
+        "max_drawdown": 0.4002036222480174,
+        "sharpe": -0.3794645593599371,
+        "final_assets": 152428.381432729,
+        "sessions": 1151,
+        "fees": 38729.99574010973,
+        "trades": 426
+      },
+      "validation": {
+        "total_return": -0.028159213924524917,
+        "annual_return": -0.05552548652020273,
+        "max_drawdown": 0.10472752912071392,
+        "sharpe": -0.27452917065945953,
+        "final_assets": 194368.157215095,
+        "sessions": 126,
+        "fees": 6570.202815070491,
+        "trades": 64
+      },
+      "test": {
+        "total_return": -0.19440155257054237,
+        "annual_return": -0.3510111414992474,
+        "max_drawdown": 0.2464857948798599,
+        "sharpe": -2.59575224291971,
+        "final_assets": 161119.68948589152,
+        "sessions": 126,
+        "fees": 5052.465096855401,
+        "trades": 60
+      }
+    },
+    "timing": {
+      "train": {
+        "total_return": -0.1947300891695387,
+        "annual_return": -0.046310895692213916,
+        "max_drawdown": 0.35024647799185427,
+        "sharpe": -0.325628421286318,
+        "final_assets": 161053.98216609226,
+        "sessions": 1151,
+        "fees": 26229.118105833106,
+        "trades": 524
+      },
+      "validation": {
+        "total_return": -0.057481585953468306,
+        "annual_return": -0.11165903918321063,
+        "max_drawdown": 0.10662330573017653,
+        "sharpe": -0.5711506979823305,
+        "final_assets": 188503.68280930634,
+        "sessions": 126,
+        "fees": 6729.90848853385,
+        "trades": 101
+      },
+      "test": {
+        "total_return": -0.03908707045869797,
+        "annual_return": -0.07664634184035268,
+        "max_drawdown": 0.09425934297939342,
+        "sharpe": -0.7412576791368504,
+        "final_assets": 192182.5859082604,
+        "sessions": 126,
+        "fees": 3197.576637538491,
+        "trades": 58
+      }
+    }
+  }
+}
