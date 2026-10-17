@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fullgoal-quant"
+version = "0.1.0"
+description = "富国杯场外基金研究、回测和 Telegram 决策报告"
+requires-python = ">=3.11"
+dependencies = ["numpy==2.3.5", "pandas==2.2.3"]
+
+[project.scripts]
+fq = "fullgoal_quant.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

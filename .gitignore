@@ -1,0 +1,15 @@
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+data/
+reports/
+config/account.local.json
+config/account.json.backup
+*.zip
+.DS_Store
+
+runtime/

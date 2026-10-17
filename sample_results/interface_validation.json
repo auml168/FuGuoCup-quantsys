@@ -1,0 +1,168 @@
+{
+  "verified_at": "2026-10-17T09:37:37.470681+08:00",
+  "provider": "Eastmoney/Tiantian Fund",
+  "company": "富国基金管理有限公司",
+  "warning": "研究池，不是已核验比赛白名单；未测试真实Telegram密钥",
+  "funds": [
+    {
+      "code": "100032",
+      "name": "富国中证红利指数增强A",
+      "latest_nav_date": "2026-10-16",
+      "status_text": "开放申购  开放赎回",
+      "sources": [
+        {
+          "url": "https://fund.eastmoney.com/pingzhongdata/100032.js?v=1792201052",
+          "sha256": "c944d8c4a7144060df277a5dc8727a79624337c98570ac908a22e3ca92e4061b",
+          "bytes": 609437,
+          "fetched_at": "2026-10-17T01:37:32.779524+00:00"
+        },
+        {
+          "url": "https://fund.eastmoney.com/100032.html",
+          "sha256": "b2062928bf931dabd318cf71f7c3092837ad592f77c23ab9a68c9371a681cc21",
+          "bytes": 125874,
+          "fetched_at": "2026-10-17T01:37:32.780075+00:00"
+        }
+      ]
+    },
+    {
+      "code": "161017",
+      "name": "富国中证500指数增强(LOF)A",
+      "latest_nav_date": "2026-10-16",
+      "status_text": "开放申购  开放赎回",
+      "sources": [
+        {
+          "url": "https://fund.eastmoney.com/pingzhongdata/161017.js?v=1792201052",
+          "sha256": "bb0cc9c538844f92d7c86f84b9ed2ec05a84abeaa7dfe97cfacc16d85c1b9fc1",
+          "bytes": 551333,
+          "fetched_at": "2026-10-17T01:37:33.374195+00:00"
+        },
+        {
+          "url": "https://fund.eastmoney.com/161017.html",
+          "sha256": "454054e6556945d3efa1429800c0796217bc4d2d23918e74a2c20ea150768ebd",
+          "bytes": 126402,
+          "fetched_at": "2026-10-17T01:37:33.375148+00:00"
+        }
+      ]
+    },
+    {
+      "code": "161024",
+      "name": "富国中证军工指数(LOF)A",
+      "latest_nav_date": "2026-10-16",
+      "status_text": "开放申购  开放赎回",
+      "sources": [
+        {
+          "url": "https://fund.eastmoney.com/pingzhongdata/161024.js?v=1792201053",
+          "sha256": "21abcbc9dc5e34cf16db4241a2cafca68d29a531fdd16a8bb73ec59207c8b5b4",
+          "bytes": 473118,
+          "fetched_at": "2026-10-17T01:37:34.040141+00:00"
+        },
+        {
+          "url": "https://fund.eastmoney.com/161024.html",
+          "sha256": "16c523b6f78c46d2cefbc7d3b9f5e38ceaf01dcde1ff0d5b0a497d5bffd7c2d3",
+          "bytes": 127102,
+          "fetched_at": "2026-10-17T01:37:34.041413+00:00"
+        }
+      ]
+    },
+    {
+      "code": "161028",
+      "name": "富国中证新能源汽车指数(LOF)A",
+      "latest_nav_date": "2026-10-16",
+      "status_text": "开放申购  开放赎回",
+      "sources": [
+        {
+          "url": "https://fund.eastmoney.com/pingzhongdata/161028.js?v=1792201054",
+          "sha256": "e710c10c17f4da93009018c80973e187650dadff81b807e1b0b4ca8674679398",
+          "bytes": 437094,
+          "fetched_at": "2026-10-17T01:37:34.692753+00:00"
+        },
+        {
+          "url": "https://fund.eastmoney.com/161028.html",
+          "sha256": "ada2a65da435a89b1b5e7723ce5edad906f87444d2555bb9406a2388ed08b2e8",
+          "bytes": 125480,
+          "fetched_at": "2026-10-17T01:37:34.693754+00:00"
+        }
+      ]
+    },
+    {
+      "code": "161029",
+      "name": "富国中证银行指数(LOF)A",
+      "latest_nav_date": "2026-10-16",
+      "status_text": "开放申购  开放赎回",
+      "sources": [
+        {
+          "url": "https://fund.eastmoney.com/pingzhongdata/161029.js?v=1792201054",
+          "sha256": "48a20ea3c11c25b3bdde71e4a310f6c01257617a4e4d2b2479e104e50cd9641a",
+          "bytes": 432788,
+          "fetched_at": "2026-10-17T01:37:35.375127+00:00"
+        },
+        {
+          "url": "https://fund.eastmoney.com/161029.html",
+          "sha256": "d369c219290c477621a803eaadc142a397393f472af3ee67facc2ed85f3e3197",
+          "bytes": 124532,
+          "fetched_at": "2026-10-17T01:37:35.375762+00:00"
+        }
+      ]
+    },
+    {
+      "code": "000220",
+      "name": "富国医疗保健行业混合A",
+      "latest_nav_date": "2026-10-16",
+      "status_text": "开放申购  开放赎回",
+      "sources": [
+        {
+          "url": "https://fund.eastmoney.com/pingzhongdata/000220.js?v=1792201055",
+          "sha256": "2b6fdb54d526c5ef9834dc54613d06f8daa4dfd4c19230e6e817785eccd7a102",
+          "bytes": 492499,
+          "fetched_at": "2026-10-17T01:37:36.013776+00:00"
+        },
+        {
+          "url": "https://fund.eastmoney.com/000220.html",
+          "sha256": "9c429163b40503d61e44d362cf2e1cc70d2eae11c728eb44ecf5d5d08929f802",
+          "bytes": 122035,
+          "fetched_at": "2026-10-17T01:37:36.014443+00:00"
+        }
+      ]
+    },
+    {
+      "code": "100022",
+      "name": "富国天瑞强势混合A",
+      "latest_nav_date": "2026-10-16",
+      "status_text": "开放申购  开放赎回",
+      "sources": [
+        {
+          "url": "https://fund.eastmoney.com/pingzhongdata/100022.js?v=1792201056",
+          "sha256": "b2b918fe4ffdb9edc909cc8371589a5656de4e3747c2592719231e4f21ed8604",
+          "bytes": 703171,
+          "fetched_at": "2026-10-17T01:37:36.597955+00:00"
+        },
+        {
+          "url": "https://fund.eastmoney.com/100022.html",
+          "sha256": "68f043c3047a87e3ea7b1f39f04b09d67f6c13f84019fa1bf3b5807245a185f8",
+          "bytes": 124026,
+          "fetched_at": "2026-10-17T01:37:36.598535+00:00"
+        }
+      ]
+    },
+    {
+      "code": "100038",
+      "name": "富国沪深300指数增强A",
+      "latest_nav_date": "2026-10-16",
+      "status_text": "开放申购  开放赎回",
+      "sources": [
+        {
+          "url": "https://fund.eastmoney.com/pingzhongdata/100038.js?v=1792201056",
+          "sha256": "8e87927d1990a9c0e37549b3e74f53bdcb84c8616b43517ff165a8af3bd3f2fb",
+          "bytes": 586519,
+          "fetched_at": "2026-10-17T01:37:37.257437+00:00"
+        },
+        {
+          "url": "https://fund.eastmoney.com/100038.html",
+          "sha256": "c4375375b3490c8a53f3c42dc46ff614cd405a8847d53a6f42bc63de3919b610",
+          "bytes": 125122,
+          "fetched_at": "2026-10-17T01:37:37.257996+00:00"
+        }
+      ]
+    }
+  ]
+}

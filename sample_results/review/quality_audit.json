@@ -1,0 +1,4022 @@
+{
+  "policy": "causal_break_quarantine_v2",
+  "funds": {
+    "000139": {
+      "name": "富国国有企业债债券A/B",
+      "quality_break_dates": [
+        "2015-11-16"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/000139.js?v=1792203999",
+        "sha256": "fc12d34ea3f52208072c242c76558bfb69b8065751f01d81765fabd758b8ec4f",
+        "raw": "data/expanded/raw/000139-fc12d34ea3f52208.txt",
+        "bytes": 491317,
+        "fetched_at": "2026-10-17T02:26:39.596089+00:00"
+      },
+      "history_rows": 3143
+    },
+    "000197": {
+      "name": "富国目标收益一年期纯债债券",
+      "quality_break_dates": [
+        "2013-10-18",
+        "2014-01-14",
+        "2014-01-17",
+        "2014-04-15",
+        "2014-04-18",
+        "2014-06-25"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/000197.js?v=1792203999",
+        "sha256": "68b2e91dec99f5119e82a309f80ad2346b61762edc87ef4f65cf3bb5af721f33",
+        "raw": "data/expanded/raw/000197-68b2e91dec99f511.txt",
+        "bytes": 468407,
+        "fetched_at": "2026-10-17T02:26:40.148326+00:00"
+      },
+      "history_rows": 3094
+    },
+    "000220": {
+      "name": "富国医疗保健行业混合A",
+      "quality_break_dates": [
+        "2013-11-07"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/000220.js?v=1792204000",
+        "sha256": "2bbb833d810bba25360f7a98f301061ad95d1261630b3aae7aab667a5a1182e3",
+        "raw": "data/expanded/raw/000220-2bbb833d810bba25.txt",
+        "bytes": 492499,
+        "fetched_at": "2026-10-17T02:26:40.226708+00:00"
+      },
+      "history_rows": 3168
+    },
+    "000469": {
+      "name": "富国目标齐利一年期纯债债券",
+      "quality_break_dates": [
+        "2018-04-20",
+        "2018-08-03"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/000469.js?v=1792204000",
+        "sha256": "78e28f35e35340c1e31f1b88f5a161540947ac9f668db1e0b82f85e3567651fc",
+        "raw": "data/expanded/raw/000469-78e28f35e35340c1.txt",
+        "bytes": 426896,
+        "fetched_at": "2026-10-17T02:26:40.346352+00:00"
+      },
+      "history_rows": 2808
+    },
+    "000471": {
+      "name": "富国城镇发展股票",
+      "quality_break_dates": [
+        "2014-03-07",
+        "2014-04-25"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/000471.js?v=1792204000",
+        "sha256": "6f8854b6a53f8126526b153ac2e9e0f60af5f421d8a3c21a10c087b181784101",
+        "raw": "data/expanded/raw/000471-6f8854b6a53f8126.txt",
+        "bytes": 473150,
+        "fetched_at": "2026-10-17T02:26:40.351241+00:00"
+      },
+      "history_rows": 3053
+    },
+    "000513": {
+      "name": "富国高端制造行业股票A",
+      "quality_break_dates": [
+        "2014-07-11",
+        "2014-07-18",
+        "2014-07-25",
+        "2014-07-31"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/000513.js?v=1792204000",
+        "sha256": "43550951ca0a2f31054dc371f006adcf89ea07db35004b4cdd3a53f03e4e8687",
+        "raw": "data/expanded/raw/000513-43550951ca0a2f31.txt",
+        "bytes": 460100,
+        "fetched_at": "2026-10-17T02:26:40.846884+00:00"
+      },
+      "history_rows": 2981
+    },
+    "000810": {
+      "name": "富国收益增强债券A",
+      "quality_break_dates": [
+        "2014-11-28",
+        "2014-12-05",
+        "2014-12-12"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/000810.js?v=1792204000",
+        "sha256": "4776ca14a7a459efdc821a058bfc687fe6eed863a39b86e8e48d371c2b0a5905",
+        "raw": "data/expanded/raw/000810-4776ca14a7a459ef.txt",
+        "bytes": 445531,
+        "fetched_at": "2026-10-17T02:26:41.054485+00:00"
+      },
+      "history_rows": 2880
+    },
+    "000812": {
+      "name": "富国收益增强债券C",
+      "quality_break_dates": [
+        "2014-11-28",
+        "2014-12-05",
+        "2014-12-12"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/000812.js?v=1792204000",
+        "sha256": "abbe51244c87e00b04167f79cafde5fc3f485ed3dd053e807c99811c9ea6b03f",
+        "raw": "data/expanded/raw/000812-abbe51244c87e00b.txt",
+        "bytes": 445631,
+        "fetched_at": "2026-10-17T02:26:41.059404+00:00"
+      },
+      "history_rows": 2880
+    },
+    "000841": {
+      "name": "富国新回报灵活配置混合A/B",
+      "quality_break_dates": [
+        "2014-12-26",
+        "2015-01-09"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/000841.js?v=1792204001",
+        "sha256": "849ad96b247c6c159dcf0d6bea396bccb29a3db31dbf9765672a58cfa642055b",
+        "raw": "data/expanded/raw/000841-849ad96b247c6c15.txt",
+        "bytes": 446726,
+        "fetched_at": "2026-10-17T02:26:41.441324+00:00"
+      },
+      "history_rows": 2871
+    },
+    "000843": {
+      "name": "富国新回报灵活配置混合C",
+      "quality_break_dates": [
+        "2014-12-26",
+        "2015-01-09"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/000843.js?v=1792204001",
+        "sha256": "18fbae12bee4273440537d870faa57f656cfa564954c0b12e17824b247b1d6d1",
+        "raw": "data/expanded/raw/000843-18fbae12bee42734.txt",
+        "bytes": 446597,
+        "fetched_at": "2026-10-17T02:26:41.567086+00:00"
+      },
+      "history_rows": 2871
+    },
+    "000880": {
+      "name": "富国研究精选灵活配置混合A",
+      "quality_break_dates": [
+        "2014-12-19",
+        "2015-01-09",
+        "2015-01-16",
+        "2015-01-23"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/000880.js?v=1792204001",
+        "sha256": "4a6ce4feff44efbc83fe2976f12b162fefe362d8b9ac88415fc9d9b101fd9c53",
+        "raw": "data/expanded/raw/000880-4a6ce4feff44efbc.txt",
+        "bytes": 446461,
+        "fetched_at": "2026-10-17T02:26:41.687302+00:00"
+      },
+      "history_rows": 2859
+    },
+    "000940": {
+      "name": "富国中小盘精选混合A",
+      "quality_break_dates": [
+        "2015-01-30",
+        "2015-02-13",
+        "2015-02-17",
+        "2015-03-06",
+        "2015-03-13",
+        "2015-03-19"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/000940.js?v=1792204001",
+        "sha256": "8da6bf484f347bc13a68e03d0c8683b7429f7eaa45e9dc142f2419a1f597d1e9",
+        "raw": "data/expanded/raw/000940-8da6bf484f347bc1.txt",
+        "bytes": 440422,
+        "fetched_at": "2026-10-17T02:26:41.939222+00:00"
+      },
+      "history_rows": 2830
+    },
+    "001048": {
+      "name": "富国新兴产业股票A",
+      "quality_break_dates": [
+        "2015-03-20",
+        "2015-03-27",
+        "2015-04-03",
+        "2015-04-10",
+        "2015-04-17",
+        "2015-04-24",
+        "2015-04-30",
+        "2015-05-08",
+        "2015-05-14"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/001048.js?v=1792204001",
+        "sha256": "0c57fc06a0be985085aae708bd55d769cafd042e3b76b41d9ea85aa39b765ac3",
+        "raw": "data/expanded/raw/001048-0c57fc06a0be9850.txt",
+        "bytes": 432470,
+        "fetched_at": "2026-10-17T02:26:42.153081+00:00"
+      },
+      "history_rows": 2794
+    },
+    "001186": {
+      "name": "富国文体健康股票A",
+      "quality_break_dates": [
+        "2015-05-15",
+        "2015-05-22",
+        "2015-05-29",
+        "2015-06-05",
+        "2015-06-11"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/001186.js?v=1792204002",
+        "sha256": "a180f15685b45f91b2f99c7441e3ba3558aa08635ac44f4fdb2b7b832f9998b5",
+        "raw": "data/expanded/raw/001186-a180f15685b45f91.txt",
+        "bytes": 428210,
+        "fetched_at": "2026-10-17T02:26:42.349648+00:00"
+      },
+      "history_rows": 2770
+    },
+    "001268": {
+      "name": "富国国家安全主题混合A",
+      "quality_break_dates": [
+        "2015-05-22",
+        "2015-05-29",
+        "2015-06-05",
+        "2015-06-19",
+        "2015-06-26",
+        "2015-07-03",
+        "2015-07-09"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/001268.js?v=1792204002",
+        "sha256": "406a89a12ba68c113449814ab85232f68d454a57441038039c5c143f8318eff0",
+        "raw": "data/expanded/raw/001268-406a89a12ba68c11.txt",
+        "bytes": 429151,
+        "fetched_at": "2026-10-17T02:26:42.451867+00:00"
+      },
+      "history_rows": 2755
+    },
+    "001349": {
+      "name": "富国改革动力混合",
+      "quality_break_dates": [
+        "2015-05-29",
+        "2015-06-05",
+        "2015-06-12",
+        "2015-06-19",
+        "2015-06-26",
+        "2015-07-03",
+        "2015-07-10"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/001349.js?v=1792204002",
+        "sha256": "c94b9f540a46f0b3a57b8926513fad4dc7c57d798b1822d8d2f6e6ee159f9bbb",
+        "raw": "data/expanded/raw/001349-c94b9f540a46f0b3.txt",
+        "bytes": 428816,
+        "fetched_at": "2026-10-17T02:26:42.919474+00:00"
+      },
+      "history_rows": 2753
+    },
+    "001371": {
+      "name": "富国沪港深价值混合A",
+      "quality_break_dates": [
+        "2015-07-03",
+        "2015-07-31",
+        "2015-08-19",
+        "2018-12-31",
+        "2019-01-02"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/001371.js?v=1792204002",
+        "sha256": "2be50c98adea54764d0a2b41de19ad70db95356d2b30f725ca9481a8f108e6bb",
+        "raw": "data/expanded/raw/001371-2be50c98adea5476.txt",
+        "bytes": 427177,
+        "fetched_at": "2026-10-17T02:26:43.186867+00:00"
+      },
+      "history_rows": 2726
+    },
+    "001641": {
+      "name": "富国绝对收益多策略混合A",
+      "quality_break_dates": [
+        "2016-01-15",
+        "2018-02-23",
+        "2018-07-06",
+        "2018-07-10",
+        "2018-08-17"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/001641.js?v=1792204003",
+        "sha256": "8d05cec9ef8f04305b1fdaf576c1f60b1bd131c4a2654effcf4a811ceb687d24",
+        "raw": "data/expanded/raw/001641-8d05cec9ef8f0430.txt",
+        "bytes": 398474,
+        "fetched_at": "2026-10-17T02:26:43.599046+00:00"
+      },
+      "history_rows": 2616
+    },
+    "001827": {
+      "name": "富国研究优选沪港深灵活配置混合A",
+      "quality_break_dates": [
+        "2016-04-01"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/001827.js?v=1792204003",
+        "sha256": "33d1438a6d9ef5b0ddd133f46ff5e23205967a80d1c209d5cf397efe92d331de",
+        "raw": "data/expanded/raw/001827-33d1438a6d9ef5b0.txt",
+        "bytes": 402112,
+        "fetched_at": "2026-10-17T02:26:43.817339+00:00"
+      },
+      "history_rows": 2577
+    },
+    "001985": {
+      "name": "富国低碳新经济混合A",
+      "quality_break_dates": [
+        "2016-01-08",
+        "2016-01-15",
+        "2016-01-22",
+        "2016-01-29",
+        "2016-02-04"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/001985.js?v=1792204003",
+        "sha256": "4aced9f1c9cdeb9191116830b21c9c86286e103376e6187d52ac34490213bf8e",
+        "raw": "data/expanded/raw/001985-4aced9f1c9cdeb91.txt",
+        "bytes": 407304,
+        "fetched_at": "2026-10-17T02:26:43.881508+00:00"
+      },
+      "history_rows": 2610
+    },
+    "002898": {
+      "name": "富国两年期理财债券A",
+      "quality_break_dates": [
+        "2017-12-15",
+        "2018-11-30"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/002898.js?v=1792204004",
+        "sha256": "2cf21750fe0c9332777598c2a6a45fef40ebfe7bec587a5ec2648f658f2bd39c",
+        "raw": "data/expanded/raw/002898-2cf21750fe0c9332.txt",
+        "bytes": 329420,
+        "fetched_at": "2026-10-17T02:26:44.552889+00:00"
+      },
+      "history_rows": 2126
+    },
+    "002899": {
+      "name": "富国两年期理财债券C",
+      "quality_break_dates": [
+        "2017-12-15",
+        "2018-11-30"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/002899.js?v=1792204004",
+        "sha256": "3704221e5d6a90607f2f77702288a5f670cd9b3650494aec9a8476a5c620d3d6",
+        "raw": "data/expanded/raw/002899-3704221e5d6a9060.txt",
+        "bytes": 329190,
+        "fetched_at": "2026-10-17T02:26:44.666455+00:00"
+      },
+      "history_rows": 2126
+    },
+    "004604": {
+      "name": "富国新活力灵活配置混合A",
+      "quality_break_dates": [
+        "2017-07-21",
+        "2017-08-11",
+        "2017-08-18",
+        "2017-08-25",
+        "2017-08-30"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/004604.js?v=1792204005",
+        "sha256": "d1447e4fd43d6b0bfd84bd1f76fe0c15a13dc550568b4323fc36971753a48770",
+        "raw": "data/expanded/raw/004604-d1447e4fd43d6b0b.txt",
+        "bytes": 358807,
+        "fetched_at": "2026-10-17T02:26:45.438843+00:00"
+      },
+      "history_rows": 2258
+    },
+    "004605": {
+      "name": "富国新活力灵活配置混合C",
+      "quality_break_dates": [
+        "2017-07-21",
+        "2017-08-11",
+        "2017-08-18",
+        "2017-08-25",
+        "2017-08-30"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/004605.js?v=1792204005",
+        "sha256": "3808c1fd3a5562bd4268795ea27f27fffe48a0e4f0473d4f0cbccae1a481f323",
+        "raw": "data/expanded/raw/004605-3808c1fd3a5562bd.txt",
+        "bytes": 358778,
+        "fetched_at": "2026-10-17T02:26:45.457561+00:00"
+      },
+      "history_rows": 2258
+    },
+    "004674": {
+      "name": "富国新机遇灵活配置混合A",
+      "quality_break_dates": [
+        "2018-02-09"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/004674.js?v=1792204005",
+        "sha256": "016cc8f8359f664e8d718fca325f1678fc39ecc8969512ee2949cd27ed66d37f",
+        "raw": "data/expanded/raw/004674-016cc8f8359f664e.txt",
+        "bytes": 339444,
+        "fetched_at": "2026-10-17T02:26:45.837220+00:00"
+      },
+      "history_rows": 2122
+    },
+    "004675": {
+      "name": "富国新机遇灵活配置混合C",
+      "quality_break_dates": [
+        "2018-02-09",
+        "2019-03-22"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/004675.js?v=1792204005",
+        "sha256": "dbe76583292f66c3d9fcab2989dcf5ed69aeba6f9221452b39c676984819ee30",
+        "raw": "data/expanded/raw/004675-dbe76583292f66c3.txt",
+        "bytes": 298281,
+        "fetched_at": "2026-10-17T02:26:45.854755+00:00"
+      },
+      "history_rows": 1856
+    },
+    "005075": {
+      "name": "富国研究量化精选混合A",
+      "quality_break_dates": [
+        "2017-12-08",
+        "2017-12-15",
+        "2017-12-22",
+        "2018-01-05",
+        "2018-01-12",
+        "2018-01-18"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/005075.js?v=1792204006",
+        "sha256": "cd09add71b75b2b4ddff1c272945bcd5a0c9a44e92eea20d2f503971929cfcbe",
+        "raw": "data/expanded/raw/005075-cd09add71b75b2b4.txt",
+        "bytes": 339830,
+        "fetched_at": "2026-10-17T02:26:46.678571+00:00"
+      },
+      "history_rows": 2133
+    },
+    "005176": {
+      "name": "富国精准医疗混合A",
+      "quality_break_dates": [
+        "2017-11-24",
+        "2017-12-01",
+        "2017-12-08",
+        "2017-12-15",
+        "2017-12-22"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/005176.js?v=1792204007",
+        "sha256": "5770daaa83ac0b6da9add679d6c9986fee4018c9b4834220771f873f3da154ed",
+        "raw": "data/expanded/raw/005176-5770daaa83ac0b6d.txt",
+        "bytes": 340513,
+        "fetched_at": "2026-10-17T02:26:47.185402+00:00"
+      },
+      "history_rows": 2145
+    },
+    "005354": {
+      "name": "富国沪港深行业精选混合A",
+      "quality_break_dates": [
+        "2017-12-19"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/005354.js?v=1792204007",
+        "sha256": "81f2dd613554b38fd4d5fac0618202eee0fdd2581386ad4926e3fb1c1232adce",
+        "raw": "data/expanded/raw/005354-81f2dd613554b38f.txt",
+        "bytes": 341063,
+        "fetched_at": "2026-10-17T02:26:47.407366+00:00"
+      },
+      "history_rows": 2148
+    },
+    "005357": {
+      "name": "富国国企改革灵活配置混合",
+      "quality_break_dates": [
+        "2018-02-09",
+        "2018-02-14",
+        "2018-02-23",
+        "2018-03-09",
+        "2018-03-16",
+        "2018-03-22"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/005357.js?v=1792204007",
+        "sha256": "0d44965cce7a2e6e4bcc6845b343b4927cb23063ee40dfbb4a2aa41f0ba1c2a7",
+        "raw": "data/expanded/raw/005357-0d44965cce7a2e6e.txt",
+        "bytes": 333856,
+        "fetched_at": "2026-10-17T02:26:47.802878+00:00"
+      },
+      "history_rows": 2092
+    },
+    "005368": {
+      "name": "富国清洁能源产业混合A",
+      "quality_break_dates": [
+        "2020-03-13",
+        "2020-03-20",
+        "2020-03-27",
+        "2020-04-03",
+        "2020-04-17",
+        "2020-04-30",
+        "2020-05-08"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/005368.js?v=1792204007",
+        "sha256": "added07f31386c2cee55e9e3545142baec7e4a28a38e7377e20a7e06f4b2c2a0",
+        "raw": "data/expanded/raw/005368-added07f31386c2c.txt",
+        "bytes": 253501,
+        "fetched_at": "2026-10-17T02:26:47.706624+00:00"
+      },
+      "history_rows": 1574
+    },
+    "005472": {
+      "name": "富国价值驱动灵活配置混合A",
+      "quality_break_dates": [
+        "2018-03-30",
+        "2018-04-26"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/005472.js?v=1792204007",
+        "sha256": "10faa1fe1d6e20411fd6071e375a4464c9be1bc1c8e97b09d7738ce3d776b9b7",
+        "raw": "data/expanded/raw/005472-10faa1fe1d6e2041.txt",
+        "bytes": 328622,
+        "fetched_at": "2026-10-17T02:26:47.836530+00:00"
+      },
+      "history_rows": 2066
+    },
+    "005473": {
+      "name": "富国价值驱动灵活配置混合C",
+      "quality_break_dates": [
+        "2018-03-30",
+        "2018-04-26"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/005473.js?v=1792204007",
+        "sha256": "67c4e183589a47685c7332d725ca41398a2635a46f905f992b67bf8b5c032da0",
+        "raw": "data/expanded/raw/005473-67c4e183589a4768.txt",
+        "bytes": 328648,
+        "fetched_at": "2026-10-17T02:26:48.190770+00:00"
+      },
+      "history_rows": 2066
+    },
+    "005609": {
+      "name": "富国军工主题混合A",
+      "quality_break_dates": [
+        "2018-04-04",
+        "2018-04-13",
+        "2018-04-20",
+        "2018-04-26"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/005609.js?v=1792204008",
+        "sha256": "5997db0f881969133fd7bc0dbd4b61e2b28375a24555e617c7b99d468dc82fa9",
+        "raw": "data/expanded/raw/005609-5997db0f88196913.txt",
+        "bytes": 328031,
+        "fetched_at": "2026-10-17T02:26:48.514950+00:00"
+      },
+      "history_rows": 2066
+    },
+    "005627": {
+      "name": "富国中证高端制造指数增强型(LOF)C",
+      "quality_break_dates": [
+        "2024-09-28",
+        "2024-09-30"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/005627.js?v=1792204008",
+        "sha256": "25c8d582d996b6047698cc8e0a5d2df9679830d70fba7d306978b56c191b04f0",
+        "raw": "data/expanded/raw/005627-25c8d582d996b604.txt",
+        "bytes": 186123,
+        "fetched_at": "2026-10-17T02:26:48.851921+00:00"
+      },
+      "history_rows": 1146
+    },
+    "005707": {
+      "name": "富国港股通量化精选股票A",
+      "quality_break_dates": [
+        "2018-12-31",
+        "2019-01-02"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/005707.js?v=1792204008",
+        "sha256": "b2f581d075eb4ea040cda0bd0135671d190a46b5cbd49f84a704d3785fb156a0",
+        "raw": "data/expanded/raw/005707-b2f581d075eb4ea0.txt",
+        "bytes": 319898,
+        "fetched_at": "2026-10-17T02:26:49.041425+00:00"
+      },
+      "history_rows": 2031
+    },
+    "005739": {
+      "name": "富国转型机遇混合",
+      "quality_break_dates": [
+        "2018-05-18",
+        "2018-05-25"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/005739.js?v=1792204009",
+        "sha256": "189c0bb1984fe6e5e971c211058000584e46d38dede141850b8efd2e588e117b",
+        "raw": "data/expanded/raw/005739-189c0bb1984fe6e5.txt",
+        "bytes": 325394,
+        "fetched_at": "2026-10-17T02:26:49.422566+00:00"
+      },
+      "history_rows": 2047
+    },
+    "005847": {
+      "name": "富国沪港深业绩驱动混合型A",
+      "quality_break_dates": [
+        "2018-12-31",
+        "2019-01-02"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/005847.js?v=1792204009",
+        "sha256": "f83d64801607a974692da7a2f55749aeb9013a1273c974320d3ef1e1fde1860d",
+        "raw": "data/expanded/raw/005847-f83d64801607a974.txt",
+        "bytes": 316335,
+        "fetched_at": "2026-10-17T02:26:49.926516+00:00"
+      },
+      "history_rows": 1982
+    },
+    "006179": {
+      "name": "富国品质生活混合A",
+      "quality_break_dates": [
+        "2019-04-12",
+        "2019-04-18"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/006179.js?v=1792204010",
+        "sha256": "bac37dff711638430b79f1e3348113cd9e9501e8bfc0d8995c8f2c1ec5f92cf1",
+        "raw": "data/expanded/raw/006179-bac37dff71163843.txt",
+        "bytes": 291579,
+        "fetched_at": "2026-10-17T02:26:50.754102+00:00"
+      },
+      "history_rows": 1826
+    },
+    "006751": {
+      "name": "富国互联科技股票A",
+      "quality_break_dates": [
+        "2019-04-12",
+        "2019-04-19",
+        "2019-04-25"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/006751.js?v=1792204012",
+        "sha256": "624f47996af33f9476102d0a29a7ebee4eb6f1b5494556362f2bfe31ddef5d31",
+        "raw": "data/expanded/raw/006751-624f47996af33f94.txt",
+        "bytes": 288110,
+        "fetched_at": "2026-10-17T02:26:52.438786+00:00"
+      },
+      "history_rows": 1821
+    },
+    "007016": {
+      "name": "富国睿泽回报混合",
+      "quality_break_dates": [
+        "2019-06-20"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/007016.js?v=1792204012",
+        "sha256": "6257320348a111fff186380d268d88c7880abff51f337e7b5745f42bad1c57ff",
+        "raw": "data/expanded/raw/007016-6257320348a111ff.txt",
+        "bytes": 284236,
+        "fetched_at": "2026-10-17T02:26:53.131240+00:00"
+      },
+      "history_rows": 1783
+    },
+    "007139": {
+      "name": "富国民裕进取沪港深成长A",
+      "quality_break_dates": [
+        "2019-06-13"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/007139.js?v=1792204012",
+        "sha256": "357791d91e643f0bea14fe3652c79d612976ad4bff41f999ee959fbcc6c412cb",
+        "raw": "data/expanded/raw/007139-357791d91e643f0b.txt",
+        "bytes": 285198,
+        "fetched_at": "2026-10-17T02:26:53.200836+00:00"
+      },
+      "history_rows": 1789
+    },
+    "007345": {
+      "name": "富国科技创新灵活配置混合",
+      "quality_break_dates": [
+        "2019-06-06",
+        "2019-06-21",
+        "2019-06-28",
+        "2019-07-05",
+        "2019-07-12",
+        "2019-07-26"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/007345.js?v=1792204014",
+        "sha256": "e8295fa70bb81e8925bee6a40ba26bd9d73f86a7deaae9a3dc19b0c301285691",
+        "raw": "data/expanded/raw/007345-e8295fa70bb81e89.txt",
+        "bytes": 283481,
+        "fetched_at": "2026-10-17T02:26:54.345053+00:00"
+      },
+      "history_rows": 1762
+    },
+    "007949": {
+      "name": "富国泽利纯债债券A",
+      "quality_break_dates": [
+        "2020-04-10"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/007949.js?v=1792204015",
+        "sha256": "cb52f2334b3935001b1bac83a1db1b10d34fb7ebbf6466962046a3fc5593720a",
+        "raw": "data/expanded/raw/007949-cb52f2334b393500.txt",
+        "bytes": 250775,
+        "fetched_at": "2026-10-17T02:26:55.658604+00:00"
+      },
+      "history_rows": 1558
+    },
+    "008138": {
+      "name": "富国龙头优势混合A",
+      "quality_break_dates": [
+        "2020-01-23",
+        "2020-02-07",
+        "2020-02-14",
+        "2020-02-21",
+        "2020-02-28",
+        "2020-03-06",
+        "2020-03-12"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/008138.js?v=1792204015",
+        "sha256": "32530f13f03322137b4b4ca046de401545d02c723a43da281b93c7b02e1f291f",
+        "raw": "data/expanded/raw/008138-32530f13f0332213.txt",
+        "bytes": 259333,
+        "fetched_at": "2026-10-17T02:26:55.664958+00:00"
+      },
+      "history_rows": 1610
+    },
+    "008749": {
+      "name": "富国中证科技50策略ETF联接A",
+      "quality_break_dates": [
+        "2020-02-28"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/008749.js?v=1792204016",
+        "sha256": "d5c33f264267a245f4aca6664d363f3f182df0f4ca73b14777ceceadfe9bf1a9",
+        "raw": "data/expanded/raw/008749-d5c33f264267a245.txt",
+        "bytes": 257771,
+        "fetched_at": "2026-10-17T02:26:56.275738+00:00"
+      },
+      "history_rows": 1613
+    },
+    "008750": {
+      "name": "富国中证科技50策略ETF联接C",
+      "quality_break_dates": [
+        "2020-02-28"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/008750.js?v=1792204016",
+        "sha256": "79509393d2368075515194702b4cd20113b84dc3af96b24917dc1809094c037e",
+        "raw": "data/expanded/raw/008750-79509393d2368075.txt",
+        "bytes": 257852,
+        "fetched_at": "2026-10-17T02:26:56.338319+00:00"
+      },
+      "history_rows": 1613
+    },
+    "008901": {
+      "name": "富国内需增长混合A",
+      "quality_break_dates": [
+        "2020-04-24",
+        "2020-05-08",
+        "2020-05-15",
+        "2020-05-22"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/008901.js?v=1792204016",
+        "sha256": "e4bee6e88d03b0729dd2f72ed98257c677fde406cd13804f7aa0bcf98a760870",
+        "raw": "data/expanded/raw/008901-e4bee6e88d03b072.txt",
+        "bytes": 252095,
+        "fetched_at": "2026-10-17T02:26:56.383660+00:00"
+      },
+      "history_rows": 1564
+    },
+    "008975": {
+      "name": "富国中证消费50ETF联接A",
+      "quality_break_dates": [
+        "2020-03-27"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/008975.js?v=1792204016",
+        "sha256": "658bf6fce8a4dabb5e965da018a930fa363570fe18293d46eb3b86178e1e0f46",
+        "raw": "data/expanded/raw/008975-658bf6fce8a4dabb.txt",
+        "bytes": 254456,
+        "fetched_at": "2026-10-17T02:26:56.386831+00:00"
+      },
+      "history_rows": 1590
+    },
+    "008976": {
+      "name": "富国中证消费50ETF联接C",
+      "quality_break_dates": [
+        "2020-03-27"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/008976.js?v=1792204016",
+        "sha256": "9087008bdf833db4fb422fd9ef3e6be4afc53a34db9606486c8948b262301168",
+        "raw": "data/expanded/raw/008976-9087008bdf833db4.txt",
+        "bytes": 254470,
+        "fetched_at": "2026-10-17T02:26:56.990699+00:00"
+      },
+      "history_rows": 1590
+    },
+    "009092": {
+      "name": "富国新材料新能源混合A",
+      "quality_break_dates": [
+        "2020-07-10",
+        "2020-07-17",
+        "2020-07-24",
+        "2020-07-31",
+        "2020-08-07",
+        "2020-08-14",
+        "2020-08-21",
+        "2020-08-25"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/009092.js?v=1792204016",
+        "sha256": "918644bae7bb8cca70f20895ba08dc0ed40c9e57ae55a257fcab314469dc3077",
+        "raw": "data/expanded/raw/009092-918644bae7bb8cca.txt",
+        "bytes": 241910,
+        "fetched_at": "2026-10-17T02:26:56.993924+00:00"
+      },
+      "history_rows": 1500
+    },
+    "009504": {
+      "name": "富国上海金ETF联接A",
+      "quality_break_dates": [
+        "2020-08-07",
+        "2020-08-13"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/009504.js?v=1792204017",
+        "sha256": "953759d5c41a95bb6bc287ccdbbcb34bd8e4d648dbd2f9925c918cacf0901bf7",
+        "raw": "data/expanded/raw/009504-953759d5c41a95bb.txt",
+        "bytes": 235261,
+        "fetched_at": "2026-10-17T02:26:57.538105+00:00"
+      },
+      "history_rows": 1501
+    },
+    "009505": {
+      "name": "富国上海金ETF联接C",
+      "quality_break_dates": [
+        "2020-08-07",
+        "2020-08-13"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/009505.js?v=1792204017",
+        "sha256": "780c7eeb9e01990b52a1f62f393dde31965bf2e599f4a2d6365b04aaa97669d7",
+        "raw": "data/expanded/raw/009505-780c7eeb9e01990b.txt",
+        "bytes": 235163,
+        "fetched_at": "2026-10-17T02:26:57.706975+00:00"
+      },
+      "history_rows": 1501
+    },
+    "009758": {
+      "name": "富国可转债C",
+      "quality_break_dates": [
+        "2021-03-02"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/009758.js?v=1792204017",
+        "sha256": "40d7972051f170cf65eb749756b16113bc771fd210154c21107242c57415fa2e",
+        "raw": "data/expanded/raw/009758-40d7972051f170cf.txt",
+        "bytes": 239945,
+        "fetched_at": "2026-10-17T02:26:57.726811+00:00"
+      },
+      "history_rows": 1530
+    },
+    "009863": {
+      "name": "富国创新趋势股票A",
+      "quality_break_dates": [
+        "2020-08-21",
+        "2020-08-28",
+        "2020-09-04",
+        "2020-09-11",
+        "2020-09-18",
+        "2020-09-25",
+        "2020-10-15"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/009863.js?v=1792204017",
+        "sha256": "d73ec2b49f202f9bc0c2fb55c10107e3c2421fe2ad4db36e2494930a05df36f8",
+        "raw": "data/expanded/raw/009863-d73ec2b49f202f9b.txt",
+        "bytes": 235956,
+        "fetched_at": "2026-10-17T02:26:58.046179+00:00"
+      },
+      "history_rows": 1471
+    },
+    "009892": {
+      "name": "富国成长策略混合A",
+      "quality_break_dates": [
+        "2020-08-28",
+        "2020-09-11",
+        "2020-09-25",
+        "2020-09-30",
+        "2020-10-13"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/009892.js?v=1792204017",
+        "sha256": "1f1ecf3fd3398248138f13ecb456996edc65d95d69be4a801cacee2005889024",
+        "raw": "data/expanded/raw/009892-1f1ecf3fd3398248.txt",
+        "bytes": 237464,
+        "fetched_at": "2026-10-17T02:26:58.186515+00:00"
+      },
+      "history_rows": 1471
+    },
+    "009914": {
+      "name": "富国成长动力混合A",
+      "quality_break_dates": [
+        "2020-10-16",
+        "2020-10-23",
+        "2020-10-30",
+        "2020-11-06",
+        "2020-11-13",
+        "2020-11-20"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/009914.js?v=1792204018",
+        "sha256": "6153f284b82b517d4ef5b3e3448ef031dbd1b9952fd3b70fd2563eb8a988c8d9",
+        "raw": "data/expanded/raw/009914-6153f284b82b517d.txt",
+        "bytes": 233459,
+        "fetched_at": "2026-10-17T02:26:58.243603+00:00"
+      },
+      "history_rows": 1443
+    },
+    "010109": {
+      "name": "富国价值增长混合A",
+      "quality_break_dates": [
+        "2020-10-23",
+        "2020-10-30",
+        "2020-11-06",
+        "2020-11-13"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/010109.js?v=1792204018",
+        "sha256": "1d5d98b51a69f6288975ce50e6e8944b445315d6c837366bb86eb32d6e9138b5",
+        "raw": "data/expanded/raw/010109-1d5d98b51a69f628.txt",
+        "bytes": 234132,
+        "fetched_at": "2026-10-17T02:26:58.342147+00:00"
+      },
+      "history_rows": 1447
+    },
+    "010409": {
+      "name": "富国消费精选30股票A",
+      "quality_break_dates": [
+        "2020-12-18",
+        "2020-12-31",
+        "2021-01-08"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/010409.js?v=1792204018",
+        "sha256": "657332a256e2814e2864e05615ce0ca0c9e59108371fcf5b86a0c3c600350387",
+        "raw": "data/expanded/raw/010409-657332a256e2814e.txt",
+        "bytes": 226307,
+        "fetched_at": "2026-10-17T02:26:58.691372+00:00"
+      },
+      "history_rows": 1409
+    },
+    "010515": {
+      "name": "富国天兴回报混合A",
+      "quality_break_dates": [
+        "2021-01-22",
+        "2021-01-29",
+        "2021-02-10",
+        "2021-02-19",
+        "2021-02-25"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/010515.js?v=1792204018",
+        "sha256": "843798b8fa21ba1751b78e65ec485e8d59f76b1e87f894631e15933eb5170707",
+        "raw": "data/expanded/raw/010515-843798b8fa21ba17.txt",
+        "bytes": 224101,
+        "fetched_at": "2026-10-17T02:26:58.950217+00:00"
+      },
+      "history_rows": 1381
+    },
+    "010525": {
+      "name": "富国天兴回报混合C",
+      "quality_break_dates": [
+        "2021-01-22",
+        "2021-01-29",
+        "2021-02-10",
+        "2021-02-19",
+        "2021-02-25"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/010525.js?v=1792204019",
+        "sha256": "6f1d235a3d702d0b92edece1e1bf0c73cccb8bd631182ee2ca3a1f99c390defc",
+        "raw": "data/expanded/raw/010525-6f1d235a3d702d0b.txt",
+        "bytes": 224068,
+        "fetched_at": "2026-10-17T02:26:59.345282+00:00"
+      },
+      "history_rows": 1381
+    },
+    "010549": {
+      "name": "富国均衡策略混合",
+      "quality_break_dates": [
+        "2020-12-31",
+        "2021-01-08"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/010549.js?v=1792204019",
+        "sha256": "25c7f9dd713acccf1d84270e82ae513952b645bc5e591fa620dcd32f1d33e439",
+        "raw": "data/expanded/raw/010549-25c7f9dd713acccf.txt",
+        "bytes": 226932,
+        "fetched_at": "2026-10-17T02:26:59.474808+00:00"
+      },
+      "history_rows": 1395
+    },
+    "010624": {
+      "name": "富国稳健增长混合A",
+      "quality_break_dates": [
+        "2021-05-28",
+        "2021-06-18",
+        "2021-06-25"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/010624.js?v=1792204019",
+        "sha256": "e0aec4f32ba3869f1a6173a0a4c4e25e733e3fca56c94573b339ca2743cff562",
+        "raw": "data/expanded/raw/010624-e0aec4f32ba3869f.txt",
+        "bytes": 211382,
+        "fetched_at": "2026-10-17T02:26:59.464469+00:00"
+      },
+      "history_rows": 1298
+    },
+    "010625": {
+      "name": "富国稳健增长混合C",
+      "quality_break_dates": [
+        "2021-05-28",
+        "2021-06-18",
+        "2021-06-25"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/010625.js?v=1792204019",
+        "sha256": "d3fdd0f92e4cabe89220524130d1a56582f2e0aeb3c1ff475d93ac457f15e916",
+        "raw": "data/expanded/raw/010625-d3fdd0f92e4cabe8.txt",
+        "bytes": 211377,
+        "fetched_at": "2026-10-17T02:26:59.583435+00:00"
+      },
+      "history_rows": 1298
+    },
+    "010662": {
+      "name": "富国均衡优选混合",
+      "quality_break_dates": [
+        "2021-01-29",
+        "2021-02-10",
+        "2021-02-26"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/010662.js?v=1792204019",
+        "sha256": "0efaefce4677f5bb6540d7e62f4cd815cfa77f1d157ae7fd4a6fff3b1e85ff35",
+        "raw": "data/expanded/raw/010662-0efaefce4677f5bb.txt",
+        "bytes": 222991,
+        "fetched_at": "2026-10-17T02:27:00.018136+00:00"
+      },
+      "history_rows": 1373
+    },
+    "010843": {
+      "name": "富国天润回报混合A",
+      "quality_break_dates": [
+        "2021-04-23",
+        "2022-01-04",
+        "2022-01-05"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/010843.js?v=1792204019",
+        "sha256": "6b1e2db9191a8db151bf70a3add4a4500e3e86c72f76413df8b2525a9ed559d1",
+        "raw": "data/expanded/raw/010843-6b1e2db9191a8db1.txt",
+        "bytes": 215016,
+        "fetched_at": "2026-10-17T02:27:00.012772+00:00"
+      },
+      "history_rows": 1325
+    },
+    "010844": {
+      "name": "富国天润回报混合C",
+      "quality_break_dates": [
+        "2021-04-23"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/010844.js?v=1792204019",
+        "sha256": "f484ccea24488760663b1dbb1d5bbcfbcc52101d9f4c3f1b2bb2e93edef7d7dc",
+        "raw": "data/expanded/raw/010844-f484ccea24488760.txt",
+        "bytes": 215049,
+        "fetched_at": "2026-10-17T02:27:00.106615+00:00"
+      },
+      "history_rows": 1325
+    },
+    "010966": {
+      "name": "富国成长领航混合",
+      "quality_break_dates": [
+        "2021-02-10",
+        "2021-02-26",
+        "2021-03-12",
+        "2021-03-19",
+        "2021-03-24"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/010966.js?v=1792204020",
+        "sha256": "7f908d9d5b4eeb37c8d69421122bf4ebc96c79608a1d1b15717cadf61ca99d94",
+        "raw": "data/expanded/raw/010966-7f908d9d5b4eeb37.txt",
+        "bytes": 220934,
+        "fetched_at": "2026-10-17T02:27:00.620576+00:00"
+      },
+      "history_rows": 1360
+    },
+    "011037": {
+      "name": "富国长期成长混合A",
+      "quality_break_dates": [
+        "2021-07-23"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/011037.js?v=1792204020",
+        "sha256": "d97ce7dbaabfdec6308533aed493e620bdd2095d557903ea936acffa44bb939a",
+        "raw": "data/expanded/raw/011037-d97ce7dbaabfdec6.txt",
+        "bytes": 205637,
+        "fetched_at": "2026-10-17T02:27:00.799589+00:00"
+      },
+      "history_rows": 1266
+    },
+    "011046": {
+      "name": "富国优质企业混合A",
+      "quality_break_dates": [
+        "2021-04-23",
+        "2021-05-14"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/011046.js?v=1792204020",
+        "sha256": "c8051ea06de930f2e2f45049a313b9eb19f380ecb9267bbdbb508e837a41ec2f",
+        "raw": "data/expanded/raw/011046-c8051ea06de930f2.txt",
+        "bytes": 215323,
+        "fetched_at": "2026-10-17T02:27:00.791800+00:00"
+      },
+      "history_rows": 1323
+    },
+    "011047": {
+      "name": "富国优质企业混合C",
+      "quality_break_dates": [
+        "2021-04-23",
+        "2021-05-14"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/011047.js?v=1792204020",
+        "sha256": "b51182bb57564e322efdbfd4219e89d64cff07e1e02256fa65e2a97d0a38d148",
+        "raw": "data/expanded/raw/011047-b51182bb57564e32.txt",
+        "bytes": 215303,
+        "fetched_at": "2026-10-17T02:27:01.133613+00:00"
+      },
+      "history_rows": 1323
+    },
+    "011099": {
+      "name": "富国价值创造混合A",
+      "quality_break_dates": [
+        "2021-01-29",
+        "2021-02-05",
+        "2021-02-10",
+        "2021-02-19",
+        "2021-02-26",
+        "2021-03-05",
+        "2021-03-12"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/011099.js?v=1792204021",
+        "sha256": "4387c3ba451d2f9458d0887684b9e9a706927c4f61606594d8525eb12e52f24d",
+        "raw": "data/expanded/raw/011099-4387c3ba451d2f94.txt",
+        "bytes": 222318,
+        "fetched_at": "2026-10-17T02:27:01.290044+00:00"
+      },
+      "history_rows": 1368
+    },
+    "011100": {
+      "name": "富国价值创造混合C",
+      "quality_break_dates": [
+        "2021-01-29",
+        "2021-02-05",
+        "2021-02-10",
+        "2021-02-19",
+        "2021-02-26",
+        "2021-03-05",
+        "2021-03-12"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/011100.js?v=1792204021",
+        "sha256": "8b2a08afbc1c365609ac7c5a387b3d64b099fc9513b1ebc3c41c8ce591660a39",
+        "raw": "data/expanded/raw/011100-8b2a08afbc1c3656.txt",
+        "bytes": 222245,
+        "fetched_at": "2026-10-17T02:27:01.333301+00:00"
+      },
+      "history_rows": 1368
+    },
+    "011498": {
+      "name": "富国沪深300基本面精选股票A",
+      "quality_break_dates": [
+        "2021-06-11",
+        "2021-06-17"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/011498.js?v=1792204023",
+        "sha256": "9ac3d84ddefd22eb566d6f85f812b07009ea02fafc00edff08b3c47ebd11fd8c",
+        "raw": "data/expanded/raw/011498-9ac3d84ddefd22eb.txt",
+        "bytes": 208000,
+        "fetched_at": "2026-10-17T02:27:03.883595+00:00"
+      },
+      "history_rows": 1298
+    },
+    "011499": {
+      "name": "富国沪深300基本面精选股票C",
+      "quality_break_dates": [
+        "2021-06-11",
+        "2021-06-17"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/011499.js?v=1792204023",
+        "sha256": "b7544873b8e20df1f1cff59508b180991d8c633054583a19acc57a74903f0f28",
+        "raw": "data/expanded/raw/011499-b7544873b8e20df1.txt",
+        "bytes": 207933,
+        "fetched_at": "2026-10-17T02:27:04.089245+00:00"
+      },
+      "history_rows": 1298
+    },
+    "011635": {
+      "name": "富国港股通策略精选混合A",
+      "quality_break_dates": [
+        "2021-06-25",
+        "2021-07-02",
+        "2021-07-09",
+        "2021-07-16"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/011635.js?v=1792204024",
+        "sha256": "98a837e5d034abf77d4185b4f38566d66a4fcf4231c73435a4221967024d7fba",
+        "raw": "data/expanded/raw/011635-98a837e5d034abf7.txt",
+        "bytes": 208191,
+        "fetched_at": "2026-10-17T02:27:04.909051+00:00"
+      },
+      "history_rows": 1279
+    },
+    "011636": {
+      "name": "富国港股通策略精选混合C",
+      "quality_break_dates": [
+        "2021-06-25",
+        "2021-07-02",
+        "2021-07-09",
+        "2021-07-16"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/011636.js?v=1792204024",
+        "sha256": "b75e82068e1c09738a12d339394babb6c965866de263d3d81da681f354ab4955",
+        "raw": "data/expanded/raw/011636-b75e82068e1c0973.txt",
+        "bytes": 208265,
+        "fetched_at": "2026-10-17T02:27:05.081063+00:00"
+      },
+      "history_rows": 1279
+    },
+    "011830": {
+      "name": "富国天恒混合A",
+      "quality_break_dates": [
+        "2022-02-25",
+        "2022-03-04",
+        "2022-03-11"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/011830.js?v=1792204024",
+        "sha256": "e551a6710c6e796823ee93cee151c9bc9fe65c35194cfcfeaf8afe9ef433e1b3",
+        "raw": "data/expanded/raw/011830-e551a6710c6e7968.txt",
+        "bytes": 184192,
+        "fetched_at": "2026-10-17T02:27:05.099071+00:00"
+      },
+      "history_rows": 1123
+    },
+    "011831": {
+      "name": "富国天恒混合C",
+      "quality_break_dates": [
+        "2022-02-25",
+        "2022-03-04",
+        "2022-03-11"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/011831.js?v=1792204024",
+        "sha256": "d2a61ce610faef3c4f09fc01ed64aa55bf3e7e268306cdb9be2be6a7a6efe320",
+        "raw": "data/expanded/raw/011831-d2a61ce610faef3c.txt",
+        "bytes": 184163,
+        "fetched_at": "2026-10-17T02:27:05.146430+00:00"
+      },
+      "history_rows": 1123
+    },
+    "012147": {
+      "name": "富国大盘核心资产混合",
+      "quality_break_dates": [
+        "2022-01-07"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/012147.js?v=1792204025",
+        "sha256": "010e41e3aba96d93fb6bdd07903017dea4f48824112c641aa390d0bc97c358c2",
+        "raw": "data/expanded/raw/012147-010e41e3aba96d93.txt",
+        "bytes": 190767,
+        "fetched_at": "2026-10-17T02:27:05.616610+00:00"
+      },
+      "history_rows": 1160
+    },
+    "012255": {
+      "name": "富国高质量混合",
+      "quality_break_dates": [
+        "2021-07-30",
+        "2021-08-06",
+        "2021-08-13",
+        "2021-08-20",
+        "2021-08-27",
+        "2021-09-03"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/012255.js?v=1792204025",
+        "sha256": "8e2fad7783c8329284121f927599f701788d532de62d06ebc902e552d369eb14",
+        "raw": "data/expanded/raw/012255-8e2fad7783c83292.txt",
+        "bytes": 204907,
+        "fetched_at": "2026-10-17T02:27:05.695815+00:00"
+      },
+      "history_rows": 1252
+    },
+    "012578": {
+      "name": "富国红利混合A",
+      "quality_break_dates": [
+        "2022-01-14",
+        "2022-01-21",
+        "2022-01-28",
+        "2022-02-11",
+        "2022-02-25",
+        "2022-03-04",
+        "2022-03-11",
+        "2022-03-17"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/012578.js?v=1792204026",
+        "sha256": "b0d948bf4ea46d5e9f352aef4c947635301108b50b900764265b3f7639b233ad",
+        "raw": "data/expanded/raw/012578-b0d948bf4ea46d5e.txt",
+        "bytes": 185781,
+        "fetched_at": "2026-10-17T02:27:06.255967+00:00"
+      },
+      "history_rows": 1125
+    },
+    "012579": {
+      "name": "富国红利混合C",
+      "quality_break_dates": [
+        "2022-01-14",
+        "2022-01-21",
+        "2022-01-28",
+        "2022-02-11",
+        "2022-02-25",
+        "2022-03-04",
+        "2022-03-11",
+        "2022-03-17"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/012579.js?v=1792204026",
+        "sha256": "44955098f3b64ff3f35164d02d640cf1b34a9586bd1b9af341fdc8bf24c1ef5e",
+        "raw": "data/expanded/raw/012579-44955098f3b64ff3.txt",
+        "bytes": 185748,
+        "fetched_at": "2026-10-17T02:27:06.355164+00:00"
+      },
+      "history_rows": 1125
+    },
+    "013277": {
+      "name": "富国创业板ETF联接C",
+      "quality_break_dates": [
+        "2022-01-18",
+        "2022-01-19"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/013277.js?v=1792204027",
+        "sha256": "6b8b01a87049573b520200249bce74b9f3e590030173e057659180d0d9164c69",
+        "raw": "data/expanded/raw/013277-6b8b01a87049573b.txt",
+        "bytes": 201207,
+        "fetched_at": "2026-10-17T02:27:08.078593+00:00"
+      },
+      "history_rows": 1252
+    },
+    "013313": {
+      "name": "富国中证科创创业50ETF联接A",
+      "quality_break_dates": [
+        "2021-09-03",
+        "2021-09-10"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/013313.js?v=1792204028",
+        "sha256": "1bff3d31ccdfc0d622066456dd09c4f729307244ab0e074ade0df281ea50ffa9",
+        "raw": "data/expanded/raw/013313-1bff3d31ccdfc0d6.txt",
+        "bytes": 199979,
+        "fetched_at": "2026-10-17T02:27:08.904056+00:00"
+      },
+      "history_rows": 1232
+    },
+    "013314": {
+      "name": "富国中证科创创业50ETF联接C",
+      "quality_break_dates": [
+        "2021-09-03",
+        "2021-09-10"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/013314.js?v=1792204028",
+        "sha256": "d42d90a258abada468338a551ba35953f461cbcb66173be1c8bb6ea69700b059",
+        "raw": "data/expanded/raw/013314-d42d90a258abada4.txt",
+        "bytes": 199952,
+        "fetched_at": "2026-10-17T02:27:08.996925+00:00"
+      },
+      "history_rows": 1232
+    },
+    "014057": {
+      "name": "富国金安均衡精选混合A",
+      "quality_break_dates": [
+        "2022-01-07",
+        "2022-01-14"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/014057.js?v=1792204029",
+        "sha256": "50d07cfc292ccf476a9a807f453e6a0a5b98b06543c1315d9097464cf22fd296",
+        "raw": "data/expanded/raw/014057-50d07cfc292ccf47.txt",
+        "bytes": 188714,
+        "fetched_at": "2026-10-17T02:27:09.590159+00:00"
+      },
+      "history_rows": 1153
+    },
+    "014058": {
+      "name": "富国金安均衡精选混合C",
+      "quality_break_dates": [
+        "2022-01-07",
+        "2022-01-14"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/014058.js?v=1792204029",
+        "sha256": "043dfd66255c20256ce09e31de7985af62a265b49d5b68a16dc08fe95b7561de",
+        "raw": "data/expanded/raw/014058-043dfd66255c2025.txt",
+        "bytes": 188700,
+        "fetched_at": "2026-10-17T02:27:09.712916+00:00"
+      },
+      "history_rows": 1153
+    },
+    "014347": {
+      "name": "富国趋势优先混合A",
+      "quality_break_dates": [
+        "2022-02-11",
+        "2022-02-18",
+        "2022-03-04",
+        "2022-03-11",
+        "2022-03-23"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/014347.js?v=1792204031",
+        "sha256": "cd920bb77fb2028429610380e6430b8f81a7deb7cc214f2e89baae77c15a100b",
+        "raw": "data/expanded/raw/014347-cd920bb77fb20284.txt",
+        "bytes": 183678,
+        "fetched_at": "2026-10-17T02:27:11.356436+00:00"
+      },
+      "history_rows": 1117
+    },
+    "014348": {
+      "name": "富国趋势优先混合C",
+      "quality_break_dates": [
+        "2022-02-11",
+        "2022-02-18",
+        "2022-03-04",
+        "2022-03-11",
+        "2022-03-23"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/014348.js?v=1792204031",
+        "sha256": "3dc80bc78822bc0cd221292fd8d1dff291cb74cebe02a7acdaeb5df34301c28a",
+        "raw": "data/expanded/raw/014348-3dc80bc78822bc0c.txt",
+        "bytes": 183678,
+        "fetched_at": "2026-10-17T02:27:11.346063+00:00"
+      },
+      "history_rows": 1117
+    },
+    "014401": {
+      "name": "富国核心趋势混合A",
+      "quality_break_dates": [
+        "2023-06-21",
+        "2023-06-30",
+        "2023-07-07",
+        "2023-07-14",
+        "2023-07-20"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/014401.js?v=1792204031",
+        "sha256": "0575b1f291f32406ede4c60763478bcb79b69075c01e624801a507ecc320510b",
+        "raw": "data/expanded/raw/014401-0575b1f291f32406.txt",
+        "bytes": 134191,
+        "fetched_at": "2026-10-17T02:27:11.539022+00:00"
+      },
+      "history_rows": 796
+    },
+    "014402": {
+      "name": "富国核心趋势混合C",
+      "quality_break_dates": [
+        "2023-06-21",
+        "2023-06-30",
+        "2023-07-07",
+        "2023-07-14",
+        "2023-07-20"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/014402.js?v=1792204031",
+        "sha256": "33416e3a7619726db8e7de0f30a55112144c269da6d29c82a32bf68f3127b268",
+        "raw": "data/expanded/raw/014402-33416e3a7619726d.txt",
+        "bytes": 134185,
+        "fetched_at": "2026-10-17T02:27:11.663300+00:00"
+      },
+      "history_rows": 796
+    },
+    "014672": {
+      "name": "富国裕利债券C",
+      "quality_break_dates": [
+        "2022-04-22"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/014672.js?v=1792204032",
+        "sha256": "d7b1e1e4f56ef517b6150b394d2f936f6a39570d8ebee0090d65ced3c692a9e2",
+        "raw": "data/expanded/raw/014672-d7b1e1e4f56ef517.txt",
+        "bytes": 178239,
+        "fetched_at": "2026-10-17T02:27:12.355193+00:00"
+      },
+      "history_rows": 1086
+    },
+    "014673": {
+      "name": "富国中证港股通互联网ETF发起式联接A",
+      "quality_break_dates": [
+        "2022-01-21",
+        "2022-01-28"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/014673.js?v=1792204032",
+        "sha256": "bb1647642a5d58b232dbc9846eb123ebe97344839edcdd374d7ea0a22599ced1",
+        "raw": "data/expanded/raw/014673-bb1647642a5d58b2.txt",
+        "bytes": 187211,
+        "fetched_at": "2026-10-17T02:27:12.468848+00:00"
+      },
+      "history_rows": 1145
+    },
+    "014674": {
+      "name": "富国中证港股通互联网ETF发起式联接C",
+      "quality_break_dates": [
+        "2022-01-21",
+        "2022-01-28"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/014674.js?v=1792204032",
+        "sha256": "cab7f8e406e88a0b0347868e6ea18a43d96376ff0eea71bed99417cc8da11464",
+        "raw": "data/expanded/raw/014674-cab7f8e406e88a0b.txt",
+        "bytes": 187188,
+        "fetched_at": "2026-10-17T02:27:12.575169+00:00"
+      },
+      "history_rows": 1145
+    },
+    "014718": {
+      "name": "富国天旭均衡混合A",
+      "quality_break_dates": [
+        "2022-02-18",
+        "2022-02-25",
+        "2022-03-04",
+        "2022-03-11",
+        "2022-03-23"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/014718.js?v=1792204032",
+        "sha256": "0c7a2b3a6646d6c6978c48585a9f6082d3543c3e2d6570129631c70be6f47d57",
+        "raw": "data/expanded/raw/014718-0c7a2b3a6646d6c6.txt",
+        "bytes": 183207,
+        "fetched_at": "2026-10-17T02:27:12.812377+00:00"
+      },
+      "history_rows": 1116
+    },
+    "014719": {
+      "name": "富国天旭均衡混合C",
+      "quality_break_dates": [
+        "2022-02-18",
+        "2022-02-25",
+        "2022-03-04",
+        "2022-03-11",
+        "2022-03-23"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/014719.js?v=1792204032",
+        "sha256": "a948bded15dc02399a3b937c76b3df4005bf66a76d35c0ad71824dc1e8bbaeba",
+        "raw": "data/expanded/raw/014719-a948bded15dc0239.txt",
+        "bytes": 183189,
+        "fetched_at": "2026-10-17T02:27:13.005215+00:00"
+      },
+      "history_rows": 1116
+    },
+    "014776": {
+      "name": "富国中证芯片产业ETF发起式联接A",
+      "quality_break_dates": [
+        "2022-01-28"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/014776.js?v=1792204032",
+        "sha256": "94f243543aa726e32baa66d7a50ddf72b817fb023d3e053fb0470656a9a3d037",
+        "raw": "data/expanded/raw/014776-94f243543aa726e3.txt",
+        "bytes": 185749,
+        "fetched_at": "2026-10-17T02:27:12.998404+00:00"
+      },
+      "history_rows": 1144
+    },
+    "014777": {
+      "name": "富国中证芯片产业ETF发起式联接C",
+      "quality_break_dates": [
+        "2022-01-28"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/014777.js?v=1792204032",
+        "sha256": "867e33062af57e228d7c853a6c005b3d80dec56e3ec54962b589b3d62c672c00",
+        "raw": "data/expanded/raw/014777-867e33062af57e22.txt",
+        "bytes": 185753,
+        "fetched_at": "2026-10-17T02:27:13.182483+00:00"
+      },
+      "history_rows": 1144
+    },
+    "014794": {
+      "name": "富国远见优选混合A",
+      "quality_break_dates": [
+        "2022-03-11",
+        "2022-03-15"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/014794.js?v=1792204033",
+        "sha256": "5566923bd6197d33a2f1a604a2f2af39ad7e57fe20851f485444562d7bd97be5",
+        "raw": "data/expanded/raw/014794-5566923bd6197d33.txt",
+        "bytes": 183152,
+        "fetched_at": "2026-10-17T02:27:13.433250+00:00"
+      },
+      "history_rows": 1120
+    },
+    "014795": {
+      "name": "富国远见优选混合C",
+      "quality_break_dates": [
+        "2022-03-11",
+        "2022-03-15"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/014795.js?v=1792204033",
+        "sha256": "513677305daac59ed0634049e31f1d06c99d460096f23fed8487148ae11f6c7a",
+        "raw": "data/expanded/raw/014795-513677305daac59e.txt",
+        "bytes": 183150,
+        "fetched_at": "2026-10-17T02:27:13.626490+00:00"
+      },
+      "history_rows": 1120
+    },
+    "015876": {
+      "name": "富国中证消费电子主题ETF发起式联接A",
+      "quality_break_dates": [
+        "2022-06-30"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/015876.js?v=1792204035",
+        "sha256": "9e36bab003cb953970dde2791c5888248ce9fe3f70f075bf1e3da1a08e98517f",
+        "raw": "data/expanded/raw/015876-9e36bab003cb9539.txt",
+        "bytes": 170570,
+        "fetched_at": "2026-10-17T02:27:15.329136+00:00"
+      },
+      "history_rows": 1047
+    },
+    "015877": {
+      "name": "富国中证消费电子主题ETF发起式联接C",
+      "quality_break_dates": [
+        "2022-06-30"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/015877.js?v=1792204035",
+        "sha256": "b97b62ee7706c0a302dbde69aaa15c97881d6ae9e39998d7456c40065f38ef6c",
+        "raw": "data/expanded/raw/015877-b97b62ee7706c0a3.txt",
+        "bytes": 170613,
+        "fetched_at": "2026-10-17T02:27:15.420090+00:00"
+      },
+      "history_rows": 1047
+    },
+    "015891": {
+      "name": "富国上证50基本面精选股票发起式A",
+      "quality_break_dates": [
+        "2022-09-02",
+        "2022-09-09",
+        "2022-09-16",
+        "2022-09-30"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/015891.js?v=1792204035",
+        "sha256": "be98b46b56b7e0b87f47300aadfa3abf8cdeba02704675302fab6159e0427ad4",
+        "raw": "data/expanded/raw/015891-be98b46b56b7e0b8.txt",
+        "bytes": 161264,
+        "fetched_at": "2026-10-17T02:27:16.035052+00:00"
+      },
+      "history_rows": 982
+    },
+    "015892": {
+      "name": "富国上证50基本面精选股票发起式C",
+      "quality_break_dates": [
+        "2022-09-02",
+        "2022-09-09",
+        "2022-09-16",
+        "2022-09-30"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/015892.js?v=1792204035",
+        "sha256": "7df0742debbfb5ff06dde65749485c33affa674220b36f8c3016c6e85f3d8f6b",
+        "raw": "data/expanded/raw/015892-7df0742debbfb5ff.txt",
+        "bytes": 161322,
+        "fetched_at": "2026-10-17T02:27:16.000079+00:00"
+      },
+      "history_rows": 982
+    },
+    "016590": {
+      "name": "富国汽车智选混合A",
+      "quality_break_dates": [
+        "2022-10-21",
+        "2022-10-28",
+        "2022-11-04",
+        "2022-11-11",
+        "2022-11-18",
+        "2022-11-25",
+        "2022-12-02"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/016590.js?v=1792204036",
+        "sha256": "03fba7e5ea5a257d513eca3886e10f25ab2dcdc309f867c42ebdc3df66ebc1ba",
+        "raw": "data/expanded/raw/016590-03fba7e5ea5a257d.txt",
+        "bytes": 157560,
+        "fetched_at": "2026-10-17T02:27:16.670728+00:00"
+      },
+      "history_rows": 946
+    },
+    "016591": {
+      "name": "富国汽车智选混合C",
+      "quality_break_dates": [
+        "2022-10-21",
+        "2022-10-28",
+        "2022-11-04",
+        "2022-11-11",
+        "2022-11-18",
+        "2022-11-25",
+        "2022-12-02"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/016591.js?v=1792204036",
+        "sha256": "739fbd3131261b411b37d9ead55b1b4b5e41ab8897de226750327115b8c09b47",
+        "raw": "data/expanded/raw/016591-739fbd3131261b41.txt",
+        "bytes": 157562,
+        "fetched_at": "2026-10-17T02:27:16.700898+00:00"
+      },
+      "history_rows": 946
+    },
+    "017038": {
+      "name": "富国中证1000优选股票A",
+      "quality_break_dates": [
+        "2022-12-02",
+        "2022-12-16",
+        "2022-12-23",
+        "2022-12-30",
+        "2023-01-06"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/017038.js?v=1792204037",
+        "sha256": "acf70ad5ce6cbbde4d0d73d463d0dc5ab16a7d6f18526e76482368b41c557305",
+        "raw": "data/expanded/raw/017038-acf70ad5ce6cbbde.txt",
+        "bytes": 151869,
+        "fetched_at": "2026-10-17T02:27:18.095241+00:00"
+      },
+      "history_rows": 918
+    },
+    "017039": {
+      "name": "富国中证1000优选股票C",
+      "quality_break_dates": [
+        "2022-12-02",
+        "2022-12-16",
+        "2022-12-23",
+        "2022-12-30",
+        "2023-01-06"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/017039.js?v=1792204037",
+        "sha256": "a96f5f41a6259cfd2e1b3f0e2ca500b8f21d4c4ef99297cae818f3d8b06335f0",
+        "raw": "data/expanded/raw/017039-a96f5f41a6259cfd.txt",
+        "bytes": 151750,
+        "fetched_at": "2026-10-17T02:27:18.216701+00:00"
+      },
+      "history_rows": 918
+    },
+    "017041": {
+      "name": "富国碳中和混合A",
+      "quality_break_dates": [
+        "2023-03-24",
+        "2023-04-07",
+        "2023-05-05"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/017041.js?v=1792204038",
+        "sha256": "befcd85631f59c0700c3a112bf3153a72be34a0e44137e949eed376ddc783d77",
+        "raw": "data/expanded/raw/017041-befcd85631f59c07.txt",
+        "bytes": 142741,
+        "fetched_at": "2026-10-17T02:27:18.555895+00:00"
+      },
+      "history_rows": 848
+    },
+    "017042": {
+      "name": "富国碳中和混合C",
+      "quality_break_dates": [
+        "2023-03-24",
+        "2023-04-07",
+        "2023-05-05"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/017042.js?v=1792204038",
+        "sha256": "be33c5218ba1af714f13f64033af4a48348613b62c717cec4976fbb2e001b309",
+        "raw": "data/expanded/raw/017042-be33c5218ba1af71.txt",
+        "bytes": 142753,
+        "fetched_at": "2026-10-17T02:27:18.804672+00:00"
+      },
+      "history_rows": 848
+    },
+    "017222": {
+      "name": "富国中证电池主题ETF发起式联接A",
+      "quality_break_dates": [
+        "2022-12-09"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/017222.js?v=1792204038",
+        "sha256": "d467143a898671dfd40e7773103af16bb7c89f0771fd822a405af3ff87c10b9a",
+        "raw": "data/expanded/raw/017222-d467143a898671df.txt",
+        "bytes": 154138,
+        "fetched_at": "2026-10-17T02:27:18.936825+00:00"
+      },
+      "history_rows": 936
+    },
+    "017223": {
+      "name": "富国中证电池主题ETF发起式联接C",
+      "quality_break_dates": [
+        "2022-12-09"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/017223.js?v=1792204038",
+        "sha256": "c2f795acf13ede86c39ce0afd52e2ebb9518dee37f1ae557f3e56e6cb7a16ee2",
+        "raw": "data/expanded/raw/017223-c2f795acf13ede86.txt",
+        "bytes": 154148,
+        "fetched_at": "2026-10-17T02:27:19.134243+00:00"
+      },
+      "history_rows": 936
+    },
+    "017521": {
+      "name": "富国北证50成份指数A",
+      "quality_break_dates": [
+        "2022-12-23"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/017521.js?v=1792204039",
+        "sha256": "4abb0d172687c3950957edebfadf59ffbc32d5fd08a0b017c6d21a5e446ace34",
+        "raw": "data/expanded/raw/017521-4abb0d172687c395.txt",
+        "bytes": 151276,
+        "fetched_at": "2026-10-17T02:27:19.349737+00:00"
+      },
+      "history_rows": 915
+    },
+    "017522": {
+      "name": "富国北证50成份指数C",
+      "quality_break_dates": [
+        "2022-12-23"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/017522.js?v=1792204039",
+        "sha256": "7c7ebf3778c1d2f71ce53ae189994177d99a51d679f79b8194f0aae3306724cd",
+        "raw": "data/expanded/raw/017522-7c7ebf3778c1d2f7.txt",
+        "bytes": 151307,
+        "fetched_at": "2026-10-17T02:27:19.644823+00:00"
+      },
+      "history_rows": 915
+    },
+    "017828": {
+      "name": "富国时代精选混合A",
+      "quality_break_dates": [
+        "2023-04-14",
+        "2023-04-28",
+        "2023-05-05",
+        "2023-05-12"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/017828.js?v=1792204040",
+        "sha256": "623f356df386047154e3bbc3cb523933fc34efc1e475d4455912f8746e44379a",
+        "raw": "data/expanded/raw/017828-623f356df3860471.txt",
+        "bytes": 139532,
+        "fetched_at": "2026-10-17T02:27:20.248441+00:00"
+      },
+      "history_rows": 832
+    },
+    "017829": {
+      "name": "富国时代精选混合C",
+      "quality_break_dates": [
+        "2023-04-14",
+        "2023-04-28",
+        "2023-05-05",
+        "2023-05-12"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/017829.js?v=1792204040",
+        "sha256": "02d9f6aa5ed690a25a53f4ce129e1995b8ce7eb76c65bcfaafbea8ec1ab07bbc",
+        "raw": "data/expanded/raw/017829-02d9f6aa5ed690a2.txt",
+        "bytes": 139511,
+        "fetched_at": "2026-10-17T02:27:20.254363+00:00"
+      },
+      "history_rows": 832
+    },
+    "018134": {
+      "name": "富国中证大数据产业ETF发起式联接A",
+      "quality_break_dates": [
+        "2023-03-31"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/018134.js?v=1792204040",
+        "sha256": "34a0560e46283ac48d6f38957c780315ba97bd33984bedb542e2c08ba83c9aae",
+        "raw": "data/expanded/raw/018134-34a0560e46283ac4.txt",
+        "bytes": 142343,
+        "fetched_at": "2026-10-17T02:27:20.397064+00:00"
+      },
+      "history_rows": 860
+    },
+    "018135": {
+      "name": "富国中证大数据产业ETF发起式联接C",
+      "quality_break_dates": [
+        "2023-03-31"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/018135.js?v=1792204040",
+        "sha256": "0c7d627c830824ebce7a63b4757e1732cb50e9abee5bc5367b5048d92d8973e9",
+        "raw": "data/expanded/raw/018135-0c7d627c830824eb.txt",
+        "bytes": 142365,
+        "fetched_at": "2026-10-17T02:27:20.763879+00:00"
+      },
+      "history_rows": 860
+    },
+    "018971": {
+      "name": "富国致弘量化选股股票A",
+      "quality_break_dates": [
+        "2023-09-22",
+        "2023-10-13",
+        "2023-10-20",
+        "2023-10-27",
+        "2023-11-03",
+        "2023-11-07"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/018971.js?v=1792204043",
+        "sha256": "4f7560747df3d4f090adb6ee8d8abdfead73b9938f00767a79617867f7d36253",
+        "raw": "data/expanded/raw/018971-4f7560747df3d4f0.txt",
+        "bytes": 123194,
+        "fetched_at": "2026-10-17T02:27:23.266310+00:00"
+      },
+      "history_rows": 723
+    },
+    "018972": {
+      "name": "富国致弘量化选股股票C",
+      "quality_break_dates": [
+        "2023-09-15",
+        "2023-10-13",
+        "2023-10-20",
+        "2023-10-27",
+        "2023-11-03",
+        "2023-11-07"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/018972.js?v=1792204043",
+        "sha256": "1a6f2565e516a7af10164db6e860071badbea4ce0ea6792e01fcb88431cf1200",
+        "raw": "data/expanded/raw/018972-1a6f2565e516a7af.txt",
+        "bytes": 123135,
+        "fetched_at": "2026-10-17T02:27:23.414801+00:00"
+      },
+      "history_rows": 723
+    },
+    "019260": {
+      "name": "富国恒生红利ETF联接A",
+      "quality_break_dates": [
+        "2023-09-15"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/019260.js?v=1792204044",
+        "sha256": "87f0a0e21c04825d6f9c55476a6740f08094ea15c1d7b135b733eca7b3b57965",
+        "raw": "data/expanded/raw/019260-87f0a0e21c04825d.txt",
+        "bytes": 124915,
+        "fetched_at": "2026-10-17T02:27:24.337122+00:00"
+      },
+      "history_rows": 744
+    },
+    "019261": {
+      "name": "富国恒生红利ETF联接C",
+      "quality_break_dates": [
+        "2023-09-15"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/019261.js?v=1792204044",
+        "sha256": "9f8685ed14960c44956019c6393dd76bce99c222ed93a7b9f86c0773fc6fd4dc",
+        "raw": "data/expanded/raw/019261-9f8685ed14960c44.txt",
+        "bytes": 124948,
+        "fetched_at": "2026-10-17T02:27:24.589225+00:00"
+      },
+      "history_rows": 744
+    },
+    "019342": {
+      "name": "富国价值发现混合A",
+      "quality_break_dates": [
+        "2024-02-08",
+        "2024-02-23"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/019342.js?v=1792204044",
+        "sha256": "8db9a68cd1ee58faae0c696472579f0c923752ebe459000de8b52bac2f84b05a",
+        "raw": "data/expanded/raw/019342-8db9a68cd1ee58fa.txt",
+        "bytes": 109273,
+        "fetched_at": "2026-10-17T02:27:24.866542+00:00"
+      },
+      "history_rows": 637
+    },
+    "019343": {
+      "name": "富国价值发现混合C",
+      "quality_break_dates": [
+        "2024-02-08",
+        "2024-02-23"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/019343.js?v=1792204044",
+        "sha256": "86c5694a64cd36cca44c02223dcff9dce8723973047bfa86f9f5cf122013df7e",
+        "raw": "data/expanded/raw/019343-86c5694a64cd36cc.txt",
+        "bytes": 109260,
+        "fetched_at": "2026-10-17T02:27:24.908375+00:00"
+      },
+      "history_rows": 637
+    },
+    "019348": {
+      "name": "富国匠心成长混合C",
+      "quality_break_dates": [
+        "2024-05-24"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/019348.js?v=1792204045",
+        "sha256": "b040fbe33389df8a67b30851160cdc6b9ff1bd169ed6e2e0ec45be112d14502c",
+        "raw": "data/expanded/raw/019348-b040fbe33389df8a.txt",
+        "bytes": 100049,
+        "fetched_at": "2026-10-17T02:27:25.351403+00:00"
+      },
+      "history_rows": 582
+    },
+    "019361": {
+      "name": "富国核心优势混合发起式A",
+      "quality_break_dates": [
+        "2023-12-29"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/019361.js?v=1792204045",
+        "sha256": "e9986a98184c51adf770710d2bb332f99c67f10c188de4f9afb8ab3cf1325c38",
+        "raw": "data/expanded/raw/019361-e9986a98184c51ad.txt",
+        "bytes": 115193,
+        "fetched_at": "2026-10-17T02:27:25.471543+00:00"
+      },
+      "history_rows": 677
+    },
+    "019362": {
+      "name": "富国核心优势混合发起式C",
+      "quality_break_dates": [
+        "2023-12-29"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/019362.js?v=1792204045",
+        "sha256": "fa9786f914f7a0d5982e3ab40a5d1a48848a68d949c001d9add8d9f13e511bcb",
+        "raw": "data/expanded/raw/019362-fa9786f914f7a0d5.txt",
+        "bytes": 115205,
+        "fetched_at": "2026-10-17T02:27:25.488193+00:00"
+      },
+      "history_rows": 677
+    },
+    "019561": {
+      "name": "富国致航量化选股股票A",
+      "quality_break_dates": [
+        "2023-12-22",
+        "2023-12-29",
+        "2024-01-05",
+        "2024-01-12",
+        "2024-01-18"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/019561.js?v=1792204045",
+        "sha256": "70fae8ef8130dd489bcbd456473e3cc68e0fec6261a43445540f715eac115f41",
+        "raw": "data/expanded/raw/019561-70fae8ef8130dd48.txt",
+        "bytes": 114767,
+        "fetched_at": "2026-10-17T02:27:26.016116+00:00"
+      },
+      "history_rows": 670
+    },
+    "019562": {
+      "name": "富国致航量化选股股票C",
+      "quality_break_dates": [
+        "2023-12-22",
+        "2023-12-29",
+        "2024-01-05",
+        "2024-01-12",
+        "2024-01-18"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/019562.js?v=1792204045",
+        "sha256": "d75e0b4a95b44154fcfd71d9b63616552d364b494f6dffb62424cbea628e6209",
+        "raw": "data/expanded/raw/019562-d75e0b4a95b44154.txt",
+        "bytes": 114776,
+        "fetched_at": "2026-10-17T02:27:26.135194+00:00"
+      },
+      "history_rows": 670
+    },
+    "019897": {
+      "name": "富国中证沪港深创新药产业ETF发起式联接A",
+      "quality_break_dates": [
+        "2023-11-17"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/019897.js?v=1792204046",
+        "sha256": "264b4210f172072d6575a0d262dd41be0054895a9c7c336d24cb13ec791f0e5b",
+        "raw": "data/expanded/raw/019897-264b4210f172072d.txt",
+        "bytes": 118033,
+        "fetched_at": "2026-10-17T02:27:27.021788+00:00"
+      },
+      "history_rows": 707
+    },
+    "019898": {
+      "name": "富国中证沪港深创新药产业ETF发起式联接C",
+      "quality_break_dates": [
+        "2023-11-17"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/019898.js?v=1792204046",
+        "sha256": "06018e6c1efdee8b781df282c57e8b4f9e1b08851c8ee2589134dc89cde6db21",
+        "raw": "data/expanded/raw/019898-06018e6c1efdee8b.txt",
+        "bytes": 118020,
+        "fetched_at": "2026-10-17T02:27:27.100797+00:00"
+      },
+      "history_rows": 707
+    },
+    "019941": {
+      "name": "富国洞见价值股票A",
+      "quality_break_dates": [
+        "2023-12-29",
+        "2024-01-05",
+        "2024-01-12",
+        "2024-01-19"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/019941.js?v=1792204047",
+        "sha256": "0db251068aa9d60166fc4516e7b9dd59c1f945109d2846be8dd3ef4b92116cbd",
+        "raw": "data/expanded/raw/019941-0db251068aa9d601.txt",
+        "bytes": 112313,
+        "fetched_at": "2026-10-17T02:27:27.607407+00:00"
+      },
+      "history_rows": 663
+    },
+    "019942": {
+      "name": "富国洞见价值股票C",
+      "quality_break_dates": [
+        "2023-12-29",
+        "2024-01-05",
+        "2024-01-12",
+        "2024-01-19"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/019942.js?v=1792204047",
+        "sha256": "546ec113636bdea28e549b87aa5696492f570171b288c22f3596e044263bd89a",
+        "raw": "data/expanded/raw/019942-546ec113636bdea2.txt",
+        "bytes": 112313,
+        "fetched_at": "2026-10-17T02:27:27.628118+00:00"
+      },
+      "history_rows": 663
+    },
+    "020108": {
+      "name": "富国信创ETF发起式联接A",
+      "quality_break_dates": [
+        "2023-12-15",
+        "2023-12-20"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/020108.js?v=1792204048",
+        "sha256": "e0abc55499d1f3ace41ee9198769293016480f841410abc8111a330f9bb15a8a",
+        "raw": "data/expanded/raw/020108-e0abc55499d1f3ac.txt",
+        "bytes": 114878,
+        "fetched_at": "2026-10-17T02:27:28.229679+00:00"
+      },
+      "history_rows": 685
+    },
+    "020109": {
+      "name": "富国信创ETF发起式联接C",
+      "quality_break_dates": [
+        "2023-12-15",
+        "2023-12-20"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/020109.js?v=1792204048",
+        "sha256": "7ada7ba22735e5fd25554d8ac031e1ffb68c0a9d68e20f4366d26d0b54d57606",
+        "raw": "data/expanded/raw/020109-7ada7ba22735e5fd.txt",
+        "bytes": 114812,
+        "fetched_at": "2026-10-17T02:27:28.920852+00:00"
+      },
+      "history_rows": 685
+    },
+    "020110": {
+      "name": "富国恒生港股通创新药及医疗保健ETF发起式联接A",
+      "quality_break_dates": [
+        "2023-12-13"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/020110.js?v=1792204048",
+        "sha256": "1d30b046e45d4bed08747f20a4d7551aa2dbc0c43ee0fd1b0dc20e8263ccbda1",
+        "raw": "data/expanded/raw/020110-1d30b046e45d4bed.txt",
+        "bytes": 115857,
+        "fetched_at": "2026-10-17T02:27:28.655416+00:00"
+      },
+      "history_rows": 690
+    },
+    "020111": {
+      "name": "富国恒生港股通创新药及医疗保健ETF发起式联接C",
+      "quality_break_dates": [
+        "2023-12-13"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/020111.js?v=1792204048",
+        "sha256": "9b1c8414eb4da199e9bd9c0efcd9d1160731a7c706ac0072d2e726028f88873b",
+        "raw": "data/expanded/raw/020111-9b1c8414eb4da199.txt",
+        "bytes": 115882,
+        "fetched_at": "2026-10-17T02:27:28.657773+00:00"
+      },
+      "history_rows": 690
+    },
+    "020273": {
+      "name": "富国中证细分化工产业主题ETF发起式联接A",
+      "quality_break_dates": [
+        "2024-01-04"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/020273.js?v=1792204048",
+        "sha256": "452ffb1b74e26a1f4d733291d5a2757d27c3ea391a90353c5955ee97f4aa1800",
+        "raw": "data/expanded/raw/020273-452ffb1b74e26a1f.txt",
+        "bytes": 113797,
+        "fetched_at": "2026-10-17T02:27:28.834059+00:00"
+      },
+      "history_rows": 675
+    },
+    "020274": {
+      "name": "富国中证细分化工产业主题ETF发起式联接C",
+      "quality_break_dates": [
+        "2024-01-04"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/020274.js?v=1792204049",
+        "sha256": "fd76f7e0ae02814def780f3b28400c3696a919b73aff677fb925187a43f71716",
+        "raw": "data/expanded/raw/020274-fd76f7e0ae02814d.txt",
+        "bytes": 113806,
+        "fetched_at": "2026-10-17T02:27:29.252040+00:00"
+      },
+      "history_rows": 675
+    },
+    "020513": {
+      "name": "富国深证50ETF发起式联接A",
+      "quality_break_dates": [
+        "2024-01-26",
+        "2024-01-31"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/020513.js?v=1792204049",
+        "sha256": "b34c35f4af6b08c88fbed14303d3e18bbadfe7a0636f9b67809ec469c80fe351",
+        "raw": "data/expanded/raw/020513-b34c35f4af6b08c8.txt",
+        "bytes": 110893,
+        "fetched_at": "2026-10-17T02:27:29.464800+00:00"
+      },
+      "history_rows": 655
+    },
+    "020514": {
+      "name": "富国深证50ETF发起式联接C",
+      "quality_break_dates": [
+        "2024-01-26",
+        "2024-01-31"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/020514.js?v=1792204049",
+        "sha256": "4c7c8bc3b5b68cc434e67958bd7fd84a36d4151f299e8f4123955949fce9ed02",
+        "raw": "data/expanded/raw/020514-4c7c8bc3b5b68cc4.txt",
+        "bytes": 110902,
+        "fetched_at": "2026-10-17T02:27:29.568882+00:00"
+      },
+      "history_rows": 655
+    },
+    "021280": {
+      "name": "富国国证疫苗与生物科技ETF发起式联接A",
+      "quality_break_dates": [
+        "2024-05-09"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/021280.js?v=1792204052",
+        "sha256": "b2f5c9a339125d798c94d75785ebff43247656365280dd6d3bb249210adf1726",
+        "raw": "data/expanded/raw/021280-b2f5c9a339125d79.txt",
+        "bytes": 101452,
+        "fetched_at": "2026-10-17T02:27:32.525330+00:00"
+      },
+      "history_rows": 596
+    },
+    "021281": {
+      "name": "富国国证疫苗与生物科技ETF发起式联接C",
+      "quality_break_dates": [
+        "2024-05-09"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/021281.js?v=1792204052",
+        "sha256": "ff946d9ec455a4a461c426afddb0d233d9c6d84a41d3a04f8b6febc0423941e6",
+        "raw": "data/expanded/raw/021281-ff946d9ec455a4a4.txt",
+        "bytes": 101449,
+        "fetched_at": "2026-10-17T02:27:32.687829+00:00"
+      },
+      "history_rows": 596
+    },
+    "021327": {
+      "name": "富国中证细分机械设备产业主题ETF发起式联接A",
+      "quality_break_dates": [
+        "2024-05-09"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/021327.js?v=1792204052",
+        "sha256": "862ba1a6b94d438544cbf837fdbb271c95f5fed983e25b1afef07f49ad9285c3",
+        "raw": "data/expanded/raw/021327-862ba1a6b94d4385.txt",
+        "bytes": 101369,
+        "fetched_at": "2026-10-17T02:27:32.752386+00:00"
+      },
+      "history_rows": 595
+    },
+    "021328": {
+      "name": "富国中证细分机械设备产业主题ETF发起式联接C",
+      "quality_break_dates": [
+        "2024-05-09"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/021328.js?v=1792204052",
+        "sha256": "1d17d237529a3856ddf46d7abe15eeace14e1c7f4e925b14c9a4eb4cae3e0e88",
+        "raw": "data/expanded/raw/021328-1d17d237529a3856.txt",
+        "bytes": 101370,
+        "fetched_at": "2026-10-17T02:27:32.667376+00:00"
+      },
+      "history_rows": 595
+    },
+    "021329": {
+      "name": "富国上证科创板100ETF发起式联接A",
+      "quality_break_dates": [
+        "2024-12-20"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/021329.js?v=1792204052",
+        "sha256": "fcbf867c615d24d98b4f394ab219c575cc1421761f9022a48f9230bfce13dd5e",
+        "raw": "data/expanded/raw/021329-fcbf867c615d24d9.txt",
+        "bytes": 77962,
+        "fetched_at": "2026-10-17T02:27:33.039361+00:00"
+      },
+      "history_rows": 441
+    },
+    "021330": {
+      "name": "富国上证科创板100ETF发起式联接C",
+      "quality_break_dates": [
+        "2024-12-20"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/021330.js?v=1792204053",
+        "sha256": "9b2e0c051aabc753d447c2473e5fc5c76ae1780ffa2616c21e6c2bd834673564",
+        "raw": "data/expanded/raw/021330-9b2e0c051aabc753.txt",
+        "bytes": 77928,
+        "fetched_at": "2026-10-17T02:27:33.247094+00:00"
+      },
+      "history_rows": 441
+    },
+    "021450": {
+      "name": "富国医疗产业混合发起式A",
+      "quality_break_dates": [
+        "2024-06-21",
+        "2024-07-05"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/021450.js?v=1792204053",
+        "sha256": "56cfcafa93e2bd730110e3236fcde1e1df35f90adf2686ce330f0d84b6176eeb",
+        "raw": "data/expanded/raw/021450-56cfcafa93e2bd73.txt",
+        "bytes": 96921,
+        "fetched_at": "2026-10-17T02:27:33.753522+00:00"
+      },
+      "history_rows": 556
+    },
+    "021451": {
+      "name": "富国医疗产业混合发起式C",
+      "quality_break_dates": [
+        "2024-05-23",
+        "2024-06-21",
+        "2024-07-05",
+        "2024-07-12"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/021451.js?v=1792204053",
+        "sha256": "b4c9e217c92a34339c07929d909f09d40d42a9ffaba9978d7fa2bec9460f6b47",
+        "raw": "data/expanded/raw/021451-b4c9e217c92a3433.txt",
+        "bytes": 97020,
+        "fetched_at": "2026-10-17T02:27:33.767274+00:00"
+      },
+      "history_rows": 557
+    },
+    "021548": {
+      "name": "富国稳健双鑫债券A",
+      "quality_break_dates": [
+        "2024-09-27"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/021548.js?v=1792204054",
+        "sha256": "67bc6a2c019c089da00e4b0dc2f98004ed26c814ff5d8e01a669345098d63179",
+        "raw": "data/expanded/raw/021548-67bc6a2c019c089d.txt",
+        "bytes": 87015,
+        "fetched_at": "2026-10-17T02:27:34.368968+00:00"
+      },
+      "history_rows": 497
+    },
+    "021549": {
+      "name": "富国稳健双鑫债券C",
+      "quality_break_dates": [
+        "2024-09-27"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/021549.js?v=1792204054",
+        "sha256": "1cfc601a5b5c143e8dacc16abfe8ec59f46842633e27f40585f2c5c8ddd5d625",
+        "raw": "data/expanded/raw/021549-1cfc601a5b5c143e.txt",
+        "bytes": 87043,
+        "fetched_at": "2026-10-17T02:27:34.382520+00:00"
+      },
+      "history_rows": 497
+    },
+    "021642": {
+      "name": "富国资源精选混合发起式A",
+      "quality_break_dates": [
+        "2024-08-02",
+        "2024-09-06",
+        "2024-09-13",
+        "2024-09-20",
+        "2024-09-27",
+        "2024-10-09"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/021642.js?v=1792204054",
+        "sha256": "61f5bd195b7f6b93019c8687c5d26f937e3248a812ace94054d9cc5a74142130",
+        "raw": "data/expanded/raw/021642-61f5bd195b7f6b93.txt",
+        "bytes": 89581,
+        "fetched_at": "2026-10-17T02:27:34.472775+00:00"
+      },
+      "history_rows": 503
+    },
+    "021810": {
+      "name": "富国创业板增强策略ETF发起式联接C",
+      "quality_break_dates": [
+        "2024-07-26"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/021810.js?v=1792204055",
+        "sha256": "d1bac7362045f0642df0e5b8c9e7567725a82e07e05a99ea10c396c7112206cd",
+        "raw": "data/expanded/raw/021810-d1bac7362045f064.txt",
+        "bytes": 92794,
+        "fetched_at": "2026-10-17T02:27:35.307463+00:00"
+      },
+      "history_rows": 539
+    },
+    "021811": {
+      "name": "富国创业板增强策略ETF发起式联接A",
+      "quality_break_dates": [
+        "2024-07-26"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/021811.js?v=1792204055",
+        "sha256": "a2f26e89e7f4b01ec6dd01c8c4b275dc1b72936920dd68e16b0051c81a0892bc",
+        "raw": "data/expanded/raw/021811-a2f26e89e7f4b01e.txt",
+        "bytes": 92798,
+        "fetched_at": "2026-10-17T02:27:35.432009+00:00"
+      },
+      "history_rows": 539
+    },
+    "021933": {
+      "name": "富国中证通信设备主题ETF发起式联接A",
+      "quality_break_dates": [
+        "2024-08-23"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/021933.js?v=1792204055",
+        "sha256": "3fc1f7c397517c2f598c704fe755edfdef443499763a0df5d4cf2856dce503b2",
+        "raw": "data/expanded/raw/021933-3fc1f7c397517c2f.txt",
+        "bytes": 89567,
+        "fetched_at": "2026-10-17T02:27:35.907281+00:00"
+      },
+      "history_rows": 518
+    },
+    "021934": {
+      "name": "富国中证通信设备主题ETF发起式联接C",
+      "quality_break_dates": [
+        "2024-08-23"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/021934.js?v=1792204055",
+        "sha256": "3a07ee96db7d45ba4a2bb9ed814f6ca1285263d0b76afdcef5d9998b4a8352d0",
+        "raw": "data/expanded/raw/021934-3a07ee96db7d45ba.txt",
+        "bytes": 89566,
+        "fetched_at": "2026-10-17T02:27:36.016822+00:00"
+      },
+      "history_rows": 518
+    },
+    "022463": {
+      "name": "富国中证A500ETF发起式联接A",
+      "quality_break_dates": [
+        "2024-11-15"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/022463.js?v=1792204059",
+        "sha256": "3c8e01a67c8a90bd8228383f355aea608abec895cae9aaf3ae90ab68d927bf89",
+        "raw": "data/expanded/raw/022463-3c8e01a67c8a90bd.txt",
+        "bytes": 82599,
+        "fetched_at": "2026-10-17T02:27:39.275758+00:00"
+      },
+      "history_rows": 465
+    },
+    "022464": {
+      "name": "富国中证A500ETF发起式联接C",
+      "quality_break_dates": [
+        "2024-11-15"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/022464.js?v=1792204059",
+        "sha256": "16680029ddf9f19b5a3c66262575d976bd8007e0e867f05d494be3505c2604af",
+        "raw": "data/expanded/raw/022464-16680029ddf9f19b.txt",
+        "bytes": 82649,
+        "fetched_at": "2026-10-17T02:27:39.293385+00:00"
+      },
+      "history_rows": 465
+    },
+    "022676": {
+      "name": "富国中证A500指数增强A",
+      "quality_break_dates": [
+        "2025-02-21"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/022676.js?v=1792204059",
+        "sha256": "3c95df89c8cead2ecba36db209e005825390aa4c2cbc2d3927f9eefcfb36143c",
+        "raw": "data/expanded/raw/022676-3c95df89c8cead2e.txt",
+        "bytes": 75010,
+        "fetched_at": "2026-10-17T02:27:39.805150+00:00"
+      },
+      "history_rows": 406
+    },
+    "022677": {
+      "name": "富国中证A500指数增强C",
+      "quality_break_dates": [
+        "2025-02-21"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/022677.js?v=1792204059",
+        "sha256": "d4810d51b2be3baf28e9b264e3e8045bbf8c88bf75b1744e9e44b20c50139602",
+        "raw": "data/expanded/raw/022677-d4810d51b2be3baf.txt",
+        "bytes": 75023,
+        "fetched_at": "2026-10-17T02:27:40.140499+00:00"
+      },
+      "history_rows": 406
+    },
+    "022846": {
+      "name": "富国景气优选混合A",
+      "quality_break_dates": [
+        "2025-04-25",
+        "2025-05-23",
+        "2025-05-30",
+        "2025-06-06",
+        "2025-06-13"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/022846.js?v=1792204060",
+        "sha256": "051e70ba8427b2658d572332cf3d06b22ccb4a11a8755fd471a48517cb3802f5",
+        "raw": "data/expanded/raw/022846-051e70ba8427b265.txt",
+        "bytes": 64757,
+        "fetched_at": "2026-10-17T02:27:40.314101+00:00"
+      },
+      "history_rows": 339
+    },
+    "022847": {
+      "name": "富国景气优选混合C",
+      "quality_break_dates": [
+        "2025-04-25",
+        "2025-05-23",
+        "2025-06-06",
+        "2025-06-13"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/022847.js?v=1792204060",
+        "sha256": "86c0c0d0ba98a405c0f31c4f922d15d2e8c74eb0ae68dc74ebfbbb463e66f132",
+        "raw": "data/expanded/raw/022847-86c0c0d0ba98a405.txt",
+        "bytes": 64743,
+        "fetched_at": "2026-10-17T02:27:40.732723+00:00"
+      },
+      "history_rows": 339
+    },
+    "023129": {
+      "name": "富国致盛量化选股股票A",
+      "quality_break_dates": [
+        "2025-05-09",
+        "2025-05-14"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/023129.js?v=1792204061",
+        "sha256": "36a30b192c5e2a2aed3ab0f256ff7c4d67fcf9fd2aa7aa942c187a207fc00a31",
+        "raw": "data/expanded/raw/023129-36a30b192c5e2a2a.txt",
+        "bytes": 64504,
+        "fetched_at": "2026-10-17T02:27:41.789926+00:00"
+      },
+      "history_rows": 352
+    },
+    "023130": {
+      "name": "富国致盛量化选股股票C",
+      "quality_break_dates": [
+        "2025-05-09",
+        "2025-05-14"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/023130.js?v=1792204061",
+        "sha256": "01fd905ee6d1db68af28cf056d2c837188b61caebcad9a9f905aa4770247e785",
+        "raw": "data/expanded/raw/023130-01fd905ee6d1db68.txt",
+        "bytes": 64519,
+        "fetched_at": "2026-10-17T02:27:41.748563+00:00"
+      },
+      "history_rows": 352
+    },
+    "023651": {
+      "name": "富国上证科创板芯片ETF发起式联接A",
+      "quality_break_dates": [
+        "2025-04-03",
+        "2025-04-11"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/023651.js?v=1792204061",
+        "sha256": "d1aba45b43253618697f04147417a0ebcd02aea4a02902f4a862cdbb0cf2f301",
+        "raw": "data/expanded/raw/023651-d1aba45b43253618.txt",
+        "bytes": 66532,
+        "fetched_at": "2026-10-17T02:27:41.953394+00:00"
+      },
+      "history_rows": 369
+    },
+    "023652": {
+      "name": "富国上证科创板芯片ETF发起式联接C",
+      "quality_break_dates": [
+        "2025-04-03",
+        "2025-04-11"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/023652.js?v=1792204062",
+        "sha256": "c171c4b261781ce3f9c539daced52e51b75f986e035cbb70ab0401b1d0b248cd",
+        "raw": "data/expanded/raw/023652-c171c4b261781ce3.txt",
+        "bytes": 66493,
+        "fetched_at": "2026-10-17T02:27:42.356330+00:00"
+      },
+      "history_rows": 369
+    },
+    "023913": {
+      "name": "富国上证科创板综合价格指数增强A",
+      "quality_break_dates": [
+        "2025-05-29"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/023913.js?v=1792204062",
+        "sha256": "93f97d6279dd27ba918c93c67831f4c0e9f24598c5b22fd3ac4e6e4984577497",
+        "raw": "data/expanded/raw/023913-93f97d6279dd27ba.txt",
+        "bytes": 61836,
+        "fetched_at": "2026-10-17T02:27:43.092719+00:00"
+      },
+      "history_rows": 338
+    },
+    "023914": {
+      "name": "富国上证科创板综合价格指数增强C",
+      "quality_break_dates": [
+        "2025-05-29"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/023914.js?v=1792204063",
+        "sha256": "5b10afdbee47e1bc84ecf4781bc1abbf9058ddd1ead43e2bc068fc8911897d62",
+        "raw": "data/expanded/raw/023914-5b10afdbee47e1bc.txt",
+        "bytes": 61867,
+        "fetched_at": "2026-10-17T02:27:43.432891+00:00"
+      },
+      "history_rows": 338
+    },
+    "024042": {
+      "name": "富国恒生A股专精特新企业ETF发起式联接A",
+      "quality_break_dates": [
+        "2025-06-06"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/024042.js?v=1792204063",
+        "sha256": "bcacfcc4282609bd78d8f2b8ca74f5222a3d99a792a27a9dace58d75930a33bb",
+        "raw": "data/expanded/raw/024042-bcacfcc4282609bd.txt",
+        "bytes": 60460,
+        "fetched_at": "2026-10-17T02:27:43.518442+00:00"
+      },
+      "history_rows": 332
+    },
+    "024043": {
+      "name": "富国恒生A股专精特新企业ETF发起式联接C",
+      "quality_break_dates": [
+        "2025-06-06"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/024043.js?v=1792204063",
+        "sha256": "9e7dfb097860714b5cc84d4343e75efaafebcf333dce7ef670d20923a9a9f9c9",
+        "raw": "data/expanded/raw/024043-9e7dfb097860714b.txt",
+        "bytes": 60468,
+        "fetched_at": "2026-10-17T02:27:43.602426+00:00"
+      },
+      "history_rows": 332
+    },
+    "024179": {
+      "name": "富国中证500ETF发起式联接A",
+      "quality_break_dates": [
+        "2025-09-02"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/024179.js?v=1792204064",
+        "sha256": "97833c895a50155db5d8cab79ac5eb11bfc3aadb3cbd9146e8d45261b7a68f2e",
+        "raw": "data/expanded/raw/024179-97833c895a50155d.txt",
+        "bytes": 51255,
+        "fetched_at": "2026-10-17T02:27:44.296641+00:00"
+      },
+      "history_rows": 271
+    },
+    "024180": {
+      "name": "富国中证500ETF发起式联接C",
+      "quality_break_dates": [
+        "2025-09-02"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/024180.js?v=1792204064",
+        "sha256": "c32ed25fd3c88f8971c19d08e750a7d2e5b7ad4a93bfe5a81216869e07771003",
+        "raw": "data/expanded/raw/024180-c32ed25fd3c88f89.txt",
+        "bytes": 51203,
+        "fetched_at": "2026-10-17T02:27:44.503475+00:00"
+      },
+      "history_rows": 271
+    },
+    "024188": {
+      "name": "富国均衡投资混合",
+      "quality_break_dates": [
+        "2025-06-27"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/024188.js?v=1792204064",
+        "sha256": "c761655bb2716ed28c5f9a36b4fc5bca5e68c095c84ed62862491a72675d2f79",
+        "raw": "data/expanded/raw/024188-c761655bb2716ed2.txt",
+        "bytes": 59316,
+        "fetched_at": "2026-10-17T02:27:44.607847+00:00"
+      },
+      "history_rows": 318
+    },
+    "024431": {
+      "name": "富国均衡配置混合A",
+      "quality_break_dates": [
+        "2025-07-18",
+        "2025-07-25",
+        "2025-08-01",
+        "2025-08-08",
+        "2025-08-15",
+        "2025-08-22",
+        "2025-08-29",
+        "2025-09-12",
+        "2025-09-18"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/024431.js?v=1792204064",
+        "sha256": "e3f44cd25e5d5762edf61a0002f5d3f931f6cebd12b73375a9654c75239e085c",
+        "raw": "data/expanded/raw/024431-e3f44cd25e5d5762.txt",
+        "bytes": 54364,
+        "fetched_at": "2026-10-17T02:27:44.631897+00:00"
+      },
+      "history_rows": 271
+    },
+    "024432": {
+      "name": "富国均衡配置混合C",
+      "quality_break_dates": [
+        "2025-07-18",
+        "2025-07-25",
+        "2025-08-01",
+        "2025-08-08",
+        "2025-08-15",
+        "2025-08-22",
+        "2025-08-29",
+        "2025-09-12",
+        "2025-09-18"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/024432.js?v=1792204064",
+        "sha256": "a592047b4abcef8aa970f16f73787a92861f33f587b547d7bdbe886c8e53844e",
+        "raw": "data/expanded/raw/024432-a592047b4abcef8a.txt",
+        "bytes": 54374,
+        "fetched_at": "2026-10-17T02:27:44.809864+00:00"
+      },
+      "history_rows": 271
+    },
+    "024688": {
+      "name": "富国国证通用航空产业ETF发起式联接A",
+      "quality_break_dates": [
+        "2025-07-18"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/024688.js?v=1792204065",
+        "sha256": "ec00b857ceeb75166c03e0e4562f8c387532b59093409b249f09114d0c337662",
+        "raw": "data/expanded/raw/024688-ec00b857ceeb7516.txt",
+        "bytes": 56181,
+        "fetched_at": "2026-10-17T02:27:45.181821+00:00"
+      },
+      "history_rows": 302
+    },
+    "024689": {
+      "name": "富国国证通用航空产业ETF发起式联接C",
+      "quality_break_dates": [
+        "2025-07-18"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/024689.js?v=1792204065",
+        "sha256": "46bf1fd82a4d9ab0e7dc2af36b4a879afd7c15af5c09e9c9e78919a574794c96",
+        "raw": "data/expanded/raw/024689-46bf1fd82a4d9ab0.txt",
+        "bytes": 56192,
+        "fetched_at": "2026-10-17T02:27:45.424028+00:00"
+      },
+      "history_rows": 302
+    },
+    "024763": {
+      "name": "富国上证科创板人工智能ETF发起式联接A",
+      "quality_break_dates": [
+        "2025-08-01"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/024763.js?v=1792204065",
+        "sha256": "044b78d8ca85070561541bcb45edc010ad97fde4c81c1c477acf680ce88c4927",
+        "raw": "data/expanded/raw/024763-044b78d8ca850705.txt",
+        "bytes": 54606,
+        "fetched_at": "2026-10-17T02:27:45.968487+00:00"
+      },
+      "history_rows": 292
+    },
+    "024764": {
+      "name": "富国上证科创板人工智能ETF发起式联接C",
+      "quality_break_dates": [
+        "2025-08-01"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/024764.js?v=1792204065",
+        "sha256": "5227db2f3e05f20c98cba0399b4adf30f284f63a1c32b6b1e055421c2f956dba",
+        "raw": "data/expanded/raw/024764-5227db2f3e05f20c.txt",
+        "bytes": 54579,
+        "fetched_at": "2026-10-17T02:27:46.073646+00:00"
+      },
+      "history_rows": 292
+    },
+    "024812": {
+      "name": "富国消费优选混合A",
+      "quality_break_dates": [
+        "2026-02-13",
+        "2026-02-27",
+        "2026-03-06",
+        "2026-03-13",
+        "2026-03-20",
+        "2026-03-27",
+        "2026-04-10",
+        "2026-04-17",
+        "2026-04-24",
+        "2026-04-28"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/024812.js?v=1792204065",
+        "sha256": "4a76943c713aa38429f26e33b1d4e1f45874aeddd81cc4f9c6244292faef921a",
+        "raw": "data/expanded/raw/024812-4a76943c713aa384.txt",
+        "bytes": 31742,
+        "fetched_at": "2026-10-17T02:27:46.066230+00:00"
+      },
+      "history_rows": 126
+    },
+    "024813": {
+      "name": "富国消费优选混合C",
+      "quality_break_dates": [
+        "2026-02-13",
+        "2026-02-27",
+        "2026-03-06",
+        "2026-03-13",
+        "2026-03-20",
+        "2026-03-27",
+        "2026-04-10",
+        "2026-04-17",
+        "2026-04-24",
+        "2026-04-28"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/024813.js?v=1792204066",
+        "sha256": "9344ea5c72c4319310caf9f25b019742abbb692faf81b3b2c5cbd13d5d59c833",
+        "raw": "data/expanded/raw/024813-9344ea5c72c43193.txt",
+        "bytes": 31756,
+        "fetched_at": "2026-10-17T02:27:46.270464+00:00"
+      },
+      "history_rows": 126
+    },
+    "025366": {
+      "name": "富国中证港股通科技ETF发起式联接A",
+      "quality_break_dates": [
+        "2025-09-23"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/025366.js?v=1792204067",
+        "sha256": "0718c3005a3552b3fcde880d2afe146ac6cae00c5273f08dc8c55846c7d453fe",
+        "raw": "data/expanded/raw/025366-0718c3005a3552b3.txt",
+        "bytes": 49111,
+        "fetched_at": "2026-10-17T02:27:47.881645+00:00"
+      },
+      "history_rows": 256
+    },
+    "025367": {
+      "name": "富国中证港股通科技ETF发起式联接C",
+      "quality_break_dates": [
+        "2025-09-23"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/025367.js?v=1792204067",
+        "sha256": "2f59bf8bf6929e76537ea56a61d40acce79f0666ddb41fcc2a8c17282c1bbed6",
+        "raw": "data/expanded/raw/025367-2f59bf8bf6929e76.txt",
+        "bytes": 49150,
+        "fetched_at": "2026-10-17T02:27:47.984693+00:00"
+      },
+      "history_rows": 256
+    },
+    "025717": {
+      "name": "富国兴和混合A",
+      "quality_break_dates": [
+        "2025-11-21",
+        "2025-11-28",
+        "2025-12-26",
+        "2026-01-09",
+        "2026-01-23",
+        "2026-01-30"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/025717.js?v=1792204067",
+        "sha256": "51defc1b666035f33ba966893743548674864f9c5f737fdfb8c8f294a28ce3d5",
+        "raw": "data/expanded/raw/025717-51defc1b666035f3.txt",
+        "bytes": 40282,
+        "fetched_at": "2026-10-17T02:27:48.083533+00:00"
+      },
+      "history_rows": 181
+    },
+    "025718": {
+      "name": "富国兴和混合C",
+      "quality_break_dates": [
+        "2025-11-21",
+        "2025-11-28",
+        "2025-12-26",
+        "2026-01-09",
+        "2026-01-23",
+        "2026-01-30"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/025718.js?v=1792204068",
+        "sha256": "6064a30e20bce7a35c5dd18ecf8e06cf480a369dc84d4565722752037895f8ab",
+        "raw": "data/expanded/raw/025718-6064a30e20bce7a3.txt",
+        "bytes": 40272,
+        "fetched_at": "2026-10-17T02:27:48.396383+00:00"
+      },
+      "history_rows": 181
+    },
+    "026499": {
+      "name": "富国嘉汇债券A",
+      "quality_break_dates": [
+        "2026-06-17"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/026499.js?v=1792204068",
+        "sha256": "642f5e4918a81a07b8018c79efe0402457dce1be05914e82b3c425a9355f609b",
+        "raw": "data/expanded/raw/026499-642f5e4918a81a07.txt",
+        "bytes": 25780,
+        "fetched_at": "2026-10-17T02:27:48.697632+00:00"
+      },
+      "history_rows": 95
+    },
+    "026500": {
+      "name": "富国嘉汇债券C",
+      "quality_break_dates": [
+        "2026-06-17"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/026500.js?v=1792204068",
+        "sha256": "b940d2e17ca4d3d1083b0c6104b77f01d3761b35210090fe582d1882ce2d89b3",
+        "raw": "data/expanded/raw/026500-b940d2e17ca4d3d1.txt",
+        "bytes": 25782,
+        "fetched_at": "2026-10-17T02:27:48.978814+00:00"
+      },
+      "history_rows": 95
+    },
+    "026621": {
+      "name": "富国价值策略混合",
+      "quality_break_dates": [
+        "2026-04-03",
+        "2026-04-10",
+        "2026-04-24",
+        "2026-04-30",
+        "2026-05-08",
+        "2026-05-15",
+        "2026-05-22",
+        "2026-06-05",
+        "2026-06-12",
+        "2026-06-18"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/026621.js?v=1792204068",
+        "sha256": "3292c9669a17043eab8524005691b11afc44549d686f81163a3b5c2309498e1c",
+        "raw": "data/expanded/raw/026621-3292c9669a17043e.txt",
+        "bytes": 25892,
+        "fetched_at": "2026-10-17T02:27:49.041134+00:00"
+      },
+      "history_rows": 93
+    },
+    "026642": {
+      "name": "富国数字经济混合A",
+      "quality_break_dates": [
+        "2026-02-27",
+        "2026-03-06",
+        "2026-03-13",
+        "2026-03-20",
+        "2026-03-27",
+        "2026-04-03",
+        "2026-04-10",
+        "2026-04-17",
+        "2026-04-24",
+        "2026-04-30",
+        "2026-05-07"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/026642.js?v=1792204068",
+        "sha256": "432b74abcc30d9497543959e25ddbe2046f6bea927859f1f3c5be1ee8d5cb2d6",
+        "raw": "data/expanded/raw/026642-432b74abcc30d949.txt",
+        "bytes": 30949,
+        "fetched_at": "2026-10-17T02:27:49.059876+00:00"
+      },
+      "history_rows": 122
+    },
+    "026643": {
+      "name": "富国数字经济混合C",
+      "quality_break_dates": [
+        "2026-02-27",
+        "2026-03-06",
+        "2026-03-13",
+        "2026-03-20",
+        "2026-03-27",
+        "2026-04-03",
+        "2026-04-10",
+        "2026-04-17",
+        "2026-04-24",
+        "2026-04-30",
+        "2026-05-07"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/026643.js?v=1792204069",
+        "sha256": "2fe6b38711aa076fec8026060cd526a4ef61bb0210d01d73c9d9c78ea44c90f6",
+        "raw": "data/expanded/raw/026643-2fe6b38711aa076f.txt",
+        "bytes": 30950,
+        "fetched_at": "2026-10-17T02:27:49.210374+00:00"
+      },
+      "history_rows": 122
+    },
+    "026710": {
+      "name": "富国核心动力混合A",
+      "quality_break_dates": [
+        "2026-03-20",
+        "2026-03-27",
+        "2026-04-03",
+        "2026-04-10",
+        "2026-04-17",
+        "2026-04-24",
+        "2026-04-30",
+        "2026-05-08",
+        "2026-05-15",
+        "2026-05-22",
+        "2026-05-29",
+        "2026-06-05",
+        "2026-06-12",
+        "2026-06-16"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/026710.js?v=1792204069",
+        "sha256": "4f535678bf4416afa780dc32452c94c2483eb5ccf0f084fb0843b6dda125780f",
+        "raw": "data/expanded/raw/026710-4f535678bf4416af.txt",
+        "bytes": 26404,
+        "fetched_at": "2026-10-17T02:27:49.521569+00:00"
+      },
+      "history_rows": 96
+    },
+    "026711": {
+      "name": "富国核心动力混合C",
+      "quality_break_dates": [
+        "2026-03-20",
+        "2026-03-27",
+        "2026-04-03",
+        "2026-04-10",
+        "2026-04-17",
+        "2026-04-24",
+        "2026-04-30",
+        "2026-05-08",
+        "2026-05-15",
+        "2026-05-22",
+        "2026-05-29",
+        "2026-06-05",
+        "2026-06-12",
+        "2026-06-16"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/026711.js?v=1792204069",
+        "sha256": "d19bc7d5ac6c9f5f26fd0da07409dde239db86d24bb84230fff000abb3c0d023",
+        "raw": "data/expanded/raw/026711-d19bc7d5ac6c9f5f.txt",
+        "bytes": 26412,
+        "fetched_at": "2026-10-17T02:27:49.633945+00:00"
+      },
+      "history_rows": 96
+    },
+    "026730": {
+      "name": "富国价值回报混合A",
+      "quality_break_dates": [
+        "2026-05-15",
+        "2026-05-22",
+        "2026-05-29",
+        "2026-06-03"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/026730.js?v=1792204069",
+        "sha256": "a9fe085bee212c8ef7a75ddd34ba317cb1ff79663e3c1ce95ed5707596ba8b1a",
+        "raw": "data/expanded/raw/026730-a9fe085bee212c8e.txt",
+        "bytes": 27824,
+        "fetched_at": "2026-10-17T02:27:49.630228+00:00"
+      },
+      "history_rows": 105
+    },
+    "026731": {
+      "name": "富国价值回报混合C",
+      "quality_break_dates": [
+        "2026-05-15",
+        "2026-05-22",
+        "2026-05-29",
+        "2026-06-03"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/026731.js?v=1792204069",
+        "sha256": "76730ee54ac48c8e0f7d1a810c450c5fb342d6f73f517b0902c363b920fb6786",
+        "raw": "data/expanded/raw/026731-76730ee54ac48c8e.txt",
+        "bytes": 27822,
+        "fetched_at": "2026-10-17T02:27:49.723178+00:00"
+      },
+      "history_rows": 105
+    },
+    "026816": {
+      "name": "富国创业板新能源ETF发起式联接A",
+      "quality_break_dates": [
+        "2026-03-20"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/026816.js?v=1792204069",
+        "sha256": "9d2b933ced817102dcb4fac93e84acb7b2c745b236895efd35d7d3031f0f69f5",
+        "raw": "data/expanded/raw/026816-9d2b933ced817102.txt",
+        "bytes": 30886,
+        "fetched_at": "2026-10-17T02:27:50.031224+00:00"
+      },
+      "history_rows": 141
+    },
+    "026817": {
+      "name": "富国创业板新能源ETF发起式联接C",
+      "quality_break_dates": [
+        "2026-03-20"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/026817.js?v=1792204070",
+        "sha256": "f96d990332b626a8bd5409fecb4dfdb1c6daff0e763f1ac72f469f5f66070a18",
+        "raw": "data/expanded/raw/026817-f96d990332b626a8.txt",
+        "bytes": 30887,
+        "fetched_at": "2026-10-17T02:27:50.195924+00:00"
+      },
+      "history_rows": 141
+    },
+    "026923": {
+      "name": "富国港股通成长精选混合A",
+      "quality_break_dates": [
+        "2026-05-15",
+        "2026-05-22",
+        "2026-06-05",
+        "2026-06-18",
+        "2026-06-26",
+        "2026-06-30",
+        "2026-07-03",
+        "2026-07-10",
+        "2026-07-17",
+        "2026-07-24",
+        "2026-07-28"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/026923.js?v=1792204070",
+        "sha256": "adcd13e08ee34957014c572fb15063645ee8d240c1df6bb7506386cd87238634",
+        "raw": "data/expanded/raw/026923-adcd13e08ee34957.txt",
+        "bytes": 20953,
+        "fetched_at": "2026-10-17T02:27:50.232286+00:00"
+      },
+      "history_rows": 67
+    },
+    "026924": {
+      "name": "富国港股通成长精选混合C",
+      "quality_break_dates": [
+        "2026-05-15",
+        "2026-05-22",
+        "2026-06-05",
+        "2026-06-18",
+        "2026-06-26",
+        "2026-06-30",
+        "2026-07-03",
+        "2026-07-10",
+        "2026-07-17",
+        "2026-07-24",
+        "2026-07-28"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/026924.js?v=1792204070",
+        "sha256": "b95f1c799c697873de82cd8997bf9a19d8beb88112f4f33d29e419ba73affc36",
+        "raw": "data/expanded/raw/026924-b95f1c799c697873.txt",
+        "bytes": 20944,
+        "fetched_at": "2026-10-17T02:27:50.250039+00:00"
+      },
+      "history_rows": 67
+    },
+    "027041": {
+      "name": "富国港股通医药优选混合A",
+      "quality_break_dates": [
+        "2026-07-03"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/027041.js?v=1792204070",
+        "sha256": "1cdae3df2ad32f3783498e6445f389bf1902271a0d56ee0c300b3cbd20b34e9c",
+        "raw": "data/expanded/raw/027041-1cdae3df2ad32f37.txt",
+        "bytes": 19940,
+        "fetched_at": "2026-10-17T02:27:50.645688+00:00"
+      },
+      "history_rows": 77
+    },
+    "027042": {
+      "name": "富国港股通医药优选混合C",
+      "quality_break_dates": [
+        "2026-07-03"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/027042.js?v=1792204070",
+        "sha256": "7e9afdbd9c3470e7ef6367ddad00470a3d8af00585e5e00d325ca5874120855f",
+        "raw": "data/expanded/raw/027042-7e9afdbd9c3470e7.txt",
+        "bytes": 19923,
+        "fetched_at": "2026-10-17T02:27:50.752519+00:00"
+      },
+      "history_rows": 77
+    },
+    "027225": {
+      "name": "富国新能源混合发起式A",
+      "quality_break_dates": [
+        "2026-05-15",
+        "2026-05-22",
+        "2026-05-29",
+        "2026-06-05",
+        "2026-06-12",
+        "2026-06-18",
+        "2026-06-26",
+        "2026-06-30",
+        "2026-07-03",
+        "2026-07-10",
+        "2026-07-17"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/027225.js?v=1792204071",
+        "sha256": "2b6aac189bc5c8ac01cf1293afcbb14903476b693d0d1114993b1e83648454e4",
+        "raw": "data/expanded/raw/027225-2b6aac189bc5c8ac.txt",
+        "bytes": 21872,
+        "fetched_at": "2026-10-17T02:27:51.261234+00:00"
+      },
+      "history_rows": 71
+    },
+    "027226": {
+      "name": "富国新能源混合发起式C",
+      "quality_break_dates": [
+        "2026-05-15",
+        "2026-05-22",
+        "2026-05-29",
+        "2026-06-05",
+        "2026-06-12",
+        "2026-06-18",
+        "2026-06-26",
+        "2026-06-30",
+        "2026-07-03",
+        "2026-07-10",
+        "2026-07-17"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/027226.js?v=1792204071",
+        "sha256": "78f5c03ade71538c9d9ec72fd8631219d7b87e45ba37c0be49838321dce57692",
+        "raw": "data/expanded/raw/027226-78f5c03ade71538c.txt",
+        "bytes": 21860,
+        "fetched_at": "2026-10-17T02:27:51.405239+00:00"
+      },
+      "history_rows": 71
+    },
+    "027236": {
+      "name": "富国港股通科技混合A",
+      "quality_break_dates": [
+        "2026-09-30"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/027236.js?v=1792204071",
+        "sha256": "ea5e5ce0959e573d5a1e09b000ac72c843b91a05f882dc230064099401c6e38b",
+        "raw": "data/expanded/raw/027236-ea5e5ce0959e573d.txt",
+        "bytes": 7452,
+        "fetched_at": "2026-10-17T02:27:51.359537+00:00"
+      },
+      "history_rows": 13
+    },
+    "027237": {
+      "name": "富国港股通科技混合C",
+      "quality_break_dates": [
+        "2026-09-30"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/027237.js?v=1792204071",
+        "sha256": "49bf1215f723f6bb76654afed5a2027c0776c9b2f896434aa646ffc3f4f8b634",
+        "raw": "data/expanded/raw/027237-49bf1215f723f6bb.txt",
+        "bytes": 7449,
+        "fetched_at": "2026-10-17T02:27:51.575061+00:00"
+      },
+      "history_rows": 13
+    },
+    "027299": {
+      "name": "富国电子信息产业混合发起式A",
+      "quality_break_dates": [
+        "2026-07-03",
+        "2026-07-10",
+        "2026-07-17",
+        "2026-07-24",
+        "2026-07-31",
+        "2026-08-07",
+        "2026-08-14",
+        "2026-08-21",
+        "2026-08-28",
+        "2026-09-04",
+        "2026-09-11"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/027299.js?v=1792204071",
+        "sha256": "7318381c83812a4a18395c9371b143aa28a6f2d1df42bf3025a2d9f054bcddfe",
+        "raw": "data/expanded/raw/027299-7318381c83812a4a.txt",
+        "bytes": 13314,
+        "fetched_at": "2026-10-17T02:27:51.935562+00:00"
+      },
+      "history_rows": 34
+    },
+    "027300": {
+      "name": "富国电子信息产业混合发起式C",
+      "quality_break_dates": [
+        "2026-07-03",
+        "2026-07-10",
+        "2026-07-17",
+        "2026-07-24",
+        "2026-07-31",
+        "2026-08-07",
+        "2026-08-14",
+        "2026-08-21",
+        "2026-08-28",
+        "2026-09-04",
+        "2026-09-11"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/027300.js?v=1792204072",
+        "sha256": "108807cca6ff6c7819661cc5cc3f7f3d972172e4ea2d9757235ac97c2348388d",
+        "raw": "data/expanded/raw/027300-108807cca6ff6c78.txt",
+        "bytes": 13328,
+        "fetched_at": "2026-10-17T02:27:52.237667+00:00"
+      },
+      "history_rows": 34
+    },
+    "027311": {
+      "name": "富国消费服务混合发起式A",
+      "quality_break_dates": [
+        "2026-05-08",
+        "2026-05-15",
+        "2026-05-22",
+        "2026-05-29",
+        "2026-06-05",
+        "2026-06-12",
+        "2026-06-18",
+        "2026-06-26",
+        "2026-06-30",
+        "2026-07-03",
+        "2026-07-10",
+        "2026-07-17",
+        "2026-07-24"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/027311.js?v=1792204072",
+        "sha256": "f867c91d9022eabe92f77199f4214f4b874a605dfdd6df88c3a812b4747ed4d8",
+        "raw": "data/expanded/raw/027311-f867c91d9022eabe.txt",
+        "bytes": 21263,
+        "fetched_at": "2026-10-17T02:27:52.313993+00:00"
+      },
+      "history_rows": 69
+    },
+    "027312": {
+      "name": "富国消费服务混合发起式C",
+      "quality_break_dates": [
+        "2026-05-08",
+        "2026-05-15",
+        "2026-05-22",
+        "2026-05-29",
+        "2026-06-05",
+        "2026-06-12",
+        "2026-06-18",
+        "2026-06-26",
+        "2026-06-30",
+        "2026-07-03",
+        "2026-07-10",
+        "2026-07-17",
+        "2026-07-24"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/027312.js?v=1792204072",
+        "sha256": "8f5f9101d0189bcd82d41535ea5ec2b53be42817c3016c5cfd6e20799b31a711",
+        "raw": "data/expanded/raw/027312-8f5f9101d0189bcd.txt",
+        "bytes": 21269,
+        "fetched_at": "2026-10-17T02:27:52.516601+00:00"
+      },
+      "history_rows": 69
+    },
+    "027436": {
+      "name": "富国消费睿选混合发起式A",
+      "quality_break_dates": [
+        "2026-05-29",
+        "2026-06-05",
+        "2026-06-12",
+        "2026-06-18",
+        "2026-06-26",
+        "2026-06-30",
+        "2026-07-03",
+        "2026-07-10",
+        "2026-07-24",
+        "2026-07-31",
+        "2026-08-07",
+        "2026-08-14",
+        "2026-08-20"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/027436.js?v=1792204072",
+        "sha256": "552e178b726b01b4349cc33dd3ba5a9c31ddd9a5e5f022bb8da2eb3f9a7831c2",
+        "raw": "data/expanded/raw/027436-552e178b726b01b4.txt",
+        "bytes": 17138,
+        "fetched_at": "2026-10-17T02:27:53.100923+00:00"
+      },
+      "history_rows": 50
+    },
+    "027437": {
+      "name": "富国消费睿选混合发起式C",
+      "quality_break_dates": [
+        "2026-05-29",
+        "2026-06-05",
+        "2026-06-12",
+        "2026-06-18",
+        "2026-06-26",
+        "2026-06-30",
+        "2026-07-03",
+        "2026-07-10",
+        "2026-07-24",
+        "2026-07-31",
+        "2026-08-07",
+        "2026-08-14",
+        "2026-08-20"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/027437.js?v=1792204073",
+        "sha256": "8cd7fa61e5f77adb1c94ec384412eeb6a59999cfc13f725a7cff0a908d3d5619",
+        "raw": "data/expanded/raw/027437-8cd7fa61e5f77adb.txt",
+        "bytes": 17150,
+        "fetched_at": "2026-10-17T02:27:53.220795+00:00"
+      },
+      "history_rows": 50
+    },
+    "027508": {
+      "name": "富国中证全指证券公司ETF发起式联接A",
+      "quality_break_dates": [
+        "2026-06-26"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/027508.js?v=1792204073",
+        "sha256": "b019c1155231a5a7ff83ebc1a01f04e1c4ecddbd60d3f4d029dd4339555071ec",
+        "raw": "data/expanded/raw/027508-b019c1155231a5a7.txt",
+        "bytes": 17898,
+        "fetched_at": "2026-10-17T02:27:53.352546+00:00"
+      },
+      "history_rows": 76
+    },
+    "027509": {
+      "name": "富国中证全指证券公司ETF发起式联接C",
+      "quality_break_dates": [
+        "2026-06-26"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/027509.js?v=1792204073",
+        "sha256": "5d2040dc897f6e80f3a7aa5f0d72b2a2b48eb39ad2bbd86dc4b4fa80994ce079",
+        "raw": "data/expanded/raw/027509-5d2040dc897f6e80.txt",
+        "bytes": 17915,
+        "fetched_at": "2026-10-17T02:27:53.491927+00:00"
+      },
+      "history_rows": 76
+    },
+    "027542": {
+      "name": "富国中证工业有色金属主题ETF发起式联接A",
+      "quality_break_dates": [
+        "2026-07-10"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/027542.js?v=1792204073",
+        "sha256": "0a286351546d5444023429d5688abb738d4b7abe1604e6ee4ed71a17c4054b11",
+        "raw": "data/expanded/raw/027542-0a286351546d5444.txt",
+        "bytes": 15754,
+        "fetched_at": "2026-10-17T02:27:53.560421+00:00"
+      },
+      "history_rows": 66
+    },
+    "027543": {
+      "name": "富国中证工业有色金属主题ETF发起式联接C",
+      "quality_break_dates": [
+        "2026-07-10"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/027543.js?v=1792204073",
+        "sha256": "2db327c142066b561354af44f5a65831d67772c0c8883afab807af4738f0e848",
+        "raw": "data/expanded/raw/027543-2db327c142066b56.txt",
+        "bytes": 15733,
+        "fetched_at": "2026-10-17T02:27:53.961899+00:00"
+      },
+      "history_rows": 66
+    },
+    "027566": {
+      "name": "富国裕丰回报混合A",
+      "quality_break_dates": [
+        "2026-08-07"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/027566.js?v=1792204073",
+        "sha256": "c589a95919d3c11e1a4c52430bdce6be112eb81bfc242c4045dcdc0a426038e8",
+        "raw": "data/expanded/raw/027566-c589a95919d3c11e.txt",
+        "bytes": 12476,
+        "fetched_at": "2026-10-17T02:27:53.920436+00:00"
+      },
+      "history_rows": 36
+    },
+    "027567": {
+      "name": "富国裕丰回报混合C",
+      "quality_break_dates": [
+        "2026-08-07"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/027567.js?v=1792204073",
+        "sha256": "dc9543b2d2d1e1c8b42a7cc91d723a39a89ccc36e22238143cf223f431be23d4",
+        "raw": "data/expanded/raw/027567-dc9543b2d2d1e1c8.txt",
+        "bytes": 12482,
+        "fetched_at": "2026-10-17T02:27:54.023604+00:00"
+      },
+      "history_rows": 36
+    },
+    "027681": {
+      "name": "富国核心智选混合发起式A",
+      "quality_break_dates": [
+        "2026-06-18",
+        "2026-06-26",
+        "2026-06-30",
+        "2026-07-03",
+        "2026-07-10",
+        "2026-07-17",
+        "2026-07-24",
+        "2026-07-31",
+        "2026-08-07",
+        "2026-08-14",
+        "2026-08-21",
+        "2026-08-28",
+        "2026-09-04",
+        "2026-09-11"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/027681.js?v=1792204074",
+        "sha256": "d0d5e60d71d7544cde735c731e58ccab040ed04ae36b90df139a7f23d53edf0e",
+        "raw": "data/expanded/raw/027681-d0d5e60d71d7544c.txt",
+        "bytes": 13360,
+        "fetched_at": "2026-10-17T02:27:54.569694+00:00"
+      },
+      "history_rows": 34
+    },
+    "027698": {
+      "name": "富国核心智选混合发起式C",
+      "quality_break_dates": [
+        "2026-06-18",
+        "2026-06-26",
+        "2026-06-30",
+        "2026-07-03",
+        "2026-07-10",
+        "2026-07-17",
+        "2026-07-24",
+        "2026-07-31",
+        "2026-08-07",
+        "2026-08-14",
+        "2026-08-21",
+        "2026-08-28",
+        "2026-09-04",
+        "2026-09-11"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/027698.js?v=1792204074",
+        "sha256": "27da154d18487819f3432d9e67d2a89f2362ae6de1cbfa26598e32ce4199ba71",
+        "raw": "data/expanded/raw/027698-27da154d18487819.txt",
+        "bytes": 13358,
+        "fetched_at": "2026-10-17T02:27:54.552321+00:00"
+      },
+      "history_rows": 34
+    },
+    "028321": {
+      "name": "富国稳悦回报混合A",
+      "quality_break_dates": [
+        "2026-10-16"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/028321.js?v=1792204074",
+        "sha256": "e5a0e2443c9dbd74712c19c286a602e0a40d4ac8267b7e5651ab4f041943b955",
+        "raw": "data/expanded/raw/028321-e5a0e2443c9dbd74.txt",
+        "bytes": 7379,
+        "fetched_at": "2026-10-17T02:27:55.049226+00:00"
+      },
+      "history_rows": 10
+    },
+    "028322": {
+      "name": "富国稳悦回报混合C",
+      "quality_break_dates": [
+        "2026-10-16"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/028322.js?v=1792204075",
+        "sha256": "e783795e8436d09fe620ad3b7bd549a37e35f20ee36911adc7476d7017bdda34",
+        "raw": "data/expanded/raw/028322-e783795e8436d09f.txt",
+        "bytes": 7391,
+        "fetched_at": "2026-10-17T02:27:55.200370+00:00"
+      },
+      "history_rows": 10
+    },
+    "028404": {
+      "name": "富国中证金融科技主题ETF发起式联接A",
+      "quality_break_dates": [
+        "2026-08-13"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/028404.js?v=1792204075",
+        "sha256": "c206c87fc13fdf43069bf3fe76c510c63dc799dae546360118906881d003db14",
+        "raw": "data/expanded/raw/028404-c206c87fc13fdf43.txt",
+        "bytes": 11759,
+        "fetched_at": "2026-10-17T02:27:55.118015+00:00"
+      },
+      "history_rows": 43
+    },
+    "028405": {
+      "name": "富国中证金融科技主题ETF发起式联接C",
+      "quality_break_dates": [
+        "2026-08-13"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/028405.js?v=1792204075",
+        "sha256": "bbccec104de1f89c81d3f46034075a63aa3787e4df5ad1dcfb3f0263adc277df",
+        "raw": "data/expanded/raw/028405-bbccec104de1f89c.txt",
+        "bytes": 11765,
+        "fetched_at": "2026-10-17T02:27:55.355777+00:00"
+      },
+      "history_rows": 43
+    },
+    "028589": {
+      "name": "富国中证全指指数增强A",
+      "quality_break_dates": [
+        "2026-09-30"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/028589.js?v=1792204075",
+        "sha256": "7701ee6c8f08d9091d5c2f6a6d7820ceeb7d7dc6355c0e32613512cd0a268137",
+        "raw": "data/expanded/raw/028589-7701ee6c8f08d909.txt",
+        "bytes": 6671,
+        "fetched_at": "2026-10-17T02:27:55.663295+00:00"
+      },
+      "history_rows": 11
+    },
+    "028590": {
+      "name": "富国中证全指指数增强C",
+      "quality_break_dates": [
+        "2026-09-30"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/028590.js?v=1792204075",
+        "sha256": "21310a82c688fd2e2282d31d81619e1ac9f353ed6054f85d31464430743ae3ca",
+        "raw": "data/expanded/raw/028590-21310a82c688fd2e.txt",
+        "bytes": 6673,
+        "fetched_at": "2026-10-17T02:27:55.712336+00:00"
+      },
+      "history_rows": 11
+    },
+    "028597": {
+      "name": "富国医药健康混合发起式A",
+      "quality_break_dates": [
+        "2026-09-11",
+        "2026-09-18",
+        "2026-09-24",
+        "2026-09-30",
+        "2026-10-16"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/028597.js?v=1792204075",
+        "sha256": "5d199ac49b2faea2046e96c9f7b9971b03639b04459b4dda3636e4279d38ec0b",
+        "raw": "data/expanded/raw/028597-5d199ac49b2faea2.txt",
+        "bytes": 5585,
+        "fetched_at": "2026-10-17T02:27:55.764149+00:00"
+      },
+      "history_rows": 10
+    },
+    "028598": {
+      "name": "富国医药健康混合发起式C",
+      "quality_break_dates": [
+        "2026-09-11",
+        "2026-09-18",
+        "2026-09-24",
+        "2026-09-30",
+        "2026-10-16"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/028598.js?v=1792204075",
+        "sha256": "e0f3f821eaf699e77fbdb1f1094777437f1d7a38739fa0fbe34e951b8536df2d",
+        "raw": "data/expanded/raw/028598-e0f3f821eaf699e7.txt",
+        "bytes": 5584,
+        "fetched_at": "2026-10-17T02:27:55.868875+00:00"
+      },
+      "history_rows": 10
+    },
+    "028964": {
+      "name": "富国嘉裕债券A",
+      "quality_break_dates": [
+        "2026-10-16"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/028964.js?v=1792204076",
+        "sha256": "a3b37ece576c43a23b9a249343a14e3adc0bed9116b714f7afae64a9a3a4a152",
+        "raw": "data/expanded/raw/028964-a3b37ece576c43a2.txt",
+        "bytes": 5533,
+        "fetched_at": "2026-10-17T02:27:56.791996+00:00"
+      },
+      "history_rows": 5
+    },
+    "028965": {
+      "name": "富国嘉裕债券C",
+      "quality_break_dates": [
+        "2026-10-16"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/028965.js?v=1792204076",
+        "sha256": "d05d5fcd58376e680bd06e2fe744c1d2fef91ea6b2b0cc1c3509f43fb274552f",
+        "raw": "data/expanded/raw/028965-d05d5fcd58376e68.txt",
+        "bytes": 5533,
+        "fetched_at": "2026-10-17T02:27:56.942623+00:00"
+      },
+      "history_rows": 5
+    },
+    "100029": {
+      "name": "富国天成红利混合",
+      "quality_break_dates": [
+        "2018-07-03"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/100029.js?v=1792204077",
+        "sha256": "d8bb3650eb2b1ae395dc5aea6f0e252dea25b343e5475d24086a2228222364c5",
+        "raw": "data/expanded/raw/100029-d8bb3650eb2b1ae3.txt",
+        "bytes": 633899,
+        "fetched_at": "2026-10-17T02:27:57.984329+00:00"
+      },
+      "history_rows": 4465
+    },
+    "161010": {
+      "name": "富国天丰强化债券(LOF)A",
+      "quality_break_dates": [
+        "2020-04-09",
+        "2020-05-13"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/161010.js?v=1792204079",
+        "sha256": "4d75e92c665c2efe6484fa8b91d38a35aef1a7f71567a69882d750be80df1296",
+        "raw": "data/expanded/raw/161010-4d75e92c665c2efe.txt",
+        "bytes": 610351,
+        "fetched_at": "2026-10-17T02:28:00.092194+00:00"
+      },
+      "history_rows": 4357
+    },
+    "161022": {
+      "name": "富国创业板ETF联接A",
+      "quality_break_dates": [
+        "2014-01-06"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/161022.js?v=1792204080",
+        "sha256": "06644108ccc981cbd7bd1280e01901d0c98e007a57812fede78b492756bed5cf",
+        "raw": "data/expanded/raw/161022-06644108ccc981cb.txt",
+        "bytes": 495158,
+        "fetched_at": "2026-10-17T02:28:00.723411+00:00"
+      },
+      "history_rows": 3185
+    },
+    "161026": {
+      "name": "富国中证国有企业改革指数(LOF)A",
+      "quality_break_dates": [
+        "2014-12-23",
+        "2014-12-26",
+        "2014-12-30"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/161026.js?v=1792204081",
+        "sha256": "4c1250687ddf641f74a6662471ec505b18eb77e58e1ae7a33ede2f8d0a8aa83b",
+        "raw": "data/expanded/raw/161026-4c1250687ddf641f.txt",
+        "bytes": 446871,
+        "fetched_at": "2026-10-17T02:28:01.409337+00:00"
+      },
+      "history_rows": 2876
+    },
+    "161027": {
+      "name": "富国中证全指证券公司指数(LOF)A",
+      "quality_break_dates": [
+        "2015-04-02",
+        "2015-04-09"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/161027.js?v=1792204081",
+        "sha256": "72cdc6ae5e0a965dbbd317899c8d0bf632db5ef76189df2112283ee746e03e9f",
+        "raw": "data/expanded/raw/161027-72cdc6ae5e0a965d.txt",
+        "bytes": 436495,
+        "fetched_at": "2026-10-17T02:28:01.420679+00:00"
+      },
+      "history_rows": 2811
+    },
+    "161028": {
+      "name": "富国中证新能源汽车指数(LOF)A",
+      "quality_break_dates": [
+        "2015-04-10"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/161028.js?v=1792204081",
+        "sha256": "2207bb9d1fed4b40aab239fd9e9d988ba8b14ced7a864cc2282d79dd8674fa3a",
+        "raw": "data/expanded/raw/161028-2207bb9d1fed4b40.txt",
+        "bytes": 437094,
+        "fetched_at": "2026-10-17T02:28:01.358613+00:00"
+      },
+      "history_rows": 2809
+    },
+    "161029": {
+      "name": "富国中证银行指数(LOF)A",
+      "quality_break_dates": [
+        "2015-05-12"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/161029.js?v=1792204081",
+        "sha256": "7618a5a9a9bbc715925a708bcd9d5fc0fe68350109d2dc2b38257b2bf25baabf",
+        "raw": "data/expanded/raw/161029-7618a5a9a9bbc715.txt",
+        "bytes": 432788,
+        "fetched_at": "2026-10-17T02:28:01.406496+00:00"
+      },
+      "history_rows": 2789
+    },
+    "161030": {
+      "name": "富国中证体育产业指数(LOF)A",
+      "quality_break_dates": [
+        "2015-07-03",
+        "2015-07-07"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/161030.js?v=1792204081",
+        "sha256": "3648076b8bd5931dcfbfc15562c41015a28591aca654eb36b0e866cf80601a67",
+        "raw": "data/expanded/raw/161030-3648076b8bd5931d.txt",
+        "bytes": 427231,
+        "fetched_at": "2026-10-17T02:28:02.471551+00:00"
+      },
+      "history_rows": 2752
+    },
+    "161031": {
+      "name": "富国中证工业4.0指数(LOF)A",
+      "quality_break_dates": [
+        "2015-06-24"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/161031.js?v=1792204081",
+        "sha256": "1d9066b473fcb0069ccc2d44f2a52e95114704b4b05c9753e59c06f14a24b5e8",
+        "raw": "data/expanded/raw/161031-1d9066b473fcb006.txt",
+        "bytes": 428618,
+        "fetched_at": "2026-10-17T02:28:02.729210+00:00"
+      },
+      "history_rows": 2759
+    },
+    "161032": {
+      "name": "富国中证煤炭指数(LOF)A",
+      "quality_break_dates": [
+        "2022-04-05",
+        "2022-04-06"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/161032.js?v=1792204081",
+        "sha256": "356d60a4c0fbf62ed2f405fe202a6b47f2ae41220c4c08d77f840bf6e607293a",
+        "raw": "data/expanded/raw/161032-356d60a4c0fbf62e.txt",
+        "bytes": 427287,
+        "fetched_at": "2026-10-17T02:28:02.029603+00:00"
+      },
+      "history_rows": 2757
+    },
+    "161035": {
+      "name": "富国中证医药主题指数增强A",
+      "quality_break_dates": [
+        "2016-11-24"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/161035.js?v=1792204082",
+        "sha256": "7c2056b9e94f268e3f48408f22009f1e32cf145b9f13c678010bfbb9a0b37a01",
+        "raw": "data/expanded/raw/161035-7c2056b9e94f268e.txt",
+        "bytes": 376826,
+        "fetched_at": "2026-10-17T02:28:02.979910+00:00"
+      },
+      "history_rows": 2411
+    },
+    "161037": {
+      "name": "富国中证高端制造指数增强型(LOF)A",
+      "quality_break_dates": [
+        "2024-02-09",
+        "2024-02-19"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/161037.js?v=1792204083",
+        "sha256": "1810732bbf7665a5e2606fa942044b0ab7ec5af59e0a8fff00afe12f9a239f5e",
+        "raw": "data/expanded/raw/161037-1810732bbf7665a5.txt",
+        "bytes": 364429,
+        "fetched_at": "2026-10-17T02:28:03.344990+00:00"
+      },
+      "history_rows": 2307
+    },
+    "161038": {
+      "name": "富国新兴成长量化精选混合(LOF)A",
+      "quality_break_dates": [
+        "2017-08-11",
+        "2017-08-17"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/161038.js?v=1792204083",
+        "sha256": "cdc73b338e7aa5972ad7704de405e534a4caa50fe98c747a6b4e78535970d993",
+        "raw": "data/expanded/raw/161038-cdc73b338e7aa597.txt",
+        "bytes": 355243,
+        "fetched_at": "2026-10-17T02:28:03.913628+00:00"
+      },
+      "history_rows": 2233
+    },
+    "501077": {
+      "name": "富国创新企业灵活配置混合(LOF)A",
+      "quality_break_dates": [
+        "2019-07-05",
+        "2019-07-12",
+        "2019-07-26",
+        "2019-08-09",
+        "2019-08-16",
+        "2019-08-23",
+        "2019-09-06",
+        "2019-09-12",
+        "2019-09-20",
+        "2019-09-27",
+        "2019-10-18",
+        "2019-10-25"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/501077.js?v=1792204083",
+        "sha256": "672a4b58b3f98674816c0f59dcd17d601eee2aa00ce84fb6c5a3a00008213322",
+        "raw": "data/expanded/raw/501077-672a4b58b3f98674.txt",
+        "bytes": 277088,
+        "fetched_at": "2026-10-17T02:28:03.650316+00:00"
+      },
+      "history_rows": 1726
+    },
+    "519915": {
+      "name": "富国消费主题混合A",
+      "quality_break_dates": [
+        "2014-12-19",
+        "2014-12-26",
+        "2014-12-31"
+      ],
+      "source": {
+        "url": "https://fund.eastmoney.com/pingzhongdata/519915.js?v=1792204083",
+        "sha256": "c5b62464bbf13d03e6ef7fc7a40e6ac0de34c7a8dd0442e81adc3402a24a7fea",
+        "raw": "data/expanded/raw/519915-c5b62464bbf13d03.txt",
+        "bytes": 446488,
+        "fetched_at": "2026-10-17T02:28:04.126486+00:00"
+      },
+      "history_rows": 2875
+    }
+  },
+  "fund_count": 244,
+  "event_count": 843
+}

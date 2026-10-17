@@ -1,0 +1,121 @@
+{
+  "competition": {
+    "name": "第六届富国杯",
+    "start_date": "2026-10-19",
+    "midpoint_date": "2027-01-15",
+    "end_date": "2027-04-30",
+    "schedule_source": {
+      "kind": "user_confirmation",
+      "confirmed_on": "2026-10-17"
+    },
+    "initial_cash": 200000,
+    "verified": false,
+    "rules_source": "",
+    "universe_source": "",
+    "allowed_codes": [],
+    "user_reference": "https://www.sohu.com/a/1082397752_121124213"
+  },
+  "research_funds": [
+    {
+      "code": "100032",
+      "sector": "红利",
+      "group": "中证红利增强"
+    },
+    {
+      "code": "161017",
+      "sector": "宽基",
+      "group": "中证500增强"
+    },
+    {
+      "code": "161024",
+      "sector": "军工",
+      "group": "军工"
+    },
+    {
+      "code": "161028",
+      "sector": "新能源",
+      "group": "新能源汽车"
+    },
+    {
+      "code": "161029",
+      "sector": "银行",
+      "group": "银行"
+    },
+    {
+      "code": "000220",
+      "sector": "医药",
+      "group": "医疗保健"
+    },
+    {
+      "code": "100022",
+      "sector": "宽基",
+      "group": "天瑞"
+    },
+    {
+      "code": "100038",
+      "sector": "宽基",
+      "group": "沪深300增强"
+    }
+  ],
+  "rules": {
+    "verified": false,
+    "note": "研究假设，绝非比赛规则或各基金真实费率；正式使用前逐只核实并填写 fund_rules",
+    "buy_fee": 0.0015,
+    "redemption_fee_tiers": [
+      [
+        7,
+        0.015
+      ],
+      [
+        365,
+        0.005
+      ]
+    ],
+    "confirmation_sessions": 1,
+    "redemption_sessions": 3,
+    "min_hold_days": 7,
+    "signal_lag_sessions": 2,
+    "rebalance_sessions": 5,
+    "max_fund_weight": 0.35,
+    "max_sector_weight": 0.5,
+    "max_exposure": 0.95,
+    "min_order": 100,
+    "validation_max_drawdown": 0.3,
+    "slippage_bps": 0,
+    "rebalance_mode": "weekly"
+  },
+  "fund_rules": {},
+  "model": {
+    "top_k": 3,
+    "risk_free_annual": 0,
+    "validation_sessions": 126,
+    "test_sessions": 126,
+    "min_train_sessions": 252,
+    "max_selection_age_days": 45
+  },
+  "data": {
+    "max_nav_lag_sessions": 2,
+    "max_snapshot_age_hours": 8
+  },
+  "account_max_age_days": 4,
+  "universe": {
+    "mode": "auto",
+    "min_history": 252,
+    "workers": 4,
+    "note": "research_funds仅保留原8只回归基准/人工分类覆盖，不再控制生产候选池"
+  },
+  "research": {
+    "version": "2026-10-17-v1",
+    "evaluation_end": "2026-10-16",
+    "fold_sessions": 126,
+    "min_train_sessions": 252,
+    "holdout_sessions": 126,
+    "min_folds": 3,
+    "target_vol": 0.12,
+    "correlation_cap": 0.85,
+    "incumbent": "equal_weight",
+    "holdout_previously_seen": true,
+    "promotion_requires_forward_evidence": true,
+    "notes": "固定参数，不做搜索；历史滚动检验不冒充未见的前瞻业绩"
+  }
+}
