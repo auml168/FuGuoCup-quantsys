@@ -155,6 +155,16 @@ class ReportTests(unittest.TestCase):
         row = next(x for x in r['signal'] if x['code'] == self.codes[0])
         self.assertAlmostEqual(row['current_weight'], 0.35)
 
+    def test_pre_competition_signal_is_not_assumed_executed(self):
+        previous = {'last_signal': {'report_id': '2026-10-18-manual',
+                                    'weights': {self.codes[0]: 0.35},
+                                    'assets': 200000,
+                                    'at': '2026-10-18T20:49:00+08:00'}}
+        r = build_report(self.cfg, self.snapshot, self.frames, self.selection,
+                         self.account, research=True, at=self.at, delivery_state=previous)
+        self.assertFalse(r['assumed_execution'])
+        self.assertNotIn('视为已执行', r['telegram_text'])
+
     def test_stale_data_stops_amounts(self):
         self.snapshot['funds'][self.codes[0]]['fetched_at']='2026-10-16T10:00:00+08:00'
         r = build_report(self.cfg,self.snapshot,self.frames,self.selection,self.account,research=True,at=self.at)

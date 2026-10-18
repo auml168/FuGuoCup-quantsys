@@ -255,9 +255,21 @@ def build_report(cfg, snapshot, frames, selection, account, *, research=False, a
     # signal produce add/reduce/clear directions without manual account edits.
     previous_signal = (delivery_state or {}).get('last_signal')
     actual_positions = bool(account.get('lots')) or bool(account.get('pending')) or bool(account.get('reconciled_at'))
+    previous_signal_date = None
+    if previous_signal:
+        stamp = previous_signal.get('at')
+        try:
+            previous_signal_date = (datetime.fromisoformat(stamp).date() if stamp
+                                    else date.fromisoformat(str(previous_signal.get('report_id', ''))[:10]))
+        except (TypeError, ValueError):
+            previous_signal_date = None
+    competition_start = date.fromisoformat(cfg['competition']['start_date'])
     previous_weights = {}
+    # A pre-competition research signal was not an executable plan; do not
+    # assume it was bought and emit phantom sells on the first competition day.
     if (research and cfg.get('signal', {}).get('assume_execution')
-            and previous_signal and not actual_positions):
+            and previous_signal and not actual_positions
+            and (previous_signal_date is None or previous_signal_date >= competition_start)):
         previous_weights = {str(c): float(v)
                             for c, v in (previous_signal.get('weights') or {}).items()
                             if isinstance(v, (int, float)) and v > 0}
