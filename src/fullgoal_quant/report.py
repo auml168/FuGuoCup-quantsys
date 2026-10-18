@@ -10,13 +10,107 @@ from .backtest import market_matrix
 from .calendar import Calendar
 from .common import GuardError, TZ, competition_errors, competition_schedule, fingerprint, fund_rules, now_cn, read_json, write_json
 from .portfolio import propose
-from .signals import STRATEGIES, target_weights
+from .signals import STRATEGIES, target_weights, score_universe
 from .signals import market_regime
-from .universe import metadata_for, active_codes
+from .universe import metadata_for, active_codes, analysis_codes
 from .research import model_hash
 
 
-def build_report(cfg, snapshot, frames, selection, account, *, research=False, at=None, slot="manual", calendar=None, delivery_state=None):
+COVERAGE_COLUMNS = [
+    'code', 'name', 'category', 'otc', 'model_supported', 'collection_status', 'collection_error',
+    'analysis_ready', 'research_ready', 'history_rows', 'latest_nav_date', 'asset_type', 'sector',
+    'group', 'share_class', 'buy_open', 'sell_open', 'purchase_limit', 'analysis_score', 'mom20',
+    'mom60', 'vol60', 'trend', 'drawdown60', 'model_unsupported_reasons', 'data_notes',
+    'selected_weight',
+]
+
+
+def _coverage(universe, snapshot, cfg, prices, weights):
+    """Aggregate coverage plus one audit row per catalog fund.
+
+    universe.json is the authoritative catalog (including funds that were not
+    collected). When it is absent (direct test fixtures), fall back to the
+    collected snapshot so existing callers keep working.
+    """
+    if universe and isinstance(universe.get('funds'), list):
+        catalog = universe['funds']
+        derived = False
+    else:
+        catalog = [{'code': code, **fund} for code, fund in snapshot['funds'].items()]
+        derived = True
+    scored = score_universe(prices) if not prices.empty else pd.DataFrame()
+    scored_codes = set(str(x) for x in scored.index)
+
+    def status_of(fund):
+        return str(fund.get('collection_status') or ('ok' if derived else 'not_requested'))
+
+    def analysis_ready(fund):
+        if derived:
+            return bool(fund.get('analysis_ready', status_of(fund) == 'ok'))
+        return bool(fund.get('analysis_ready'))
+
+    def research_ready(fund):
+        if derived:
+            return bool(fund.get('research_ready', analysis_ready(fund)))
+        return bool(fund.get('research_ready'))
+
+    summary = {
+        'catalog': len(catalog),
+        'otc': sum(1 for f in catalog if f.get('otc', True)),
+        'not_otc': sum(1 for f in catalog if not f.get('otc', True)),
+        'model_supported': sum(1 for f in catalog if f.get('otc', True) and f.get('model_supported', True)),
+        'collected': sum(1 for f in catalog if f.get('history_rows') is not None),
+        'analysis_ready': sum(1 for f in catalog if analysis_ready(f)),
+        'scored': sum(1 for f in catalog if str(f.get('code', '')) in scored_codes),
+        'full_backtest_ready': sum(1 for f in catalog if research_ready(f)),
+        'new_fund_short_backtest': sum(1 for f in catalog if analysis_ready(f) and not research_ready(f)),
+        'insufficient_history': sum(1 for f in catalog if status_of(f) == 'insufficient_history'),
+        'model_unsupported': sum(1 for f in catalog if status_of(f) == 'model_unsupported'),
+        'collection_errors': sum(1 for f in catalog if status_of(f).startswith('error')),
+        'not_requested': sum(1 for f in catalog if status_of(f) == 'not_requested'),
+    }
+    rows = []
+    for fund in catalog:
+        code = str(fund.get('code', ''))
+        score = scored.loc[code] if code in scored.index else None
+        def value(key):
+            return float(score[key]) if score is not None and pd.notna(score.get(key)) else None
+        reasons = fund.get('model_unsupported_reasons') or []
+        rows.append({
+            'code': code,
+            'name': fund.get('name', ''),
+            'category': fund.get('category', ''),
+            'otc': bool(fund.get('otc', True)),
+            'model_supported': bool(fund.get('model_supported', True)),
+            'collection_status': status_of(fund),
+            'collection_error': fund.get('collection_error'),
+            'analysis_ready': analysis_ready(fund),
+            'research_ready': research_ready(fund),
+            'history_rows': fund.get('history_rows'),
+            'latest_nav_date': fund.get('latest_nav_date'),
+            'asset_type': fund.get('asset_type', ''),
+            'sector': fund.get('sector', ''),
+            'group': fund.get('group', ''),
+            'share_class': fund.get('share_class'),
+            'buy_open': fund.get('buy_open'),
+            'sell_open': fund.get('sell_open'),
+            'purchase_limit': fund.get('purchase_limit'),
+            'analysis_score': value('score'),
+            'mom20': value('mom20'),
+            'mom60': value('mom60'),
+            'vol60': value('vol60'),
+            'trend': value('trend'),
+            'drawdown60': value('drawdown60'),
+            'model_unsupported_reasons': ';'.join(str(x) for x in reasons),
+            'data_notes': ';'.join(str(x) for x in (
+                [fund['data_notes']] if isinstance(fund.get('data_notes'), str)
+                else (fund.get('data_notes') or []))),
+            'selected_weight': float(weights.get(code, 0.0)),
+        })
+    return summary, rows
+
+
+def build_report(cfg, snapshot, frames, selection, account, *, research=False, at=None, slot="manual", calendar=None, delivery_state=None, universe=None):
     at = at or now_cn()
     if at.tzinfo is None:
         raise GuardError("报告时间须包含时区")
@@ -26,7 +120,9 @@ def build_report(cfg, snapshot, frames, selection, account, *, research=False, a
     cal = calendar or Calendar()
     # Fail on unknown calendar year, even in research mode.
     is_session = cal.is_session(today)
-    active = active_codes(cfg, snapshot, competition=not research)
+    # Research mode analyzes every OTC fund with a usable history; formal mode
+    # still trusts only the verified competition whitelist.
+    active = analysis_codes(cfg, snapshot) if research else active_codes(cfg, snapshot, competition=True)
     if not active:
         raise GuardError("比赛白名单为空；可使用 --research 生成明确标注的研究预览")
     metadata = metadata_for(cfg, snapshot)
@@ -99,7 +195,31 @@ def build_report(cfg, snapshot, frames, selection, account, *, research=False, a
     # Match backtest decision lag: execution session T uses NAV through T-2.
     cutoff = cal.previous(today, cfg["rules"]["signal_lag_sessions"])
     prices = prices.loc[:str(cutoff)]
-    weights, scores = target_weights(prices, signal_strategy, cfg, metadata)
+    # Only currently tradeable, model-supported funds may receive weights.
+    # The analysis/coverage universe is deliberately wider.
+    buyable = set()
+    for code in active:
+        fund = snapshot['funds'][code]
+        if not fund.get('model_supported', True):
+            continue
+        if not fund.get('buy_open', True):
+            continue
+        limit = fund.get('purchase_limit')
+        if limit is not None and limit < cfg['rules']['min_order']:
+            continue
+        buyable.add(code)
+    min_score_history = cfg.get('universe', {}).get('min_score_history', 128)
+    full_history = cfg.get('universe', {}).get('min_history', 252)
+    new_fund_cap = cfg.get('signal', {}).get('new_fund_max_weight', 0.10)
+    max_weight_by_code = {
+        c: new_fund_cap for c in active
+        if snapshot['funds'][c].get('history_rows') is not None
+        and snapshot['funds'][c]['history_rows'] < full_history
+    }
+    weights, scores = target_weights(
+        prices, signal_strategy, cfg, metadata, eligible=buyable,
+        min_history=min_score_history, max_weight_by_code=max_weight_by_code)
+    coverage, coverage_rows = _coverage(universe, snapshot, cfg, prices, weights)
     if scores.empty:
         errors.append('当前历史长度或连续性不足，无法生成可靠调仓建议')
     regime, breadth = market_regime(scores, metadata)
@@ -258,6 +378,9 @@ def build_report(cfg, snapshot, frames, selection, account, *, research=False, a
         f"• 市场：{esc(regime)}，正趋势广度 {breadth:.0%}",
         "• 选基：行业 20 日动量前 2；行业内 60 日动量为正、综合评分前 3",
         "• 约束：单基金≤35% / 单行业≤50% / 总仓位≤95%",
+        f"• 覆盖：场外{coverage['otc']}只全量扫描；可评分{coverage['analysis_ready']}只"
+        f"（完成评分{coverage['scored']}只，短历史{coverage['new_fund_short_backtest']}只）；"
+        f"模型不支持{coverage['model_unsupported']}只；采集异常{coverage['collection_errors']}只",
         "",
         "<b>③ 怎么执行</b>",
         *execution_lines,
@@ -290,7 +413,12 @@ def build_report(cfg, snapshot, frames, selection, account, *, research=False, a
     lines.append(f"  现金 {cash_weight:.1%}")
     if previous_weights:
         lines.append("上一份信号按已执行处理；若实际成交不同，请设置 ACCOUNT_JSON 以实际持仓覆盖。")
-    lines.append(f"数据覆盖：本次成功{len(snapshot['funds'])}只；采集异常{len(snapshot.get('errors',{}))}只；完整目录见universe.json。")
+    lines.append(f"数据覆盖：目录{coverage['catalog']}只；场外{coverage['otc']}只全量扫描"
+                 f"（可评分{coverage['analysis_ready']}只、完成评分{coverage['scored']}只，"
+                 f"其中完整回测{coverage['full_backtest_ready']}只、"
+                 f"短历史{coverage['new_fund_short_backtest']}只；历史不足{coverage['insufficient_history']}只；"
+                 f"模型不支持{coverage['model_unsupported']}只；采集异常{coverage['collection_errors']}只；"
+                 f"非场外{coverage['not_otc']}只）；完整清单见 reports/universe_coverage.csv。")
     if not is_session or at.hour >= 15:
         lines.append("当前不可按当日净值提交；以下仅供下一交易日前复核。")
     if not rebalance_due:
@@ -355,6 +483,8 @@ def build_report(cfg, snapshot, frames, selection, account, *, research=False, a
               "rebalance_due": rebalance_due, "weights": weights, "orders": orders, "errors": errors,
               "actionable": actionable, "slot":slot, "market_regime":regime,
               "score_rows":scores.reset_index(names='code').to_dict('records'),
+              "coverage": coverage, "coverage_rows": coverage_rows,
+              "universe_complete": bool(snapshot.get('universe_complete', False)),
               "report_id": f"{today}-{slot}", "text": "\n".join(lines)}
     return result
 
@@ -365,3 +495,6 @@ def save_report(report, out="reports"):
     write_json(target / "latest.json", report)
     (target / "latest.txt").write_text(report["text"], encoding="utf-8")
     (target / (report["report_id"] + ".txt")).write_text(report["text"], encoding="utf-8")
+    if report.get("coverage_rows"):
+        pd.DataFrame(report["coverage_rows"]).reindex(columns=COVERAGE_COLUMNS).to_csv(
+            target / "universe_coverage.csv", index=False)

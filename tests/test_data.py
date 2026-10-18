@@ -4,7 +4,8 @@ import json
 import urllib.error
 
 from fullgoal_quant.common import GuardError
-from fullgoal_quant.data import parse_nav, parse_status_page, is_otc_candidate, js_json, get_text
+from fullgoal_quant.data import (parse_nav, parse_status_page, is_otc, is_otc_candidate,
+                                js_json, get_text)
 from fullgoal_quant.telegram import api, chunks
 
 
@@ -43,6 +44,17 @@ class DataTests(unittest.TestCase):
         self.assertFalse(is_otc_candidate("富国某ETF", "股票型"))
         self.assertTrue(is_otc_candidate("富国某ETF联接A", "指数型"))
         self.assertFalse(is_otc_candidate("富国三年持有", "混合型"))
+
+    def test_otc_venue_is_separate_from_model_support(self):
+        # Direct ETFs are on-exchange; their feeder funds are OTC.
+        self.assertFalse(is_otc("富国某ETF", "股票型"))
+        self.assertTrue(is_otc("富国某ETF联接A", "指数型"))
+        # Lock-up and money funds are OTC even though the model cannot trade them.
+        self.assertTrue(is_otc("富国三年持有", "混合型"))
+        self.assertFalse(is_otc_candidate("富国三年持有", "混合型"))
+        self.assertTrue(is_otc("富国测试货币A", "货币型-普通货币"))
+        self.assertFalse(is_otc_candidate("富国测试货币A", "货币型-普通货币"))
+        self.assertFalse(is_otc("华夏成长混合", "混合型"))
 
     def test_secret_never_in_error(self):
         secret = "123456:SENSITIVE"

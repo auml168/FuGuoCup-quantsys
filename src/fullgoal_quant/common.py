@@ -66,6 +66,28 @@ def load_config(path="config/settings.json"):
     for key in ("validation_sessions", "test_sessions", "min_train_sessions"):
         if not isinstance(cfg["model"].get(key), int) or cfg["model"][key] <= 0:
             raise GuardError(f"model.{key} 须为正整数")
+    universe = cfg.get("universe", {})
+    min_history = universe.get("min_history", 252)
+    min_score = universe.get("min_score_history", 128)
+    for name, value in (("min_history", min_history), ("min_score_history", min_score)):
+        if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
+            raise GuardError(f"universe.{name} 须为正整数")
+    if min_score > min_history:
+        raise GuardError("universe.min_score_history 不能大于 min_history")
+    signal = cfg.get("signal", {})
+    floor = signal.get("drawdown_floor", -0.20)
+    if isinstance(floor, bool) or not isinstance(floor, (int, float)) or not -1 < floor <= 0:
+        raise GuardError("signal.drawdown_floor 须在 (-1,0] 内")
+    haircut = signal.get("breadth_haircut", {})
+    if not isinstance(haircut, dict):
+        raise GuardError("signal.breadth_haircut 须为对象")
+    for name, value in haircut.items():
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or not 0 <= value <= 1:
+            raise GuardError(f"signal.breadth_haircut.{name} 须在 [0,1] 内")
+    new_fund_cap = signal.get("new_fund_max_weight", 0.10)
+    if (isinstance(new_fund_cap, bool) or not isinstance(new_fund_cap, (int, float))
+            or not 0 <= new_fund_cap <= rules["max_fund_weight"]):
+        raise GuardError("signal.new_fund_max_weight 须在 [0, rules.max_fund_weight] 内")
     research = cfg.get("research", {})
     for key in ("fold_sessions", "holdout_sessions", "min_train_sessions"):
         if not isinstance(research.get(key), int) or research[key] <= 0:

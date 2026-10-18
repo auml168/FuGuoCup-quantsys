@@ -12,8 +12,9 @@ import pandas as pd
 
 from fullgoal_quant.common import GuardError, load_config, competition_errors, TZ, write_json
 from fullgoal_quant.data import parse_nav, parse_profile, Collector, load_market
-from fullgoal_quant.universe import classify,metadata_for,representative_codes
-from fullgoal_quant.signals import target_weights,CHALLENGERS
+from fullgoal_quant.universe import (classify, metadata_for, representative_codes,
+                                     analysis_codes, active_codes)
+from fullgoal_quant.signals import target_weights, CHALLENGERS, breadth_exposure
 from fullgoal_quant.calendar import parse_official_year,extend_official,Calendar
 from fullgoal_quant.notifications import reserve,complete,state_at
 from fullgoal_quant.portfolio import validate_account,propose
@@ -34,6 +35,22 @@ class UniverseQualityTests(unittest.TestCase):
         # Eastmoney's "指数型-固收" is fixed income, not equity.
         self.assertEqual(classify('富国中债1-3年国开债A','指数型-固收')['asset_type'],'bond')
         self.assertFalse(classify('富国上海金ETF联接A','指数型-其他')['otc_candidate'])
+        # Venue and model support are independent: the coverage layer keeps
+        # lock-up/QDII/FOF/money funds even when the buy model rejects them.
+        self.assertTrue(a['otc'])
+        self.assertTrue(a['model_supported'])
+        self.assertEqual(a['otc_candidate'], a['model_supported'])
+        self.assertFalse(classify('富国某ETF','股票型')['otc'])
+        self.assertTrue(classify('富国某ETF联接A','指数型')['otc'])
+        hold=classify('富国某三年持有A','混合型')
+        self.assertTrue(hold['otc'])
+        self.assertFalse(hold['model_supported'])
+        qdii=classify('富国全球债券(QDII)人民币','QDII-混合债')
+        self.assertTrue(qdii['otc'])
+        self.assertFalse(qdii['model_supported'])
+        self.assertFalse(classify('华夏成长混合','混合型')['identity_verified'])
+        self.assertTrue(classify('富国上海金ETF联接A','指数型-其他')['otc'])
+        self.assertFalse(classify('富国上海金ETF联接A','指数型-其他')['model_supported'])
 
     def test_detail_manager_and_risk_not_guessed(self):
         info=parse_profile('<div class="infoOfFund">中高风险</table><span>管 理 人</span>：<a href="https://fund.eastmoney.com/company/80000221.html">富国</a>')
@@ -100,6 +117,53 @@ class UniverseQualityTests(unittest.TestCase):
             s=Collector(d).collect(cfg)
         self.assertEqual(set(s['funds']),{'123456'})
         self.assertFalse(s['funds']['123456']['research_ready'])
+        # Two rows are a coverage state, not a collection error.
+        self.assertFalse(s['funds']['123456']['analysis_ready'])
+        self.assertEqual(s['funds']['123456']['collection_status'], 'insufficient_history')
+        self.assertEqual(s['errors'], {})
+        self.assertTrue(s['universe_complete'])
+        self.assertEqual(s['coverage']['otc'], 1)
+        self.assertEqual(s['coverage']['insufficient_history'], 1)
+
+    def test_collect_all_otc_and_expect_money_fund_unsupported(self):
+        cfg=load_config()
+        normal='123456'
+        money='654321'
+        catalog={'funds':[
+            {'code':normal,'name':'富国测试混合A','category':'混合型',**classify('富国测试混合A','混合型')},
+            {'code':money,'name':'富国测试货币A','category':'货币型-普通货币',**classify('富国测试货币A','货币型-普通货币')},
+        ],'sources':[]}
+        points=[dict(x=1704153600000,y=1,equityReturn=0),dict(x=1704240000000,y=1.01,equityReturn=1)]
+        nav='var ishb=false;var fS_code="123456";var fS_name="富国测试混合A";var Data_netWorthTrend='+json.dumps(points)+';'
+        status='交易状态：开放申购 开放赎回</div><span>管 理 人</span>：<a href="https://fund.eastmoney.com/company/80000221.html">富国</a>'
+        with tempfile.TemporaryDirectory() as d,patch.object(Collector,'discover',return_value=catalog),patch('fullgoal_quant.data.get_text',side_effect=lambda u:nav if 'pingzhongdata' in u else status):
+            s=Collector(d).collect(cfg)
+            universe=json.loads((Path(d)/'universe.json').read_text())
+        self.assertEqual(set(s['funds']),{normal})
+        self.assertIn(money,s['expected_unsupported'])
+        self.assertNotIn(money,s['errors'])
+        self.assertTrue(s['universe_complete'])
+        money_row=next(f for f in universe['funds'] if f['code']==money)
+        self.assertEqual(money_row['collection_status'],'model_unsupported')
+        self.assertTrue(money_row['otc'])
+        self.assertFalse(money_row['model_supported'])
+
+
+    def test_analysis_codes_cover_model_unsupported_otc(self):
+        cfg=load_config()
+        snapshot={'funds':{
+            '100001':{'name':'富国QDII测试','category':'QDII-普通股票','collection_status':'ok','analysis_ready':True,'research_ready':False,'history_rows':200},
+            '100002':{'name':'富国测试货币A','category':'货币型-普通货币','collection_status':'model_unsupported','analysis_ready':False,'history_rows':None},
+            '100003':{'name':'富国短历史','category':'混合型-偏股','collection_status':'insufficient_history','analysis_ready':False,'research_ready':False,'history_rows':100},
+            '100004':{'name':'富国正常','category':'混合型-偏股','collection_status':'ok','analysis_ready':True,'research_ready':True,'history_rows':300},
+            '100005':{'name':'富国场内ETF','category':'指数型-股票','collection_status':'not_otc','analysis_ready':False},
+        }}
+        codes=analysis_codes(cfg,snapshot)
+        self.assertEqual(codes,['100001','100004'])
+        self.assertNotIn('100002',codes)
+        self.assertNotIn('100003',codes)
+        self.assertNotIn('100005',codes)
+        self.assertEqual(active_codes(cfg,snapshot),['100004'])
 
 
 class StrategyUpgradeTests(unittest.TestCase):
@@ -108,6 +172,31 @@ class StrategyUpgradeTests(unittest.TestCase):
         dates=pd.bdate_range('2021-01-01',periods=500)
         self.p=pd.DataFrame({'100001':np.exp(np.arange(500)*.001),'100002':np.exp(np.arange(500)*.0011),'100003':np.exp(np.arange(500)*.0005),'100004':np.exp(np.arange(500)*.0001)},index=dates)
         self.meta={c:{'group':('same' if c in ['100001','100002'] else c),'sector':('债券' if c=='100004' else c),'asset_type':('bond' if c=='100004' else 'equity')} for c in self.p}
+
+    def test_representative_eligible_filters_group(self):
+        codes=representative_codes(self.p,self.meta,128,eligible={'100002'})
+        self.assertIn('100002',codes)
+        self.assertNotIn('100001',codes)
+
+    def test_drawdown_floor_excludes_deep_drawdown(self):
+        p=self.p.copy()
+        p.iloc[-60:,0]=np.linspace(p.iloc[-61,0],p.iloc[-61,0]*.7,60)
+        w,_=target_weights(p,'momentum',self.cfg,self.meta)
+        self.assertNotIn('100001',w)
+
+    def test_breadth_haircut_reduces_sector_rotation_exposure(self):
+        cfg=copy.deepcopy(self.cfg)
+        cfg['signal']['breadth_haircut']={'risk_on':.5,'mixed':.5,'risk_off':.5,'defensive_only':.5,'unknown':.5}
+        self.assertEqual(breadth_exposure(cfg,'risk_on'),.5)
+        w,_=target_weights(self.p,'sector_rotation',cfg,self.meta)
+        self.assertLessEqual(sum(w.values()),.475+1e-9)
+
+    def test_new_fund_weight_cap(self):
+        meta={c:dict(self.meta[c],history_rows=300) for c in self.meta}
+        meta['100001']['history_rows']=130
+        w,_=target_weights(self.p,'equal_weight',self.cfg,meta,eligible=set(meta),
+                           min_history=128,max_weight_by_code={'100001':.10})
+        self.assertLessEqual(w.get('100001',0),.10+1e-9)
 
     def test_equal_and_challengers_never_duplicate_share_group(self):
         for strategy in ('equal_weight',*CHALLENGERS):

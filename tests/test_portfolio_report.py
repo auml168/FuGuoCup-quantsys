@@ -15,7 +15,7 @@ import pandas as pd
 from fullgoal_quant.cli import main, slot_guard, historical_status
 from fullgoal_quant.common import TZ, fingerprint, load_config, write_json, read_json, GuardError
 from fullgoal_quant.portfolio import propose, import_account
-from fullgoal_quant.report import build_report
+from fullgoal_quant.report import build_report, save_report
 
 
 class PortfolioTests(unittest.TestCase):
@@ -186,6 +186,43 @@ class ReportTests(unittest.TestCase):
         with patch('fullgoal_quant.cli.now_cn', return_value=datetime(2026,10,17,8,30,tzinfo=TZ)), patch('fullgoal_quant.cli.Collector.collect') as collect:
             self.assertEqual(main(['run','--research']), 0)
             collect.assert_not_called()
+
+    def test_coverage_lists_every_otc_fund_and_writes_csv(self):
+        code=self.codes[0]
+        snapshot=dict(funds={code: dict(name='富国测试混合A', buy_open=True, sell_open=True,
+                                       purchase_limit=None, fetched_at=self.at.isoformat(),
+                                       category='混合型-偏股', otc=True, model_supported=True,
+                                       collection_status='ok', analysis_ready=True,
+                                       research_ready=True, history_rows=300)},
+                      errors={}, universe_complete=True)
+        selection=dict(self.selection, codes=[code])
+        universe={'funds':[
+            {'code':code,'name':'A','category':'混合型-偏股','otc':True,'model_supported':True,
+             'collection_status':'ok','analysis_ready':True,'research_ready':True,'history_rows':300},
+            {'code':'111111','name':'B','category':'混合型-偏股','otc':True,'model_supported':True,
+             'collection_status':'insufficient_history','analysis_ready':False,'research_ready':False,'history_rows':50},
+            {'code':'222222','name':'C','category':'货币型-普通货币','otc':True,'model_supported':False,
+             'collection_status':'model_unsupported','analysis_ready':False,'research_ready':False,
+             'history_rows':None,'model_unsupported_reasons':['货币基金需万份收益模型']},
+            {'code':'333333','name':'D','category':'指数型-股票','otc':False,'model_supported':False,
+             'collection_status':'not_otc','analysis_ready':False,'research_ready':False,'history_rows':None},
+        ]}
+        r=build_report(self.cfg,snapshot,{code:self.frames[code]},selection,self.account,
+                       research=True,at=self.at,universe=universe)
+        self.assertEqual(r['coverage']['catalog'],4)
+        self.assertEqual(r['coverage']['otc'],3)
+        self.assertEqual(r['coverage']['not_otc'],1)
+        self.assertEqual(r['coverage']['insufficient_history'],1)
+        self.assertEqual(r['coverage']['model_unsupported'],1)
+        self.assertEqual(len(r['coverage_rows']),4)
+        self.assertIn('场外3只全量扫描',r['text'])
+        self.assertIn('覆盖：场外3只',r['telegram_text'])
+        with tempfile.TemporaryDirectory() as d:
+            save_report(r,d)
+            csv=pd.read_csv(Path(d)/'universe_coverage.csv',dtype={'code':str})
+            self.assertEqual(len(csv),4)
+            self.assertEqual(set(csv.code),{code,'111111','222222','333333'})
+            self.assertTrue(csv.loc[csv.otc,'collection_status'].notna().all())
 
     def test_status_strings_are_not_truthy(self):
         with tempfile.TemporaryDirectory() as d:

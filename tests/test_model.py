@@ -69,7 +69,7 @@ class ModelTests(unittest.TestCase):
         cfg = copy.deepcopy(self.cfg)
         cfg["rules"].update(min_hold_days=0, rebalance_sessions=1, max_fund_weight=1, max_sector_weight=1, max_exposure=1)
         calls = 0
-        def weights(*args):
+        def weights(*args, **kwargs):
             nonlocal calls
             calls += 1
             return ({code1: 1} if calls == 1 else {code2: 1}), pd.DataFrame()

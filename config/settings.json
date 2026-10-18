@@ -98,6 +98,15 @@
     "daily": true,
     "buy_deadline": "15:00",
     "assume_execution": true,
+    "drawdown_floor": -0.2,
+    "breadth_haircut": {
+      "risk_on": 1.0,
+      "mixed": 0.75,
+      "risk_off": 0.5,
+      "defensive_only": 0.5,
+      "unknown": 0.5
+    },
+    "new_fund_max_weight": 0.1,
     "note": "每日 14:20 Telegram 信号；默认把上一份已发送的目标权重视为已执行，用于下一份信号的加仓/减仓/清仓方向；设置 ACCOUNT_JSON 后以实际账户为准。sector_rotation 是最近一次滚动验证(+0.21%)和最终测试(+1.20%)都为正的策略。历史不代表未来，不保证收益。"
   },
   "data": {
@@ -108,8 +117,10 @@
   "universe": {
     "mode": "auto",
     "min_history": 252,
+    "min_score_history": 128,
     "workers": 8,
-    "note": "research_funds仅保留原8只回归基准信息；人工分类修订请使用 product_overrides，不控制生产候选池"
+    "coverage_workers": 8,
+    "note": "research_funds仅保留原8只回归基准信息；人工分类修订请使用 product_overrides，不控制生产候选池。所有场外基金都进入覆盖清单；min_score_history 控制每日可评分门槛，min_history 控制完整回测门槛。"
   },
   "research": {
     "version": "2026-10-17-v1",

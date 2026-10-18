@@ -96,6 +96,10 @@ def parse_status_page(text):
             "purchase_limit": limit, "status_text": plain.strip()}
 
 
+def is_otc(name, category):
+    return classify(name, category)["otc"]
+
+
 def is_otc_candidate(name, category):
     return classify(name, category)["otc_candidate"]
 
@@ -144,7 +148,12 @@ class Collector:
     def collect(self, cfg, competition=False, limit=None):
         catalog = self.discover()
         index = {f["code"]: f for f in catalog["funds"]}
-        codes = cfg["competition"]["allowed_codes"] if competition else [f["code"] for f in catalog["funds"] if f["otc_candidate"]]
+        # Coverage layer: every OTC fund is requested. Model support only gates
+        # the buy signal, never whether a fund is collected and audited.
+        all_otc = [f["code"] for f in catalog["funds"] if f["otc"]]
+        planned_otc = len(all_otc)
+        planned_supported = sum(1 for f in catalog["funds"] if f["otc"] and f["model_supported"])
+        codes = cfg["competition"]["allowed_codes"] if competition else all_otc
         planned = len(codes)
         if limit:
             if competition:
@@ -165,14 +174,35 @@ class Collector:
         if not codes:
             raise GuardError("没有配置基金代码")
         metadata, errors = {}, {}
+        statuses = {}
+        expected_unsupported, insufficient = {}, {}
+        min_history = cfg.get('universe', {}).get('min_history', 252)
+        min_score = cfg.get('universe', {}).get('min_score_history', 128)
+
+        def expected_skip(fund):
+            # Money-market funds publish 万份收益, not a comparable NAV series.
+            # Only this expected failure is pre-classified; a QDII/FOF/lock-up
+            # fetch failure remains a real data error.
+            return "货币基金需万份收益模型" in (fund.get("model_unsupported_reasons") or [])
+
         def fetch_one(code):
             try:
-                if code not in index or not index[code]["otc_candidate"]:
-                    raise GuardError("非已核验富国场外候选基金，或当前版本不支持该品种")
+                fund = index.get(code)
+                if fund is None or not fund.get("otc"):
+                    raise GuardError("非已核验富国场外基金")
+                if expected_skip(fund):
+                    return code, None, None, "model_unsupported", "；".join(fund["model_unsupported_reasons"])
                 url = f"{BASE}/pingzhongdata/{code}.js?v={int(time.time())}"
                 text = get_text(url)
                 nav_source = self.archive(code, url, text)
-                name, frame = parse_nav(text, code)
+                try:
+                    name, frame = parse_nav(text, code)
+                except GuardError as exc:
+                    # A brand-new fund with fewer than two NAV rows has no
+                    # series to analyze; it is a coverage state, not a failure.
+                    if "净值样本不足" in str(exc):
+                        return code, None, None, "insufficient_history", str(exc)
+                    raise
                 if name != index[code]["name"]:
                     raise GuardError("基金名称在两个数据源中不一致")
                 frame = frame[frame.date <= pd.Timestamp(now_cn().date())]
@@ -186,36 +216,75 @@ class Collector:
                 frame.to_csv(target, index=False)
                 meta['csv_sha256'] = hashlib.sha256(target.read_bytes()).hexdigest()
                 meta['history_rows'] = len(frame)
-                required = cfg.get('universe', {}).get('min_history', 252)
-                meta['research_ready'] = len(frame) >= required
-                meta['data_notes'] = [] if meta['research_ready'] else [f'历史不足{required}条']
+                meta['research_ready'] = len(frame) >= min_history
+                meta['analysis_ready'] = len(frame) >= min_score
+                notes = []
+                if not meta['analysis_ready']:
+                    notes.append(f'历史不足{min_score}条，暂不评分')
+                elif not meta['research_ready']:
+                    notes.append(f'历史不足{min_history}条，可评分但无完整回测')
+                meta['data_notes'] = notes
                 meta['quality_break_dates'] = frame.loc[frame.quality_break, 'date'].dt.strftime('%Y-%m-%d').tolist()
                 if meta['quality_break_dates']:
                     meta['data_notes'].append('逐时点隔离无法解释收益断点；持仓跨断点回测无效，不回溯删除历史')
+                status = 'ok' if meta['analysis_ready'] else 'insufficient_history'
+                meta['collection_status'] = status
                 time.sleep(0.25)
-                return code, meta, None
+                return code, meta, None, status, None
             except (GuardError, KeyError, ValueError, IndexError, OSError) as exc:
-                return code, None, str(exc)
+                return code, None, str(exc), "error", str(exc)
+
         with ThreadPoolExecutor(max_workers=cfg.get('universe', {}).get('workers', 4)) as pool:
             futures = [pool.submit(fetch_one, c) for c in codes]
             for future in as_completed(futures):
-                code, meta, error = future.result()
-                if error:
-                    errors[code] = error
-                else:
+                code, meta, error, status, reason = future.result()
+                statuses[code] = status
+                if meta is not None:
                     metadata[code] = meta
+                if status == "error":
+                    errors[code] = error or reason or "未知错误"
+                elif status == "model_unsupported":
+                    expected_unsupported[code] = reason or "模型暂不支持"
+                elif status == "insufficient_history":
+                    insufficient[code] = reason or "历史不足"
         metadata = dict(sorted(metadata.items()))
         for fund in catalog['funds']:
             c = fund['code']
             fund.update(metadata.get(c, {}))
-            fund['collection_status'] = 'ok' if c in metadata else ('error: ' + errors[c] if c in errors else 'unsupported' if not fund['otc_candidate'] else 'not_requested')
+            if c in statuses:
+                fund['collection_status'] = statuses[c]
+            else:
+                fund['collection_status'] = 'not_requested' if fund['otc'] else 'not_otc'
+            fund['collection_error'] = errors.get(c)
             fund.setdefault('risk_label', '未知（未取得产品详情）')
             fund.setdefault('history_rows', None)
+            fund.setdefault('analysis_ready', False)
+            fund.setdefault('research_ready', False)
+        funds = catalog['funds']
+        analysis_ready_count = sum(1 for f in funds if f.get('analysis_ready'))
+        research_ready_count = sum(1 for f in funds if f.get('research_ready'))
+        coverage = {
+            "catalog": len(funds),
+            "otc": sum(1 for f in funds if f['otc']),
+            "not_otc": sum(1 for f in funds if not f['otc']),
+            "model_supported": sum(1 for f in funds if f['otc'] and f['model_supported']),
+            "collected": len(metadata),
+            "analysis_ready": analysis_ready_count,
+            "full_backtest_ready": research_ready_count,
+            "new_fund_short_backtest": analysis_ready_count - research_ready_count,
+            "insufficient_history": sum(1 for f in funds if f['collection_status'] == 'insufficient_history'),
+            "model_unsupported": sum(1 for f in funds if f['collection_status'] == 'model_unsupported'),
+            "collection_errors": len(errors),
+            "not_requested": sum(1 for f in funds if f['collection_status'] == 'not_requested'),
+        }
         write_json(self.root / 'universe.json', catalog)
         snapshot = {"fetched_at": now_cn().isoformat(), "mode": "competition" if competition else "research",
-                    "funds": metadata, "errors": errors, "planned_supported": planned,
-                    "requested": len(codes), "universe_complete": not limit and not errors,
-                    "catalog_count": len(catalog['funds'])}
+                    "funds": metadata, "errors": errors,
+                    "expected_unsupported": expected_unsupported, "insufficient_history": insufficient,
+                    "planned_otc": planned_otc, "planned_supported": planned_supported,
+                    "requested": len(codes), "catalog_count": len(funds), "coverage": coverage,
+                    "universe_complete": (not limit and not errors
+                                          and (competition or planned == planned_otc))}
         write_json(self.root / "snapshot.json", snapshot)
         if errors and competition:
             raise GuardError(f"采集不完整：{errors}；本次快照已保存，禁止使用旧数据补齐")

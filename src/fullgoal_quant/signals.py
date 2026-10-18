@@ -43,7 +43,11 @@ def market_regime(f, metadata):
     return ('risk_on' if breadth >= .6 else 'mixed' if breadth >= .35 else 'risk_off'), breadth
 
 
-def project_weights(raw, cfg, metadata):
+def breadth_exposure(cfg, regime, default=0.5):
+    return float(cfg.get('signal', {}).get('breadth_haircut', {}).get(regime, default))
+
+
+def project_weights(raw, cfg, metadata, max_weight_by_code=None):
     """Reduce only; sector/group/fund caps and total exposure never require leverage."""
     result, sectors, groups = {}, {}, {}
     remaining = cfg['rules']['max_exposure']
@@ -52,7 +56,10 @@ def project_weights(raw, cfg, metadata):
         # One tradable share class per underlying, including equal-weight and ensemble.
         if group in groups:
             continue
-        w = min(max(0.0, value), cfg['rules']['max_fund_weight'], remaining,
+        cap = cfg['rules']['max_fund_weight']
+        if max_weight_by_code and c in max_weight_by_code:
+            cap = min(cap, float(max_weight_by_code[c]))
+        w = min(max(0.0, value), cap, remaining,
                 max(0, cfg['rules']['max_sector_weight'] - sectors.get(sector, 0)))
         if w > 0:
             result[c] = float(w)
@@ -62,56 +69,82 @@ def project_weights(raw, cfg, metadata):
     return result
 
 
-def target_weights(prices, strategy, cfg, metadata):
-    key=(prices.attrs.get('research_cache_key'), str(prices.index[-1]) if len(prices) else '', len(prices))
-    cached=_FEATURE_CACHE.get(key) if key[0] else None
+def score_universe(prices):
+    """Score every fund with a usable trailing window, without share-class dedupe.
+
+    Used only for the coverage CSV/JSON, so a model-unsupported but NAV-ready
+    fund still gets an analysis score and cannot be silently omitted.
+    """
+    return features(prices)
+
+
+def target_weights(prices, strategy, cfg, metadata, eligible=None, min_history=None,
+                   max_weight_by_code=None):
+    key = (prices.attrs.get('research_cache_key'), str(prices.index[-1]) if len(prices) else '',
+           len(prices), None if eligible is None else hash(tuple(sorted(eligible))), min_history)
+    cached = _FEATURE_CACHE.get(key) if key[0] else None
     if cached is None:
-        representatives = representative_codes(prices, metadata, LOOKBACK)
+        representatives = representative_codes(prices, metadata, LOOKBACK,
+                                               eligible=eligible, min_history=min_history)
         p = prices.loc[:, representatives].tail(LOOKBACK).copy()
         p.attrs = {}  # Eligibility already checked; avoid copying quality metadata into feature math.
         f = features(p)
         if key[0]:
-            _FEATURE_CACHE[key]=(p,f)
-            if len(_FEATURE_CACHE)>512:
+            _FEATURE_CACHE[key] = (p, f)
+            if len(_FEATURE_CACHE) > 512:
                 _FEATURE_CACHE.popitem(last=False)
     else:
-        p,f=cached
+        p, f = cached
     if strategy == 'cash' or f.empty:
         return {}, f
+    full_scores = f
+    # Drawdown floor is a soft risk gate: filtered names cannot be selected,
+    # but the full score table is still returned for the report.
+    floor = cfg.get('signal', {}).get('drawdown_floor', -0.20)
+    g = f if strategy == 'equal_weight' else f[f.drawdown60 > floor]
     exposure = cfg['rules']['max_exposure']
     if strategy == 'ensemble':
         raw = {}
         for model in ('momentum', 'dual_momentum', 'risk_budget'):
-            w, _ = target_weights(prices, model, cfg, metadata)
+            w, _ = target_weights(prices, model, cfg, metadata, eligible=eligible,
+                                  min_history=min_history, max_weight_by_code=max_weight_by_code)
             for c, value in w.items():
                 raw[c] = raw.get(c, 0) + value / 3
-        return project_weights(raw, cfg, metadata), f
+        return project_weights(raw, cfg, metadata, max_weight_by_code), full_scores
     if strategy == 'equal_weight':
-        selected = list(f.index)
+        selected = list(g.index)
     elif strategy == 'momentum':
-        selected = f[f.mom60 > 0].sort_values('mom60', ascending=False).index.tolist()
+        regime, _ = market_regime(f, metadata)
+        exposure *= breadth_exposure(cfg, regime)
+        selected = g[g.mom60 > 0].sort_values('mom60', ascending=False).index.tolist()
     elif strategy == 'relative_strength':
-        selected = f[f.mom20 > 0].sort_values('risk_adjusted', ascending=False).index.tolist()
+        regime, _ = market_regime(f, metadata)
+        exposure *= breadth_exposure(cfg, regime)
+        selected = g[g.mom20 > 0].sort_values('risk_adjusted', ascending=False).index.tolist()
     elif strategy == 'sector_rotation':
-        sectors = pd.Series({c: metadata[c]['sector'] for c in f.index})
-        sector_score = f.mom20.groupby(sectors).mean().sort_values(ascending=False)
+        regime, _ = market_regime(f, metadata)
+        exposure *= breadth_exposure(cfg, regime)
+        sectors = pd.Series({c: metadata[c]['sector'] for c in g.index})
+        sector_score = g.mom20.groupby(sectors).mean().sort_values(ascending=False)
         top = set(sector_score[sector_score > 0].head(2).index)
-        selected = f[(sectors.isin(top)) & (f.mom60 > 0)].sort_values('score', ascending=False).index.tolist()
+        selected = g[(sectors.isin(top)) & (g.mom60 > 0)].sort_values('score', ascending=False).index.tolist()
     elif strategy == 'timing':
-        # Preserve original model as a baseline.
-        breadth = ((f.trend > 0) & (f.mom60 > 0)).mean()
+        # Preserve original model as a baseline; it already cuts exposure by
+        # its own trend-breadth rule, so no second haircut is applied.
+        breadth = ((g.trend > 0) & (g.mom60 > 0)).mean()
         exposure *= 1 if breadth >= .6 else .4 if breadth >= .35 else 0
-        selected = f[(f.trend > 0) & (f.mom60 > 0)].sort_values('score', ascending=False).index.tolist()
+        selected = g[(g.trend > 0) & (g.mom60 > 0)].sort_values('score', ascending=False).index.tolist()
     elif strategy in CHALLENGERS:
         regime, _ = market_regime(f, metadata)
-        exposure *= {'risk_on':1, 'mixed':.5, 'risk_off':.2, 'defensive_only':.5, 'unknown':0}[regime]
-        equities = [c for c in f.index if metadata[c].get('asset_type','equity') != 'bond']
-        bonds = [c for c in f.index if metadata[c].get('asset_type') == 'bond']
-        eligible = f.loc[equities]
-        eligible = eligible[(eligible.multi_momentum > 0) & (eligible.trend > 0) & (eligible.drawdown60 > -.15)]
-        selected = eligible.sort_values('multi_momentum', ascending=False).index.tolist()
+        exposure *= breadth_exposure(cfg, regime)
+        equities = [c for c in g.index if metadata[c].get('asset_type', 'equity') != 'bond']
+        bonds = [c for c in g.index if metadata[c].get('asset_type') == 'bond']
+        eligible_rows = g.loc[equities]
+        eligible_rows = eligible_rows[(eligible_rows.multi_momentum > 0) & (eligible_rows.trend > 0)
+                                      & (eligible_rows.drawdown60 > -.15)]
+        selected = eligible_rows.sort_values('multi_momentum', ascending=False).index.tolist()
         if regime == 'risk_off' or not selected:
-            defensive = f.loc[bonds]
+            defensive = g.loc[bonds]
             selected = defensive[defensive.mom60 > 0].sort_values('risk_adjusted', ascending=False).index.tolist()
     else:
         raise ValueError('未知策略 ' + strategy)
@@ -133,7 +166,7 @@ def target_weights(prices, strategy, cfg, metadata):
         vector = pd.Series(raw).reindex(selected).to_numpy()
         predicted_vol = float(np.sqrt(max(0, vector @ covariance.to_numpy() @ vector)))
         scale = min(1.0, cfg.get('research', {}).get('target_vol', .12) / max(predicted_vol, .001))
-        raw = {c: w * scale for c,w in raw.items()}
+        raw = {c: w * scale for c, w in raw.items()}
     else:
         raw = {c: exposure / len(selected) for c in selected} if selected and exposure > 0 else {}
-    return project_weights(raw, cfg, metadata), f
+    return project_weights(raw, cfg, metadata, max_weight_by_code), full_scores

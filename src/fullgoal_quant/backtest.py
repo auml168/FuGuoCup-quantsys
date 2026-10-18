@@ -107,7 +107,16 @@ def simulate(prices, cfg, metadata, strategy, start, end, status_history=None):
             due = i == 0 or dates[i].isocalendar()[:2] != dates[i-1].isocalendar()[:2]
         if due and i - lag >= LOOKBACK - 1:
             signal_day = dates[i - lag]
-            weights, f = target_weights(prices.iloc[:i - lag + 1], strategy, cfg, metadata)
+            eligible = {c for c in prices.columns
+                        if metadata.get(c, {}).get('model_supported', True)}
+            # Real collection metadata always carries history_rows; synthetic
+            # test fixtures do not, so keep their historical 128-row warmup.
+            min_history = (cfg.get('universe', {}).get('min_history', 252)
+                           if any('history_rows' in metadata.get(c, {}) for c in prices.columns)
+                           else None)
+            weights, f = target_weights(
+                prices.iloc[:i - lag + 1], strategy, cfg, metadata, eligible=eligible,
+                min_history=min_history)
             if strategy != 'cash' and f.empty and not weights:
                 # An empty feature set is a data failure, not a deliberate
                 # all-cash decision. Do not silently liquidate a portfolio.

@@ -16,7 +16,7 @@ from .portfolio import import_account, validate_account
 from .report import build_report, save_report
 from .telegram import api, chat_ids, send_report
 from .research import evaluate
-from .universe import active_codes, metadata_for
+from .universe import active_codes, analysis_codes, metadata_for
 from .notifications import reserve, state_at, complete
 
 SLOTS = {"morning": time(8, 30), "afternoon": time(14, 20), "evening": time(20, 30)}
@@ -162,7 +162,8 @@ def main(argv=None):
             return 0
         if args.command in ('backtest','research'):
             snapshot=read_json(Path(args.data)/'snapshot.json')
-            codes=active_codes(cfg,snapshot,competition=getattr(args,'competition',False))
+            codes = (analysis_codes(cfg, snapshot) if args.command == 'research'
+                     else active_codes(cfg, snapshot, competition=getattr(args,'competition',False)))
             if getattr(args,'baseline_eight',False):
                 codes=[f['code'] for f in cfg['research_funds'] if f['code'] in snapshot['funds']]
             if not codes:
@@ -202,15 +203,17 @@ def main(argv=None):
         if args.command == "run":
             collector.collect(cfg, competition=not research)
         current=read_json(Path(args.data)/"snapshot.json")
-        codes=active_codes(cfg,current,competition=not research)
+        codes = active_codes(cfg, current, competition=True) if not research else analysis_codes(cfg, current)
         snapshot, frames = load_market(args.data, codes)
         metadata=metadata_for(cfg,snapshot)
         if args.command == "run":
             selection_path = Path(args.selection)
             evaluate(frames, cfg, metadata, selection_path.parent)
         account=read_json(args.account)
+        universe_path = Path(args.data)/'universe.json'
         report = build_report(cfg, snapshot, frames, read_json(args.selection), account, research=research, slot=slot, calendar=cal,
-                              delivery_state=state_at() if Path('runtime/state-restored').exists() else None)
+                              delivery_state=state_at() if Path('runtime/state-restored').exists() else None,
+                              universe=read_json(universe_path) if universe_path.exists() else None)
         save_report(report)
         if os.environ.get('GITHUB_ACTIONS')=='true':
             print('报告已生成；账户、仓位和金额不写入公开运行日志。')
