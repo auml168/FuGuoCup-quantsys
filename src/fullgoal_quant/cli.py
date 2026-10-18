@@ -78,6 +78,7 @@ def make_parser():
         report.add_argument("--send", action="store_true")
         report.add_argument("--prepare-send", action="store_true", help="仅生成持久化发送预约，不发送")
         report.add_argument("--force", action="store_true", help="非交易日也生成研究信号，仅用于手动测试")
+        report.add_argument("--test-send", action="store_true", help="手动测试发送：使用唯一报告ID并明确标注测试")
     account = sub.add_parser("account", help="导入平台实际账户，保留原文件备份")
     account.add_argument("action", choices=["show", "validate", "import"])
     account.add_argument("--file")
@@ -214,6 +215,15 @@ def main(argv=None):
         report = build_report(cfg, snapshot, frames, read_json(args.selection), account, research=research, slot=slot, calendar=cal,
                               delivery_state=state_at() if Path('runtime/state-restored').exists() else None,
                               universe=read_json(universe_path) if universe_path.exists() else None)
+        if getattr(args, 'test_send', False):
+            # A manual test must not consume or overwrite the daily slot, and it
+            # must never become the "assumed executed" portfolio for tomorrow.
+            suffix = os.environ.get('GITHUB_RUN_ID') or datetime.now(TZ).strftime('%H%M%S')
+            report['report_id'] = f"{report['report_id']}-test-{suffix}"
+            report['test'] = True
+            report['text'] = "【测试信号｜非正式每日信号】\n" + report['text']
+            if report.get('telegram_text'):
+                report['telegram_text'] = "🧪 <b>测试信号（非正式每日信号）</b>\n" + report['telegram_text']
         save_report(report)
         if os.environ.get('GITHUB_ACTIONS')=='true':
             print('报告已生成；账户、仓位和金额不写入公开运行日志。')

@@ -34,7 +34,8 @@ def complete(report_id,path='runtime/notification-state.json',report=None):
     state['deliveries'][report_id]['status']='sent'
     # Remember the last *sent* target portfolio so the next signal can assume
     # the recommendation was executed when no reconciled account is supplied.
-    if report and isinstance(report.get('weights'),dict):
+    # Manual test messages are excluded: they are not an execution assumption.
+    if report and isinstance(report.get('weights'),dict) and not report.get('test'):
         state['last_signal']={'report_id':report_id,
                               'weights':report['weights'],
                               'assets':report.get('assets'),

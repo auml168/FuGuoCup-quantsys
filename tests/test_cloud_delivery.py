@@ -51,6 +51,21 @@ class CloudDeliveryTests(unittest.TestCase):
             with self.assertRaises(SystemExit) as caught:restore.restore()
         self.assertNotIn('TEST_SECRET',str(caught.exception))
 
+    def test_test_signal_never_becomes_assumed_execution(self):
+        from fullgoal_quant.notifications import complete,state_at
+        original=os.getcwd()
+        with tempfile.TemporaryDirectory() as d:
+            try:
+                os.chdir(d)
+                write_json('runtime/notification-state.json',{'version':1,'deliveries':{
+                    'normal':{'status':'reserved'},'test':{'status':'reserved'}},
+                    'last_actionable':None,'last_signal':None})
+                complete('test',report={'weights':{'100032':1.0},'test':True})
+                self.assertIsNone(state_at()['last_signal'])
+                complete('normal',report={'weights':{'100032':0.5}})
+                self.assertEqual(state_at()['last_signal']['weights'],{'100032':0.5})
+            finally:os.chdir(original)
+
     def test_send_requires_current_date_and_own_reservation(self):
         send=module('cloud_send')
         now=datetime(2026,10,19,14,20,tzinfo=TZ)

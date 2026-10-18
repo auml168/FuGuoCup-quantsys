@@ -41,6 +41,11 @@ def run():
     if os.environ.get("FQ_FORCE") == "true" or (
             os.environ.get("FQ_EVENT") == "workflow_dispatch" and os.environ.get("FQ_SEND") == "true"):
         args.append("--force")
+    # Manual send=true dispatch is an explicit test. Give it a unique report id
+    # so the daily deduplication guard does not suppress it, and mark it so it
+    # never becomes the next day's assumed-executed portfolio.
+    if os.environ.get("FQ_EVENT") == "workflow_dispatch" and os.environ.get("FQ_SEND") == "true":
+        args.append("--test-send")
     return main(args)
 
 
