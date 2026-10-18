@@ -4,6 +4,45 @@ from __future__ import annotations
 import re
 from .common import GuardError
 
+# Watchlist-only theme tags. They never change the model's `sector` field, so
+# the buy portfolio's sector caps and backtest history stay comparable.
+THEME_RULES = [
+    (("QDII", "全球", "海外", "港股", "纳斯达克", "标普"), "海外/QDII"),
+    (("FOF", "养老目标"), "FOF"),
+    (("货币", "收益宝"), "货币"),
+    (("金融债", "国开债", "农发债", "进出口债", "中债", "政金债"), "债券"),
+    (("存储", "内存", "HBM"), "存储"),
+    (("光模块", "CPO", "算力", "数据中心", "云计算", "大数据", "通信", "5G"), "算力/通信"),
+    (("机器人", "人形", "智能制造"), "机器人"),
+    (("人工智能",), "人工智能"),
+    (("半导体", "芯片", "集成电路"), "半导体"),
+    (("创新药", "生物医药", "医药", "医疗", "疫苗", "生物"), "医药"),
+    (("军工", "国防", "航天", "卫星", "低空"), "军工/航天"),
+    (("新能源", "光伏", "储能", "电池", "锂电"), "新能源"),
+    (("稀土", "有色", "黄金", "铜", "资源", "矿产"), "资源"),
+    (("石油", "煤炭", "能源", "电力", "公用事业"), "能源/公用"),
+    (("消费", "食品", "白酒", "家电", "汽车", "旅游", "零售"), "消费"),
+    (("券商", "证券", "银行", "保险", "金融"), "金融"),
+    (("地产", "基建", "建材", "建筑"), "地产/基建"),
+    (("传媒", "游戏", "影视", "文化"), "传媒"),
+    (("红利",), "红利"),
+    (("沪深300", "中证500", "中证1000", "创业板", "上证50", "科创50", "宽基"), "宽基"),
+    (("科技", "计算机", "软件", "网络安全", "消费电子"), "科技"),
+    (("债券", "纯债", "信用债", "利率债", "固收", "同业存单", "转债"), "债券"),
+]
+
+
+def theme_of(name, category=""):
+    text = name + category
+    for words, label in THEME_RULES:
+        if any(word in text for word in words):
+            return label
+    if "债券" in category or "固收" in category:
+        return "债券"
+    if "货币" in category:
+        return "货币"
+    return "主动权益"
+
 
 def classify(name, category):
     text = name + category
@@ -65,6 +104,7 @@ def classify(name, category):
             "unsupported_reasons": sorted(set(otc_reasons + model_reasons)),
             "asset_type": asset, "group": group, "share_class": share[1] if share else None,
             "group_source": "name_heuristic", "sector": sector, "sector_source": "name_heuristic",
+            "theme": theme_of(name, category), "theme_source": "name_heuristic",
             "competition_approved": False}
 
 

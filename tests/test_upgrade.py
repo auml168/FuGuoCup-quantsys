@@ -13,8 +13,9 @@ import pandas as pd
 from fullgoal_quant.common import GuardError, load_config, competition_errors, TZ, write_json
 from fullgoal_quant.data import parse_nav, parse_profile, Collector, load_market
 from fullgoal_quant.universe import (classify, metadata_for, representative_codes,
-                                     analysis_codes, active_codes)
-from fullgoal_quant.signals import target_weights, CHALLENGERS, breadth_exposure
+                                     analysis_codes, active_codes, theme_of)
+from fullgoal_quant.signals import (target_weights, CHALLENGERS, breadth_exposure,
+                                    theme_watchlist)
 from fullgoal_quant.calendar import parse_official_year,extend_official,Calendar
 from fullgoal_quant.notifications import reserve,complete,state_at
 from fullgoal_quant.portfolio import validate_account,propose
@@ -148,6 +149,38 @@ class UniverseQualityTests(unittest.TestCase):
         self.assertTrue(money_row['otc'])
         self.assertFalse(money_row['model_supported'])
 
+
+    def test_theme_tags_cover_hotspots_and_future_themes(self):
+        self.assertEqual(theme_of('富国中证芯片产业ETF联接A','指数型-股票'),'半导体')
+        self.assertEqual(theme_of('富国创业板人工智能ETF联接A','指数型-股票'),'人工智能')
+        self.assertEqual(theme_of('富国存储测试A','混合型'),'存储')
+        self.assertEqual(theme_of('富国军工龙头ETF','指数型-股票'),'军工/航天')
+        self.assertEqual(theme_of('富国沪深300增强A','指数型-股票'),'宽基')
+        self.assertEqual(theme_of('富国纯债债券A','债券型-长债'),'债券')
+        self.assertEqual(theme_of('富国收益宝交易型货币A','货币型-普通货币'),'货币')
+        self.assertEqual(theme_of('富国全球债券(QDII)人民币','QDII-混合债'),'海外/QDII')
+        self.assertEqual(theme_of('富国某三年持有A','混合型'),'主动权益')
+
+    def test_theme_watchlist_ranks_dedupes_and_flags(self):
+        scores=pd.DataFrame({
+            'mom20':[.10,.08,-.02,.05], 'mom60':[.20,.12,-.10,.15],
+            'vol60':[.3,.25,.2,.4], 'drawdown60':[-.05,-.03,-.10,-.08],
+        },index=['st1','st2','bd1','new1'])
+        meta={
+            'st1':{'name':'富国存储A','theme':'存储','group':'st1','otc':True,'history_rows':300,'model_supported':True,'buy_open':True},
+            'st2':{'name':'富国存储C','theme':'存储','group':'st1','otc':True,'history_rows':300,'model_supported':True,'buy_open':True},
+            'bd1':{'name':'富国纯债A','theme':'债券','group':'bd1','otc':True,'history_rows':300,'model_supported':True,'buy_open':True},
+            'new1':{'name':'富国存储新A','theme':'存储','group':'new1','otc':True,'history_rows':150,'model_supported':True,'buy_open':False},
+        }
+        watch=theme_watchlist(scores,meta)
+        self.assertTrue(watch['positive'])
+        self.assertEqual(watch['themes'][0]['theme'],'存储')
+        codes=[f['code'] for f in watch['funds']]
+        self.assertIn('st1',codes)
+        self.assertNotIn('st2',codes)
+        new=next(f for f in watch['funds'] if f['code']=='new1')
+        self.assertIn('短历史',new['flags'])
+        self.assertIn('暂停申购',new['flags'])
 
     def test_analysis_codes_cover_model_unsupported_otc(self):
         cfg=load_config()

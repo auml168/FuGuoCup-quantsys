@@ -10,7 +10,7 @@ from .backtest import market_matrix
 from .calendar import Calendar
 from .common import GuardError, TZ, competition_errors, competition_schedule, fingerprint, fund_rules, now_cn, read_json, write_json
 from .portfolio import propose
-from .signals import STRATEGIES, target_weights, score_universe
+from .signals import STRATEGIES, target_weights, score_universe, theme_watchlist
 from .signals import market_regime
 from .universe import metadata_for, active_codes, analysis_codes
 from .research import model_hash
@@ -25,7 +25,7 @@ COVERAGE_COLUMNS = [
 ]
 
 
-def _coverage(universe, snapshot, cfg, prices, weights):
+def _coverage(universe, snapshot, cfg, prices, weights, scored=None):
     """Aggregate coverage plus one audit row per catalog fund.
 
     universe.json is the authoritative catalog (including funds that were not
@@ -38,7 +38,8 @@ def _coverage(universe, snapshot, cfg, prices, weights):
     else:
         catalog = [{'code': code, **fund} for code, fund in snapshot['funds'].items()]
         derived = True
-    scored = score_universe(prices) if not prices.empty else pd.DataFrame()
+    if scored is None:
+        scored = score_universe(prices) if not prices.empty else pd.DataFrame()
     scored_codes = set(str(x) for x in scored.index)
 
     def status_of(fund):
@@ -219,7 +220,9 @@ def build_report(cfg, snapshot, frames, selection, account, *, research=False, a
     weights, scores = target_weights(
         prices, signal_strategy, cfg, metadata, eligible=buyable,
         min_history=min_score_history, max_weight_by_code=max_weight_by_code)
-    coverage, coverage_rows = _coverage(universe, snapshot, cfg, prices, weights)
+    scored_full = score_universe(prices) if not prices.empty else pd.DataFrame()
+    coverage, coverage_rows = _coverage(universe, snapshot, cfg, prices, weights, scored=scored_full)
+    watchlist = theme_watchlist(scored_full, metadata)
     if scores.empty:
         errors.append('当前历史长度或连续性不足，无法生成可靠调仓建议')
     regime, breadth = market_regime(scores, metadata)
@@ -378,6 +381,24 @@ def build_report(cfg, snapshot, frames, selection, account, *, research=False, a
     risk_lines.append("• 历史区间已查看，不冒充前瞻；不保证收益")
     if errors:
         risk_lines.append(f"• 注意：{len(errors)}项数据/规则/账户阻断，详情见报告")
+    watch_lines = []
+    if watchlist["positive"]:
+        for theme in watchlist["themes"][:5]:
+            if theme["top_mom20"] <= 0:
+                continue
+            watch_lines.append(f"• {esc(theme['theme'])}：最强 {theme['top_mom20']:+.1%}"
+                               f"｜正动量 {theme['breadth']:.0%}")
+        shown = 0
+        for fund in watchlist["funds"]:
+            if fund["mom20"] <= 0 or shown >= 3:
+                continue
+            flag = f"（{'/'.join(fund['flags'])}）" if fund["flags"] else ""
+            watch_lines.append(f"• {esc(fund['code'])} {esc(fund['name'])}："
+                               f"20日 {fund['mom20']:+.1%}{flag}")
+            shown += 1
+    else:
+        watch_lines.append("• 当前无正动量热点；债券/现金占优。")
+    watch_lines.append("• 仅提示，不进入目标组合")
     has_buy = any(row['action'] in ('买入/建仓', '加仓') for row in signal_rows)
     telegram_text = "\n".join([
         f"{'🟢' if has_buy else '⚪'} <b>{esc(cfg['competition']['name'])}操作信号</b>",
@@ -399,6 +420,9 @@ def build_report(cfg, snapshot, frames, selection, account, *, research=False, a
         "",
         "<b>④ 风险</b>",
         *risk_lines,
+        "",
+        "<b>⑤ 热点观察（不买入）</b>",
+        *watch_lines,
     ])
     if research:
         status = "研究信号（非比赛交易指令）"
@@ -423,6 +447,25 @@ def build_report(cfg, snapshot, frames, selection, account, *, research=False, a
     lines.append("今日信号（目标权重，非金额）：")
     lines += ["  " + x for x in signal_lines]
     lines.append(f"  现金 {cash_weight:.1%}")
+    lines.append("热点观察（仅提示，不买入）：")
+    if watchlist["positive"]:
+        shown_themes = 0
+        for theme in watchlist["themes"]:
+            if theme["top_mom20"] <= 0 or shown_themes >= 3:
+                continue
+            lines.append(f"  {theme['theme']}｜最强 {theme['top_mom20']:+.2%}｜均值 {theme['mom20']:+.2%}"
+                         f"｜正动量 {theme['breadth']:.0%}｜{int(theme['funds'])}只")
+            shown_themes += 1
+        shown = 0
+        for fund in watchlist["funds"]:
+            if fund["mom20"] <= 0 or shown >= 5:
+                continue
+            flag = "、".join(fund["flags"])
+            lines.append(f"  {fund['code']} {fund['name']}｜20日 {fund['mom20']:+.2%}｜60日 {fund['mom60']:+.2%}"
+                         f"｜{fund['theme']}" + (f"｜{flag}" if flag else ""))
+            shown += 1
+    else:
+        lines.append("  当前无正动量主题；债券/现金占优，等待权益广度修复。")
     if previous_weights:
         lines.append("上一份信号按已执行处理；若实际成交不同，请设置 ACCOUNT_JSON 以实际持仓覆盖。")
     lines.append(f"数据覆盖：目录{coverage['catalog']}只；场外{coverage['otc']}只全量扫描"
@@ -496,6 +539,7 @@ def build_report(cfg, snapshot, frames, selection, account, *, research=False, a
               "actionable": actionable, "slot":slot, "market_regime":regime,
               "score_rows":scores.reset_index(names='code').to_dict('records'),
               "coverage": coverage, "coverage_rows": coverage_rows,
+              "watchlist": watchlist,
               "universe_complete": bool(snapshot.get('universe_complete', False)),
               "report_id": f"{today}-{slot}", "text": "\n".join(lines)}
     return result

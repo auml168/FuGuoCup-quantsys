@@ -78,6 +78,63 @@ def score_universe(prices):
     return features(prices)
 
 
+def theme_watchlist(scores, metadata, top_themes=5, top_funds=8):
+    """Rank themes and funds for a market-hotspot watchlist.
+
+    This is deliberately advisory: it never returns weights and never changes
+    the target portfolio. It includes short-history and model-unsupported OTC
+    funds so a theme is visible before it becomes buyable.
+    """
+    if scores is None or scores.empty:
+        return {"themes": [], "funds": [], "positive": False,
+                "note": "有效净值不足，暂无热点观察"}
+    rows = []
+    for code, row in scores.iterrows():
+        meta = metadata.get(code, {})
+        if meta.get("otc") is False:
+            continue
+        rows.append({
+            "code": str(code),
+            "name": meta.get("name", str(code)),
+            "theme": meta.get("theme") or meta.get("sector") or "未分类",
+            "group": meta.get("group", str(code)),
+            "mom20": float(row["mom20"]),
+            "mom60": float(row["mom60"]),
+            "vol60": float(row["vol60"]),
+            "drawdown60": float(row["drawdown60"]),
+            "accel": float(row["mom20"] - row["mom60"] / 3),
+            "history_rows": meta.get("history_rows"),
+            "research_ready": bool(meta.get("research_ready", True)),
+            "model_supported": bool(meta.get("model_supported", True)),
+            "buy_open": bool(meta.get("buy_open", True)),
+        })
+    if not rows:
+        return {"themes": [], "funds": [], "positive": False,
+                "note": "有效净值不足，暂无热点观察"}
+    frame = pd.DataFrame(rows).sort_values("mom20", ascending=False).drop_duplicates("group")
+    themes = (frame.groupby("theme")
+              .agg(funds=("code", "count"), mom20=("mom20", "mean"),
+                   mom60=("mom60", "mean"), top_mom20=("mom20", "max"),
+                   accel=("accel", "mean"),
+                   breadth=("mom20", lambda values: float((values > 0).mean())))
+              .reset_index()
+              .sort_values(["top_mom20", "breadth", "mom20"], ascending=False))
+    theme_rows = themes.head(top_themes).to_dict("records")
+    fund_rows = frame.head(top_funds).to_dict("records")
+    for fund in fund_rows:
+        flags = []
+        if not fund["model_supported"]:
+            flags.append("模型暂不支持")
+        if fund["history_rows"] is not None and fund["history_rows"] < 252:
+            flags.append("短历史")
+        if not fund["buy_open"]:
+            flags.append("暂停申购")
+        fund["flags"] = flags
+    return {"themes": theme_rows, "funds": fund_rows,
+            "positive": bool(any(theme["top_mom20"] > 0 for theme in theme_rows)),
+            "note": "仅提示，不进入目标组合"}
+
+
 def target_weights(prices, strategy, cfg, metadata, eligible=None, min_history=None,
                    max_weight_by_code=None):
     key = (prices.attrs.get('research_cache_key'), str(prices.index[-1]) if len(prices) else '',

@@ -143,6 +143,9 @@ class ReportTests(unittest.TestCase):
         self.assertIn('15:00', r['telegram_text'])
         self.assertIn('参考', r['telegram_text'])
         self.assertIn('研究信号', r['telegram_text'])
+        self.assertIn('热点观察', r['text'])
+        self.assertIn('热点观察', r['telegram_text'])
+        self.assertIn('watchlist', r)
 
     def test_next_signal_assumes_previous_execution(self):
         previous = {'last_signal': {'report_id': 'prev', 'weights': {self.codes[0]: 0.35},
