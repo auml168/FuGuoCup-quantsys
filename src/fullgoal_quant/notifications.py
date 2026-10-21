@@ -9,7 +9,23 @@ def account_hash(account):
 
 
 def state_at(path='runtime/notification-state.json'):
-    return read_json(path) if Path(path).exists() else {'version':1,'deliveries':{},'last_actionable':None,'last_signal':None}
+    state=read_json(path) if Path(path).exists() else {'version':1,'deliveries':{},'last_actionable':None,'last_signal':None}
+    state.setdefault('generation',0)
+    return state
+
+
+def delivery_status(report_id, path='runtime/notification-state.json'):
+    item=state_at(path)['deliveries'].get(report_id)
+    if item is None:
+        return None
+    if item.get('status') not in ('reserved','sent','send_failed'):
+        raise GuardError('发送状态无效，禁止重发')
+    return item['status']
+
+
+def save_state(path, state):
+    state['generation']=state.get('generation',0)+1
+    write_json(path,state)
 
 
 def reserve(report, account, path='runtime/notification-state.json', owner='local'):
@@ -25,7 +41,7 @@ def reserve(report, account, path='runtime/notification-state.json', owner='loca
     state['deliveries'][key]={'status':'reserved','owner':str(owner),'at':now_cn().isoformat()}
     # Bound public state size; last actionable reconciliation is retained independently.
     state['deliveries']=dict(sorted(state['deliveries'].items())[-400:])
-    write_json(path,state)
+    save_state(path,state)
     return True
 
 
@@ -40,4 +56,11 @@ def complete(report_id,path='runtime/notification-state.json',report=None):
                               'weights':report['weights'],
                               'assets':report.get('assets'),
                               'at':now_cn().isoformat()}
-    write_json(path,state)
+    save_state(path,state)
+
+
+def fail(report_id, reason, path='runtime/notification-state.json'):
+    state=state_at(path)
+    state['deliveries'][report_id].update(status='send_failed',
+                                        reason=reason if reason in ('http','network','other') else 'other')
+    save_state(path,state)

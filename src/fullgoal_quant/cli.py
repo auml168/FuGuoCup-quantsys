@@ -5,6 +5,7 @@ import os
 import sys
 from datetime import datetime, time
 from pathlib import Path
+from time import monotonic, sleep
 
 import pandas as pd
 
@@ -17,10 +18,11 @@ from .report import build_report, save_report
 from .telegram import api, chat_ids, send_report
 from .research import evaluate
 from .universe import active_codes, analysis_codes, metadata_for
-from .notifications import reserve, state_at, complete
+from .notifications import reserve, state_at, complete, delivery_status
+from .runstatus import production, record
 
 SLOTS = {"morning": time(8, 30), "afternoon": time(14, 20), "evening": time(20, 30)}
-CRONS = {"30 0 * * 1-5": "morning", "20 6 * * 1-5": "afternoon", "30 12 * * 1-5": "evening"}
+CRONS = {"30 0 * * 1-5": "morning", "50 5 * * 1-5": "afternoon", "20 6 * * 1-5": "afternoon", "30 12 * * 1-5": "evening"}
 
 
 def slot_guard(slot, at=None):
@@ -79,6 +81,8 @@ def make_parser():
         report.add_argument("--prepare-send", action="store_true", help="仅生成持久化发送预约，不发送")
         report.add_argument("--force", action="store_true", help="非交易日也生成研究信号，仅用于手动测试")
         report.add_argument("--test-send", action="store_true", help="手动测试发送：使用唯一报告ID并明确标注测试")
+        if name == "run":
+            report.add_argument("--wait-for-slot", type=int, default=0, metavar="MINUTES", help="允许提前采集，等待至发送时点")
     account = sub.add_parser("account", help="导入平台实际账户，保留原文件备份")
     account.add_argument("action", choices=["show", "validate", "import"])
     account.add_argument("--file")
@@ -95,6 +99,7 @@ def make_parser():
 
 def main(argv=None):
     args = make_parser().parse_args(argv)
+    scheduled = args.command == 'run' and production()
     try:
         if args.command == "telegram":
             if args.action == "check":
@@ -181,18 +186,51 @@ def main(argv=None):
             return 0
         slot = args.slot
         if slot == "auto":
-            schedule = os.environ.get("FQ_SCHEDULE", "")
-            if (schedule and schedule not in CRONS) or (os.environ.get("FQ_EVENT") == "schedule" and not schedule):
-                raise GuardError("未知调度表达式，停止发送")
-            slot = CRONS.get(schedule, "manual")
+            if os.environ.get('FQ_SLOT'):
+                slot = os.environ['FQ_SLOT']
+                if slot not in SLOTS:
+                    raise GuardError('未知发送时段，停止发送')
+            else:
+                schedule = os.environ.get("FQ_SCHEDULE", "")
+                if (schedule and schedule not in CRONS) or (os.environ.get("FQ_EVENT") == "schedule" and not schedule):
+                    raise GuardError("未知调度表达式，停止发送")
+                slot = CRONS.get(schedule, "manual")
+        if scheduled and slot != 'afternoon':
+            raise GuardError('生产调度仅允许 afternoon 时段')
         cal=Calendar()
         if now_cn().date().year>cal.end.year:
             cal=extend_official(cal,now_cn().date().year,Path(args.data)/'calendar.json')
         if args.command == "run":
-            if not cal.is_session(now_cn().date()) and not args.force:
+            if not cal.is_session(now_cn().date()) and (scheduled or not args.force):
                 print("非A股交易日，跳过采集与推送")
+                record('skipped_non_session',slot=slot)
                 return 0
-            if not slot_guard(slot):
+            if scheduled:
+                report_id=f'{now_cn().date()}-{slot}'
+                status=delivery_status(report_id)
+                if status:
+                    record('skipped_already_sent' if status == 'sent' else 'blocked_unresolved',
+                           slot=slot,report_id=report_id)
+                    return 0 if status == 'sent' else 2
+            if args.wait_for_slot < 0:
+                raise GuardError('等待分钟数不能为负数')
+            if scheduled or (args.wait_for_slot and slot != 'manual'):
+                at=now_cn().astimezone(TZ)
+                target=datetime.combine(at.date(),SLOTS[slot],TZ)
+                minutes=(at-target).total_seconds()/60
+                if minutes < -args.wait_for_slot:
+                    if os.environ.get('FQ_EVENT') == 'schedule':
+                        record('skipped_stale_trigger',slot=slot,detail=f'早于今日发送时点 {-minutes:.0f} 分钟，跳过过期调度事件')
+                        return 0
+                    record('failed_too_early',slot=slot)
+                    return 2
+                if minutes > (35 if slot == 'afternoon' else 45):
+                    if scheduled:
+                        record('missed_late',slot=slot,detail=f'延迟 {minutes:.0f} 分钟')
+                        return 3
+                    print('工作流延迟超出有效时段，跳过过时报告；请在 Actions 查看延迟')
+                    return 0
+            elif not slot_guard(slot):
                 print("工作流延迟超出有效时段，跳过过时报告；请在 Actions 查看延迟")
                 return 0
         if args.command=='run' and now_cn().month>=10 and cfg['competition']['end_date'] and int(cfg['competition']['end_date'][:4])>cal.end.year:
@@ -201,24 +239,40 @@ def main(argv=None):
             except GuardError:
                 print('下一年度官方日历尚未完整核验，保留超期拦截。')
         research = args.research or (args.command == "run" and bool(competition_errors(cfg)))
+        collect_seconds=evaluate_seconds=0
         if args.command == "run":
+            started=monotonic()
             collector.collect(cfg, competition=not research)
+            collect_seconds=monotonic()-started
         current=read_json(Path(args.data)/"snapshot.json")
         codes = active_codes(cfg, current, competition=True) if not research else analysis_codes(cfg, current)
         snapshot, frames = load_market(args.data, codes)
         metadata=metadata_for(cfg,snapshot)
         if args.command == "run":
             selection_path = Path(args.selection)
+            started=monotonic()
             evaluate(frames, cfg, metadata, selection_path.parent)
+            evaluate_seconds=monotonic()-started
+            if args.wait_for_slot and slot != 'manual':
+                at=now_cn().astimezone(TZ)
+                target=datetime.combine(at.date(),SLOTS[slot],TZ)
+                seconds=(target-at).total_seconds()
+                if seconds > 0:
+                    print(f'等待至 {SLOTS[slot]:%H:%M} 发送时点（{seconds:.0f} 秒）')
+                    sleep(seconds)
+            if (scheduled or args.wait_for_slot) and not slot_guard(slot):
+                raise GuardError('报告生成前已超出发送窗口，停止处理')
         account=read_json(args.account)
         universe_path = Path(args.data)/'universe.json'
+        started=monotonic()
         report = build_report(cfg, snapshot, frames, read_json(args.selection), account, research=research, slot=slot, calendar=cal,
                               delivery_state=state_at() if Path('runtime/state-restored').exists() else None,
                               universe=read_json(universe_path) if universe_path.exists() else None)
+        print(f'阶段耗时 collect={collect_seconds:.2f}s evaluate={evaluate_seconds:.2f}s report={monotonic()-started:.2f}s')
         if getattr(args, 'test_send', False):
             # A manual test must not consume or overwrite the daily slot, and it
             # must never become the "assumed executed" portfolio for tomorrow.
-            suffix = os.environ.get('GITHUB_RUN_ID') or datetime.now(TZ).strftime('%H%M%S')
+            suffix = os.environ.get('GITHUB_RUN_ID') or datetime.now(TZ).strftime('%H%M%S%f')
             report['report_id'] = f"{report['report_id']}-test-{suffix}"
             report['test'] = True
             report['text'] = "【测试信号｜非正式每日信号】\n" + report['text']
@@ -236,8 +290,14 @@ def main(argv=None):
             if reserve(report,account,owner=owner):
                 from .common import write_json
                 write_json('runtime/outbox.json',report)
+                record('reserved',slot=slot,report_id=report['report_id'])
                 print('发送预约已生成，须先上传持久化预约再发送。')
             else:
+                if scheduled:
+                    status=delivery_status(report['report_id'])
+                    record('skipped_already_sent' if status == 'sent' else 'blocked_unresolved',
+                           slot=slot,report_id=report['report_id'])
+                    return 0 if status == 'sent' else 2
                 print('本时段已预约/发送，跳过重复报告。')
         if args.send:
             if os.environ.get('GITHUB_ACTIONS')=='true':
@@ -253,15 +313,21 @@ def main(argv=None):
                 print("Telegram 推送完成")
             else:
                 print("本时段已处理，跳过重复发送")
+        if not args.prepare_send and not args.send:
+            record('preview',slot=slot,report_id=report['report_id'])
         return 0
-    except (GuardError, FileNotFoundError, KeyError, TypeError, ValueError) as exc:
+    except Exception as exc:
+        if scheduled:
+            record('failed',detail='报告任务失败，请检查配置、数据及运行日志')
         # No traceback: credentials may occur in HTTP objects. Data errors remain actionable.
         if isinstance(exc, GuardError):
             print("停止：" + str(exc), file=sys.stderr)
         elif isinstance(exc, FileNotFoundError):
             print("停止：文件缺失，请先采集数据/完成回测并检查路径", file=sys.stderr)
-        else:
+        elif isinstance(exc, (KeyError, TypeError, ValueError)):
             print("停止：配置或数据格式异常，请运行测试并检查 JSON/CSV 字段", file=sys.stderr)
+        else:
+            print(f'停止：未预期错误 {type(exc).__name__}', file=sys.stderr)
         if args.command == "run" and getattr(args, "send", False):
             try:
                 send_report("富国杯分析任务失败，本时段不提供交易建议。请在 GitHub Actions 检查数据、配置或账户状态；勿沿用旧操作金额。")
