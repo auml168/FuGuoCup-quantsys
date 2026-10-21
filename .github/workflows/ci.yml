@@ -19,6 +19,6 @@ jobs:
           cache: pip
           cache-dependency-path: pyproject.toml
       - run: python -m pip install .
-      - run: python -m unittest discover -s tests -v
+      - run: python -m unittest discover -s tests -b
       - run: python scripts/security_check.py
       - run: fq account validate

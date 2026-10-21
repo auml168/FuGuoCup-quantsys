@@ -47,9 +47,14 @@ class CloudDeliveryTests(unittest.TestCase):
 
     def test_restore_failure_never_echoes_auth(self):
         restore=module('restore_notification_state')
-        with patch.dict(os.environ,{'GITHUB_REPOSITORY':'owner/test','GITHUB_REF_NAME':'main','GITHUB_TOKEN':'TEST_SECRET','GITHUB_REPOSITORY_ID':'42'}),patch('urllib.request.urlopen',side_effect=RuntimeError('TEST_SECRET')):
-            with self.assertRaises(SystemExit) as caught:restore.restore()
-        self.assertNotIn('TEST_SECRET',str(caught.exception))
+        original=os.getcwd()
+        with tempfile.TemporaryDirectory() as d:
+            try:
+                os.chdir(d)
+                with patch.dict(os.environ,{'GITHUB_REPOSITORY':'owner/test','GITHUB_REF_NAME':'main','GITHUB_TOKEN':'TEST_SECRET','GITHUB_REPOSITORY_ID':'42'}),patch('urllib.request.urlopen',side_effect=RuntimeError('TEST_SECRET')):
+                    with self.assertRaises(SystemExit) as caught:restore.restore()
+                self.assertNotIn('TEST_SECRET',str(caught.exception))
+            finally:os.chdir(original)
 
     def test_test_signal_never_becomes_assumed_execution(self):
         from fullgoal_quant.notifications import complete,state_at

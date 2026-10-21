@@ -196,9 +196,11 @@ class ReportTests(unittest.TestCase):
             build_report(self.cfg,self.snapshot,self.frames,self.selection,self.account,research=True,at=datetime(2027,1,4,8,30,tzinfo=TZ))
 
     def test_cli_weekend_skips_network(self):
-        with patch('fullgoal_quant.cli.now_cn', return_value=datetime(2026,10,17,8,30,tzinfo=TZ)), patch('fullgoal_quant.cli.Collector.collect') as collect:
+        with patch('fullgoal_quant.cli.now_cn', return_value=datetime(2026,10,17,8,30,tzinfo=TZ)), \
+                patch('fullgoal_quant.cli.Collector.collect') as collect,patch('fullgoal_quant.cli.record') as record:
             self.assertEqual(main(['run','--research']), 0)
             collect.assert_not_called()
+            record.assert_called_once_with('skipped_non_session',slot='manual')
 
     def test_coverage_lists_every_otc_fund_and_writes_csv(self):
         code=self.codes[0]
@@ -245,9 +247,23 @@ class ReportTests(unittest.TestCase):
                 historical_status(path)
 
     def test_missing_schedule_cannot_bypass_time_window(self):
-        with patch.dict(os.environ, {'FQ_EVENT':'schedule','FQ_SCHEDULE':''}), patch('fullgoal_quant.cli.Collector.collect') as collect:
+        with patch.dict(os.environ, {'FQ_EVENT':'schedule','FQ_SCHEDULE':'','FQ_SLOT':''}), \
+                patch('fullgoal_quant.cli.Collector.collect') as collect,patch('fullgoal_quant.cli.record') as record:
             self.assertEqual(main(['run','--slot','auto']), 2)
             collect.assert_not_called()
+            record.assert_called_once_with('failed',detail='报告任务失败，请检查配置、数据及运行日志')
+
+    def test_cli_skip_tests_do_not_create_repository_status(self):
+        status=Path(__file__).resolve().parents[1]/'runtime/run-status.json'
+        before=status.read_bytes() if status.exists() else None
+        with patch('fullgoal_quant.runstatus.write_json') as write:
+            self.test_cli_weekend_skips_network()
+            self.test_missing_schedule_cannot_bypass_time_window()
+            write.assert_not_called()
+        if before is None:
+            self.assertFalse(status.exists())
+        else:
+            self.assertEqual(status.read_bytes(),before)
 
     def test_secret_bootstrap_rejects_shell_syntax(self):
         spec = importlib.util.spec_from_file_location('setup_local_secrets', Path('scripts/setup_local_secrets.py'))

@@ -1,0 +1,12 @@
+name = "fullgoal-report-scheduler"
+main = "worker.js"
+compatibility_date = "2026-10-21"
+workers_dev = false
+
+[vars]
+GH_REPO = "OWNER/REPO"
+
+[triggers]
+crons = ["50 5 * * 1-5", "5 6 * * 1-5"]
+
+# 使用 wrangler secret put GH_DISPATCH_TOKEN 设置密钥，勿写入文件。
