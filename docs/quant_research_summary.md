@@ -11,12 +11,12 @@ Can cross-sectional sector momentum, combined with a trend filter, generate a st
 | Item | Detail |
 |---|---|
 | Sample | 2021-01-04 → 2026-10-16 |
-| Universe | 917 catalog records → 577 supported → 570 collected → 500 researched |
+| Universe | 917 catalog codes → 808 OTC → 701 scored → 500 tradeable in backtest |
 | Strategies | 9 fixed strategies |
 | Validation | 252-day initial train · 8 × 126-day rolling folds · 126-day holdout |
 | Execution | T-2 signal · T+1 confirmation · T+3 redemption settlement |
 | Costs | Subscription fee, FIFO redemption tiers, minimum holding, purchase limits |
-| Result | Only `sector_rotation` positive in both rolling validation and holdout; no deployment approval |
+| Result | No strategy shows a stable out-of-sample edge net of fees; no deployment approval |
 
 ## Signal
 
@@ -31,16 +31,20 @@ Can cross-sectional sector momentum, combined with a trend filter, generate a st
 
 | Strategy | Rolling validation | Holdout | Max drawdown | Sharpe | Turnover | Fees (CNY) |
 |---|---:|---:|---:|---:|---:|---:|
-| `sector_rotation` | +0.21% | **+1.20%** | 21.44% | 0.22 | 9.21 | 6,329.89 |
-| `timing` | +21.18% | -6.13% | 18.70% | -0.60 | 8.76 | 5,690.10 |
-| `risk_budget` | -6.96% | +0.37% | 10.23% | 0.12 | 4.08 | 2,671.70 |
-| `equal_weight` | Not verifiable | -7.87% | 14.04% | -0.89 | 1.21 | 467.79 |
-| `cash` | 0.00% | 0.00% | 0.00% | 0.00 | 0.00 | 0.00 |
+| `sector_rotation` | -4.38% (3/8 folds +) | **+1.23%** | 20.33% | 0.22 | 9.20 | 6,357 |
+| `dual_momentum` | +1.00% (3/8) | +0.20% | 24.47% | 0.16 | 8.43 | 5,718 |
+| `timing` | +21.79% (3/8) | -7.90% | 21.01% | -0.71 | 9.23 | 5,941 |
+| `risk_budget` | -10.60% (1/8) | +0.15% | 10.44% | 0.08 | 5.42 | 3,513 |
+| `equal_weight` | Not verifiable | -7.87% | 14.04% | -0.89 | 1.21 | 468 |
+| `cash` | 0.00% | 0.00% | 0.00% | 0.00 | 0.00 | 0 |
+
+All 9 strategies, metric definitions and the holdout chart: [README](../README.en.md). Source: `sample_results/2026-10-16/` (`model_hash ad4a7a6`).
 
 ## Findings
 
-- Only `sector_rotation` is positive in both rolling validation and the holdout. `timing` has the highest rolling validation (+21.18%) but a negative holdout (-6.13%), indicating regime dependence.
-- The +1.20% holdout return is net of fees. Fees are ¥6,329.89 (about 3.16% of initial capital) with 9.21x turnover; costs are a binding constraint.
+- Only `dual_momentum` is positive in both rolling validation and the holdout (+1.00% / +0.20%), economically zero. `timing` (+21.79% / -7.90%) and `sector_rotation` (-4.38% / +1.23%) flip sign, indicating regime dependence.
+- The holdout is dominated by one episode: momentum strategies peaked on 2026-06-25 (`sector_rotation` +26.2%) and gave it back in July; near-zero returns hide 20%–24% drawdowns.
+- Fees are 2.7%–3.5% of initial capital for momentum strategies (7.9–11.2x turnover); costs are a binding constraint.
 - The equal-weight incumbent is not reliably priceable: a holding crossed an unexplained NAV break on 2022-04-06. The segment is left empty rather than stitched into a return.
 - No strategy cleared the deployment gate. The system remains research-only and does not select winners on the holdout.
 - The holdout has already been viewed and is not a forward sample. Historical results do not guarantee future performance.
@@ -58,6 +62,6 @@ Sector momentum is not a stable alpha in this universe: the sign is inconsistent
 
 ---
 
-Code, methodology, and reproducible evidence: https://github.com/auml168/FuGuoCup-quantsys
+Code, methodology, and reproducible evidence: https://github.com/stevia7896/FuGuoCup-quantsys
 
 Personal research only; not investment advice.

@@ -1,0 +1,12 @@
+{
+  "git_commit": "6fb416b",
+  "model_hash": "ad4a7a6cd4ed5885da1cd91173be01974976ff702aa40d69774def743f17d936",
+  "config_hash": "0b02a25a7014b2266632add997aaf52043c6ee2cc3854a4b946371cbbf4a5c8a",
+  "data_end": "2026-10-16",
+  "snapshot_sha256": "191bb9472310cc30c5aff50bbb917511c80adb1f9269d654c3f81c57d9343dc4",
+  "universe_fetched_at": "2026-10-18T21:07:08.931892+08:00",
+  "research_codes": 701,
+  "command": "fq research --out sample_results/2026-10-16",
+  "determinism": "two runs on this snapshot produced identical results",
+  "note": "Re-collecting data later yields different numbers (vendor NAV revisions, universe changes)."
+}

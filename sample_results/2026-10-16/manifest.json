@@ -1,0 +1,68 @@
+{
+  "plan": {
+    "version": "2026-10-17-v1",
+    "evaluation_end": "2026-10-16",
+    "fold_sessions": 126,
+    "min_train_sessions": 252,
+    "holdout_sessions": 126,
+    "min_folds": 3,
+    "target_vol": 0.12,
+    "correlation_cap": 0.85,
+    "incumbent": "equal_weight",
+    "holdout_previously_seen": true,
+    "promotion_requires_forward_evidence": true,
+    "notes": "固定参数，不做搜索；历史滚动检验不冒充未见的前瞻业绩"
+  },
+  "strategies": [
+    "cash",
+    "equal_weight",
+    "momentum",
+    "relative_strength",
+    "sector_rotation",
+    "timing",
+    "dual_momentum",
+    "risk_budget",
+    "ensemble"
+  ],
+  "model_hash": "ad4a7a6cd4ed5885da1cd91173be01974976ff702aa40d69774def743f17d936",
+  "config_hash": "0b02a25a7014b2266632add997aaf52043c6ee2cc3854a4b946371cbbf4a5c8a",
+  "cutoff": "2026-10-16",
+  "folds": [
+    [
+      "2022-01-17",
+      "2022-07-26"
+    ],
+    [
+      "2022-07-27",
+      "2023-02-03"
+    ],
+    [
+      "2023-02-06",
+      "2023-08-08"
+    ],
+    [
+      "2023-08-09",
+      "2024-02-19"
+    ],
+    [
+      "2024-02-20",
+      "2024-08-21"
+    ],
+    [
+      "2024-08-22",
+      "2025-03-05"
+    ],
+    [
+      "2025-03-06",
+      "2025-09-04"
+    ],
+    [
+      "2025-09-05",
+      "2026-03-19"
+    ]
+  ],
+  "holdout": [
+    "2026-04-10",
+    "2026-10-16"
+  ]
+}
