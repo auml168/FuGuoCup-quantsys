@@ -1,221 +1,188 @@
 # FuGuoCup Quant
 
-**Cross-sectional sector momentum in Fullgoal OTC funds: signal construction, execution costs, and walk-forward evidence**
+**Sector momentum in Fullgoal OTC funds: an out-of-sample test net of subscription/redemption costs and settlement lags**
 
-Personal project · Python / pandas / NumPy · [中文版](README.md)
+Personal research project · Python · pandas · NumPy · [中文](README.md)
 
-**Research question.** Can cross-sectional sector momentum, combined with a trend filter, generate a stable risk-adjusted return in Fullgoal OTC funds after subscription/redemption fees, confirmation and settlement lags, and purchase limits?
+> None of the 9 pre-specified strategies shows a stable out-of-sample edge after fees. `sector_rotation`, which drives the live signal, is positive in only 3 of 8 rolling folds and returns +1.23% in the holdout — after first rising to +26.2% and then drawing down 20.3%. Costs are the same order of magnitude as returns. The more durable output is the research infrastructure: point-in-time data-quality isolation, an explicit subscription/redemption ledger, and results reproducible by hash.
 
-**Answer.** There is some signal in-sample and in rolling validation, but only `sector_rotation` is positive in both rolling validation and the final 126-day holdout (+0.21% / +1.20%). Its 9.2x turnover and ¥6,329.89 fees are material, and no strategy cleared the deployment gate. The system therefore remains research-only.
+## Summary
 
-## Research summary
-
-| Item | Detail |
+| | |
 |---|---|
-| Sample | 2021-01-04 → 2026-10-16 |
-| Universe | 917 catalog records → 577 supported → 570 collected → 500 researched |
-| Strategies | 9 fixed strategies |
-| Validation | 252-day initial train · 8 × 126-day rolling folds · 126-day holdout |
-| Execution | T-2 signal · T+1 confirmation · T+3 redemption settlement |
-| Costs | Subscription fee, FIFO redemption tiers, minimum holding period, purchase limits, minimum order |
-| Result | `sector_rotation` is the only double-positive strategy; no deployment approval |
-| Delivery | Daily 14:20 Telegram target-weight signal; manual execution before 15:00 |
+| Question | Can cross-sectional sector momentum with a trend filter produce a stable risk-adjusted return in Fullgoal OTC funds after subscription/redemption fees, T+1 confirmation, T+3 settlement and purchase limits? |
+| Sample | 2021-01-04 → 2026-10-16; 500 tradeable funds in the backtest (from 917 catalog codes) |
+| Validation | Fixed parameters, no search; 252-day initial train → 8 × 126-day rolling folds → 126-day holdout |
+| Conclusion | Sector momentum is not a stable alpha here. Rolling and holdout signs disagree for most strategies; momentum-type strategies pay fees of 2.7%–3.5% of initial capital in the holdout |
+| Status | Research mode. No strategy passes the deployment gate; the live signal is a forward paper record only |
+
+All numbers come from [`sample_results/2026-10-16/`](sample_results/2026-10-16/) (`model_hash ad4a7a6`, `config_hash 0b02a25`, snapshot `sha256 191bb947`). Re-running on the same snapshot reproduces them bit for bit.
 
 ## Hypotheses
 
 | Hypothesis | Test | Result |
 |---|---|---|
-| H1: Sector-level 20-day momentum persists | Rank sectors by average 20-day momentum; take top 2; 8 rolling folds + 126-day holdout | Weak support: +0.21% / +1.20%, limited magnitude |
-| H2: Trend filtering and risk-adjusted ranking improve drawdown | Require `mom60 > 0`; rank on momentum, volatility, and drawdown | Mixed: lower drawdown than raw momentum, but `risk_budget` has negative rolling validation |
-| H3: OTC fees and settlement lags materially erode the signal | Explicit subscription fee, FIFO redemption fee, T+1 confirmation, T+3 settlement | Supported: 9.21x turnover and ¥6,329.89 fees, about 3.16% of initial capital |
+| H1: 20-day momentum persists at the sector level | Top-2 sectors by average `mom20`, fund selection within sector | **Not supported.** `sector_rotation` is positive in 3 of 8 folds, fold returns range −16.12% to +23.99%; compounded rolling return −4.38% |
+| H2: Trend filters and risk budgeting contain drawdowns | `timing` breadth gate; `risk_budget` correlation screen + inverse vol + 12% vol target | **Partly supported.** `risk_budget` holdout drawdown 10.44% vs 20%–28% for momentum strategies, but its rolling return is −10.60% |
+| H3: Fees and settlement lags materially erode the signal | Explicit subscription fee, FIFO redemption tiers, minimum holding, T+1/T+3 | **Supported.** Momentum strategies turn over 7.9–11.2× in the holdout and pay ¥5,332–7,049 in fees, comparable to holdout returns |
 
-## Universe and data
+## Data
 
-- Discover products from the Fullgoal fund-company catalog; open each fund page and verify the manager ID. Exclude QDII, FOF, money market, gold/commodity, non-feeder ETFs, on-exchange, holding-period/regular-open/closed, back-end load, term/rolling/graded products, and unmapped categories.
-- Parse unit NAV, vendor daily return, dividend/split events, subscription/redemption status, and purchase limits. Raw responses and CSVs are archived with SHA-256; snapshots can be rebuilt offline from the archived responses.
-- Bond index funds (Eastmoney category `指数型-固收`) are treated as fixed income; convertible and mixed-bond funds are tagged separately. A/C share classes are grouped by name and only one share class per underlying is eligible.
-- When unit NAV and vendor return disagree without an event explanation, the interval is marked `quality_break`. History is not deleted retroactively; a fund must re-accumulate history after the break, and a holding that crosses a break invalidates that backtest segment.
+| Stage | Count | Notes |
+|---|---:|---|
+| Fullgoal catalog codes | 917 | Discovered from the company page; manager ID verified per fund |
+| OTC funds | 808 | Excludes exchange-traded ETFs, exchange money-market funds, REITs |
+| Scoring cross-section | 701 | Collected successfully with ≥128 NAV rows; 96 too short, 11 unsupported |
+| Tradeable backtest set | 500 | Model-supported (excludes QDII, FOF, money-market, lock-up/periodic-open) with ≥252 rows |
 
-## Signal design
+- **Data quality**: 348 of 917 funds (38%) have breaks between unit NAV and vendor returns that dividends/splits do not explain. Breaks are isolated point in time: history is not deleted retroactively, history length restarts after a break, and any backtest segment holding a fund across a break is invalid — returns are never spliced.
+- **Auditability**: raw responses and derived CSVs carry SHA-256 hashes; snapshots can be rebuilt offline from archived responses.
+- **Share-class dedup**: A/C share classes are grouped by name and only one share per underlying is kept, so the same exposure is not counted twice.
 
-**Features.** For the past 128 observations: 20/60/126-day momentum, 20/60-day volatility, deviation from the 120-day moving average, 60-day drawdown, and risk-adjusted momentum. Every feature uses data available at or before the signal date.
+## Method
 
-**Sector rotation.** Rank sectors by average 20-day momentum and take the top two with positive momentum. Within those sectors, keep funds with positive 60-day momentum and select at most three by composite score.
+### Features
 
-**Portfolio constraints.** Single fund ≤35%, single sector ≤50%, total exposure ≤95%, one share class per group, remainder in cash. Constraints are applied during weight projection, not by post-hoc clipping.
+All features use only NAVs completed on or before the signal date (signal lag T−2).
 
-**Execution lag.** Signals use NAV through T-2; orders submitted on T are confirmed on T+1 and redemption proceeds settle on T+3. The backtest never uses an unpublished NAV or reuses unsettled redemption cash.
-
-### Factor definitions
-
-| Factor | Definition |
+| Feature | Definition |
 |---|---|
-| `mom20/60/126` | `P_t / P_{t-n} - 1` |
-| `vol20/60` | Daily return standard deviation × √252 |
-| `trend` | `P_t / mean(P_{t-119:t}) - 1` |
-| `drawdown60` | `P_t / max(P_{t-59:t}) - 1` |
+| `mom20/60/126` | `P_t / P_{t−n} − 1` |
+| `vol20/60` | daily return std × √252 |
+| `trend` | `P_t / mean(P_{t−119..t}) − 1` |
+| `drawdown60` | `P_t / max(P_{t−59..t}) − 1` |
 | `risk_adjusted` | `mom60 / max(vol60, 0.01)` |
-| `score` | 30% rank(mom20) + 30% rank(mom60) + 20% rank(risk_adjusted) + 20% rank(-vol60) |
+| `multi_momentum` | 0.25·`mom20` + 0.35·`mom60` + 0.40·`mom126` |
+| `score` | 30% rank(`mom20`) + 30% rank(`mom60`) + 20% rank(`risk_adjusted`) + 20% rank(−`vol60`) |
 
-Cross-sectional ranks use only the fund set available on that date; later listings or restored funds are not projected backward.
+### Strategies
 
-## Backtest and execution assumptions
+Every strategy except `equal_weight` drops funds with `drawdown60 ≤ −20%` and holds at most 3 funds. "Breadth scaling" classifies the market by the share of equity funds with `trend>0 and mom60>0`: risk_on (≥60%), mixed (≥35%), risk_off; total exposure is multiplied by 1.0, 0.75 and 0.5 respectively.
 
-- Custom event-driven ledger: cash, tax lots, receivables, pending subscriptions/redemptions, fees, confirmations, settlement, locked shares, and cash overdraft are tracked explicitly.
-- Subscription fee is charged outside the invested amount; redemptions use FIFO lots, calendar-day age, and tiered fees; lots inside the minimum holding period cannot be redeemed.
-- Missing NAVs, long gaps, fills without a NAV, and quality breaks are recorded as segment errors. No zero-return or stitched-return fill is used.
-- No third-party backtest engine; no leverage; no forced liquidation at the end; terminal value uses the last observable NAV.
-- Research rebalances weekly; the live signal updates daily. Daily execution would increase turnover and fees, and that difference has not been validated in the backtest.
+| Strategy | Rule |
+|---|---|
+| `cash` | All cash |
+| `equal_weight` | Equal weight across all tradeable funds; the pre-specified benchmark |
+| `momentum` | `mom60>0`, ranked by `mom60`; breadth scaling |
+| `relative_strength` | `mom20>0`, ranked by `risk_adjusted`; breadth scaling |
+| `sector_rotation` | Top-2 sectors with positive average `mom20`; within them `mom60>0`, ranked by `score`; breadth scaling |
+| `timing` | `trend>0 and mom60>0`, ranked by `score`; full exposure at breadth ≥60%, 40% at ≥35%, otherwise flat |
+| `dual_momentum` | Equity funds with `multi_momentum>0`, `trend>0`, `drawdown60>−15%`; falls back to bond funds with `mom60>0` in risk_off or with no candidates; breadth scaling |
+| `risk_budget` | `dual_momentum` candidates + 60-day correlation screen (<0.85) + inverse-vol weights, 12% annual vol target |
+| `ensemble` | Average of the `momentum`, `dual_momentum` and `risk_budget` weights |
 
-## Validation protocol
+**Portfolio constraints**: single fund ≤35%, single sector ≤50%, total exposure ≤95%, enforced in the weight projection rather than clipped afterwards.
 
-252 initial observations, eight non-overlapping 126-day rolling folds, and the last 126 observations (2026-04-10 to 2026-10-16) as a holdout. Parameters are fixed; there is no parameter search and no selection based on the test set.
+### Execution and costs
 
-- Each fold uses only data available before the fold starts. Positions, fees, confirmations, and settlements roll continuously across folds; cash is not reset per fold.
-- Nine strategies are evaluated together. Equal weight is the incumbent benchmark, but it is not promoted because it wins one window.
-- The holdout is used for reporting only; it does not select parameters, strategies, or weights.
-- Multiple strategies × multiple windows create selection risk. A single fold's excess return or t-statistic is not treated as significant evidence; it is only a filter for further research.
+A purpose-built event-driven ledger tracks cash, per-lot units, receivables and in-flight orders daily; no third-party backtester, no leverage.
+
+| Item | Assumption |
+|---|---|
+| Timing | T−2 signal → submit on T → confirm T+1 → redemption cash at T+3; unsettled redemptions cannot fund purchases |
+| Subscription fee | 0.15%, charged on top |
+| Redemption fee | FIFO by lot age: <7 days 1.5%, <365 days 0.5%; no redemption before 7 days |
+| Rebalance | First trading day of each week |
+| Missing data | Missing NAVs, trades without NAV and quality breaks are recorded as errors per segment; never filled with zero or spliced returns |
+
+Fees are research assumptions, not verified per-fund rates; competition mode requires per-fund rates with sources.
+
+## Validation design
+
+- **Split**: the first 252 observations are the initial training window; then 8 non-overlapping 126-day folds (2022-01-17 → 2026-03-19); the last 126 observations (2026-04-10 → 2026-10-16) are the holdout.
+- **Continuous ledger**: positions, fees, confirmations and settlements roll across folds; cash is not reset per fold.
+- **Fixed parameters**: all 9 strategies were specified before seeing results; no parameter search and no picking a winner from the holdout.
+- **Deployment gate**: the approximate 95% lower bound of mean per-fold excess return over `equal_weight` must be >0; rolling and holdout returns must both be positive; the holdout must beat the benchmark with drawdown ≤30%.
+- **Known biases**: the holdout has been viewed and is no longer unseen; 9 strategies × 8 folds is a multiple-comparison problem, so single-fold excess is not treated as significance. Promotion requires forward evidence.
+
+**Metric definitions**: rolling return is the compounded return of the 8 folds on the continuous ledger; annualisation uses 252 days; Sharpe uses daily returns with a zero risk-free rate; turnover is holdout two-sided traded value ÷ average assets; max drawdown is peak-to-trough within the holdout.
 
 ## Results
 
-Full run on 2026-10-17; holdout from 2026-04-10 to 2026-10-16:
+| Strategy | Rolling return | Positive folds | Holdout return | Holdout ann. | Max DD | Sharpe | Turnover | Fees (¥) |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| `cash` | 0.00% | 0/8 | 0.00% | 0.00% | 0.00% | 0.00 | 0.00 | 0 |
+| `equal_weight` | not verifiable | — | −7.87% | −15.13% | 14.04% | −0.89 | 1.21 | 468 |
+| `momentum` | not verifiable | — | +0.13% | +0.25% | 27.91% | 0.17 | 8.48 | 5,876 |
+| `relative_strength` | not verifiable | — | −7.10% | −13.69% | 21.72% | −0.56 | 11.18 | 7,049 |
+| **`sector_rotation`** | **−4.38%** | 3/8 | **+1.23%** | +2.47% | 20.33% | 0.22 | 9.20 | 6,357 |
+| `timing` | +21.79% | 3/8 | −7.90% | −15.17% | 21.01% | −0.71 | 9.23 | 5,941 |
+| `dual_momentum` | +1.00% | 3/8 | +0.20% | +0.40% | 24.47% | 0.16 | 8.43 | 5,718 |
+| `risk_budget` | −10.60% | 1/8 | +0.15% | +0.30% | 10.44% | 0.08 | 5.42 | 3,513 |
+| `ensemble` | not verifiable | — | −0.03% | −0.06% | 21.58% | 0.12 | 7.90 | 5,332 |
 
-| Strategy | Rolling validation | Holdout | Max drawdown | Sharpe | Turnover | Fees (CNY) |
-|---|---:|---:|---:|---:|---:|---:|
-| `sector_rotation` | +0.21% | **+1.20%** | 21.44% | 0.22 | 9.21 | 6,329.89 |
-| `timing` | +21.18% | -6.13% | 18.70% | -0.60 | 8.76 | 5,690.10 |
-| `risk_budget` | -6.96% | +0.37% | 10.23% | 0.12 | 4.08 | 2,671.70 |
-| `equal_weight` | Not verifiable | -7.87% | 14.04% | -0.89 | 1.21 | 467.79 |
-| `cash` | 0.00% | 0.00% | 0.00% | 0.00 | 0.00 | 0.00 |
+Initial capital ¥200,000; all figures net of fees. "Not verifiable": the strategy held a fund across an unexplained NAV break on 2022-04-06, so its development backtest is invalid and no spliced return is substituted.
 
-**Findings.**
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/holdout-dark.png">
+  <img alt="Holdout cumulative return and drawdown for sector_rotation, dual_momentum, timing and equal_weight" src="docs/figures/holdout-light.png">
+</picture>
 
-- Only `sector_rotation` is positive in both rolling validation and the holdout. `timing` has the highest rolling validation (+21.18%) but a negative holdout (-6.13%), indicating regime dependence.
-- The +1.20% holdout return is net of fees. Fees are ¥6,329.89 (about 3.16% of initial capital) with 9.21x turnover; costs are a binding constraint.
-- The equal-weight incumbent is not reliably priceable: a holding crossed an unexplained NAV break on 2022-04-06. The segment is left empty rather than stitched into a return.
-- No strategy cleared the deployment gate. The system does not auto-promote, does not produce executable amounts, and does not switch winners based on the holdout.
-- The holdout has already been viewed and is not a forward sample. Historical results do not guarantee future performance.
+**Findings**
 
-**Research takeaway.** Sector momentum is not a stable alpha in this universe: the sign is inconsistent across rolling validation and the holdout, and costs bind. The more valuable output is the research infrastructure—reproducible quality-break quarantine, an explicit OTC settlement ledger, and an honest negative result—not an investable return curve.
+1. **No robust out-of-sample edge.** Only `dual_momentum` is positive in both the rolling period and the holdout (+1.00% / +0.20%), economically indistinguishable from zero. `timing` (+21.79% / −7.90%), `risk_budget` (−10.60% / +0.15%) and `sector_rotation` (−4.38% / +1.23%) flip sign between the two, i.e. performance is regime-dependent.
+2. **The holdout is dominated by one episode.** All three momentum strategies peaked on 2026-06-25 (`sector_rotation` +26.2%, `dual_momentum` +32.3%, `timing` +14.9%) and gave nearly all of it back when the market turned risk_off in July; exposure then shifted largely to cash, with `timing` 100% cash from September. Near-zero holdout returns hide 20%–24% drawdowns, and 126 days are too short to separate the signal from a single market episode.
+3. **Costs are binding.** Momentum strategies turn over 7.9–11.2× in the holdout, with fees of 2.7%–3.5% of initial capital — the same order as returns. That is with weekly rebalancing; the live signal updates daily, which would cost more and has not been backtested.
+4. **The formal gate cannot be computed — by design.** The `equal_weight` benchmark itself crosses a NAV break, so the per-fold excess test is undefined and the system refuses to promote any strategy rather than manufacturing a result from spliced returns.
+5. **Results are sensitive to universe composition.** An earlier version with a different universe and code ([`sample_results/review/`](sample_results/review/)) had `sector_rotation` at −2.47% rolling and +1.20% holdout; numbers drift as the universe changes, which is why every result here is pinned to hashes.
 
-## Live signal
+## Forward paper record
 
-Only the 14:20 scheduled run collects data and sends. The Telegram message contains target weights, action direction, and a reference amount based on the account value, with a 15:00 execution deadline.
+On every A-share trading day at 14:20 the system sends the `sector_rotation` research signal to Telegram, explicitly labelled as research mode and not an approved model. Because the holdout has been viewed, this live record is the genuine forward sample for any future promotion decision.
 
-```text
-🟢 FuGuoCup trading signal
-2026-10-19 14:20 | strategy sector_rotation | regime risk_on
-━━━━━━━━━━━━━━
-① What to buy / adjust
-1. 161024 ... (defense)
-   🟢 buy/build | target 35.0% | reference CNY 70,000
-2. ...
-   🟠 reduce | target 10.0% | sell about CNY 20,000
+The delivery path is built to production standards: GitHub's native cron was measured hours late, so an external scheduler triggers GitHub Actions (native cron is kept as a backup); the slow collection and evaluation finish before 14:20; report generation and sending are gated to 14:20–14:55; a persisted reservation precedes every send to prevent duplicates; run status is written to logs and the step summary, late or undelivered runs fail and alert, and an independent dead-man check watches for runs that never start. See [scheduling](docs/scheduling.md) and [operations](docs/OPERATIONS.md) (Chinese).
 
-② Why this portfolio
-• Market: risk_on, positive-trend breadth 100%
-• Selection: top 2 sectors by 20-day momentum; within sector, positive 60-day momentum and top 3 composite score
-• Constraints: single fund ≤35% / single sector ≤50% / total exposure ≤95%
+## Engineering
 
-③ How to execute
-• Target trading day: 2026-10-19
-• Deadline: rebalance to target before 15:00
-• Target portfolio: 70.0% invested, 30.0% cash
-• Reference amounts are estimates; purchase limits and suspension rules are set by the platform
-• Research signal, not an execution instruction
-
-④ Risk
-• Historical results are not forward-looking; no return guarantee
-```
-
-Reference amounts are estimates from target weight × account value. They do not replace platform confirmation, fees, or daily purchase limits. The formal order path caps purchases at the current limit and respects subscription/redemption status; the Telegram reference amount is only for sizing.
-
-**Next-step directions.** By default the system treats the last sent signal as executed, so the next signal produces add/reduce/clear directions from that assumed portfolio without manual account updates. If `ACCOUNT_JSON` is supplied, the reconciled account overrides the assumption; actual fills and NAVs can still differ.
-
-## Implementation
-
-- `src/fullgoal_quant/` separates data, universe construction, signals, accounting, portfolio construction, reporting, and notification. Research outputs are written to a manifest with config, source hashes, and time windows.
-- 70 regression tests cover timing, fees, settlement, missing data, quality breaks, accounts, notification reservations, and signal text. CI runs Python 3.11/3.12/3.13 plus a live public-data smoke test.
-- GitHub Actions runs at 14:20 for collection, research, and Telegram delivery; 08:30/20:30 triggers exit early to avoid duplicate collection.
-- A durable reservation artifact is uploaded before Telegram is called; retries and timeouts do not blindly resend. Logs and public artifacts contain no account report, outbox, or token.
-
-## Limitations and next experiments
-
-- Survivorship bias: the catalog has no full historical delisting set.
-- Vendor NAVs are revised after the fact; T-2 reduces release lag but does not prove point-in-time availability.
-- Historical trading days use a domestic equity NAV calendar as a proxy; current and future operations use the official annual calendar.
-- Fees, confirmation dates, settlement, and purchase limits must be verified per fund in formal mode; research defaults are assumptions.
-- Next experiments:
-  - **Data:** point-in-time fund universe and delistings; NAV release timestamps instead of the T-2 proxy.
-  - **Signal:** robustness to sector definition and momentum window; equal-weight vs size-weighted sector aggregation; decompose sector-selection and fund-selection alpha.
-  - **Portfolio:** daily vs weekly rebalancing net of costs; volatility/drawdown-conditioned exposure.
-  - **Execution:** purchase limits, confirmation/settlement, limit prices, and capacity; calibrate fee assumptions with platform records.
-  - **Validation:** forward records after freezing the design; multi-window significance tests rather than single-window returns.
-
-## Quick start
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install .
-python -m unittest discover -s tests -v
-
-fq doctor --limit 12
-fq collect
-fq research
-
-cp config/account.example.json config/account.local.json
-fq report --research --account config/account.local.json
-```
-
-Common commands:
-
-```bash
-fq discover
-fq --data data/smoke research
-fq --data data/expanded backtest --baseline-eight
-fq calendar-check --year 2027
-fq validate
-fq collect --competition
-```
-
-## Configuration
-
-| Field | Meaning |
-|---|---|
-| `competition.allowed_codes` | Official competition whitelist; empty uses the auto-discovered Fullgoal OTC pool in research mode |
-| `rules` / `fund_rules` | Fees, confirmation/settlement, minimum holding, minimum order; verified per fund in formal mode |
-| `signal.strategy` | Daily signal strategy, currently `sector_rotation` |
-| `signal.daily` / `signal.buy_deadline` | Daily signal and 15:00 execution deadline |
-| `signal.assume_execution` | Default true: treat the last sent signal as executed; `ACCOUNT_JSON` overrides with the reconciled account |
-| `universe.workers` | Collection concurrency, currently 8 |
-| `data.max_nav_lag_sessions` | Allowed NAV lag; the report blocks beyond it |
-
-Account files: `config/account.example.json` is an empty template; `config/account.local.json` is the real account and is gitignored; the cloud uses GitHub Secret `ACCOUNT_JSON`.
-
-## Project layout
+- `src/fullgoal_quant/` separates data, universe, signals, ledger, portfolio, report and notifications; every research run writes a manifest with config hash, source hash and time windows.
+- 119 regression tests cover timing and look-ahead, fees and settlement, missing data and quality breaks, accounts, notification dedup and scheduling states; CI runs Python 3.11 / 3.12 / 3.13 plus a smoke test against live public data.
+- Public logs and artifacts contain no account report, outbox or tokens.
 
 ```text
 src/fullgoal_quant/
-  data.py         collection, parsing, archives, SHA-256
-  universe.py     Fullgoal OTC classification, share groups, manager checks
-  signals.py      factors, strategies, portfolio constraints
-  backtest.py     ledger, fees, confirmation, backtest
-  research.py     rolling validation and manifest
-  portfolio.py    account state and order proposals
-  report.py       report, daily signal, Telegram text
-  calendar.py     official calendar and 2027 parsing
-tests/            70 regression tests
-scripts/          cloud run, send, state restore, security checks
-config/           settings / calendar / account.example
-docs/             methodology, deployment, review
-sample_results/   reproducible research evidence (historical)
+  data.py        collection, parsing, archiving and SHA-256
+  universe.py    OTC classification, share groups, manager verification
+  signals.py     features, strategies and portfolio constraints
+  backtest.py    event-driven ledger: fees, confirmation, settlement
+  research.py    fixed-plan rolling validation and manifest
+  portfolio.py   real account and rebalance proposal
+  report.py      report and daily signal text
+  calendar.py    official trading calendar
+  notifications.py / runstatus.py   send reservation, dedup and run status
 ```
 
-## Documentation
+## Limitations
 
-[Methodology](docs/METHODOLOGY.md) · [Deployment](docs/DEPLOYMENT.md) · [Review](docs/REVIEW.md)
+- **Survivorship bias**: no complete catalog of delisted funds; the universe contains surviving funds only.
+- **Data timing**: vendor NAVs are revised after the fact; T−2 mitigates publication delay but does not prove point-in-time availability. Historical trading days are proxied by domestic equity NAV dates.
+- **Cost assumptions**: fees, confirmation/settlement days and purchase limits are research defaults, not verified per fund; slippage is set to 0.
+- **Short holdout**: the 126-day holdout is dominated by one episode and has little statistical power.
 
-## Note
+## Next steps
 
-Personal research and competition support only; not investment advice. The system does not guarantee returns or take responsibility for trading outcomes. All trades are executed manually on the competition platform.
+- **Validation**: replace the viewed holdout with the forward record; block-bootstrap confidence intervals for per-fold excess; multiple-comparison correction (e.g. deflated Sharpe).
+- **Data**: point-in-time universe with delisted funds; NAV publication timestamps to replace the T−2 proxy.
+- **Signal**: decompose sector selection vs fund selection; equal vs size-weighted sector aggregation; robustness to momentum windows.
+- **Costs**: net cost of daily vs weekly rebalancing; calibrate fees against real platform statements.
+
+## Reproduce
+
+```bash
+python3 -m venv .venv && source .venv/bin/activate
+python -m pip install .
+python -m unittest discover -s tests -b
+
+fq collect                  # collect public data (data/ is not versioned)
+fq research --out reports/research
+pip install matplotlib && python scripts/plot_holdout.py sample_results/2026-10-16 docs/figures
+```
+
+`data/` is not under version control. On the same snapshot (see [`provenance.json`](sample_results/2026-10-16/provenance.json)) the table reproduces bit for bit; re-collecting yields different numbers because of vendor NAV revisions and universe changes.
+
+## Documents
+
+[Methodology](docs/METHODOLOGY.md) · [Operations](docs/OPERATIONS.md) · [Scheduling](docs/scheduling.md) · [Deployment](docs/DEPLOYMENT.md) · [Review](docs/REVIEW.md) (Chinese)
+
+## Disclaimer
+
+Personal research and competition-support project; not investment advice. The system only produces analysis and never places orders; all trades are made by the author on the competition platform.
